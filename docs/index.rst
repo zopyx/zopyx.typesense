@@ -1,0 +1,5 @@
+===============
+zopyx.typesense
+===============
+
+User documentation

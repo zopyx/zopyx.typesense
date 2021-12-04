@@ -1,0 +1,6 @@
+[report]
+include =
+    src/zopyx/*
+omit =
+    */test*
+    */upgrades/*
