@@ -49,6 +49,7 @@ setup(
         'setuptools',
         # -*- Extra requirements: -*-
         'z3c.jbot',
+        'typesense',
     ],
     extras_require={
         'test': [
