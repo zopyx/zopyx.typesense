@@ -2,6 +2,6 @@
 <layers>
   <layer
       name="zopyx.typesense"
-      interface="zopyx.typesense.interfaces.IZopyxTypesenseLayer"
+      interface="zopyx.typesense.interfaces.IBrowserLayer"
       />
 </layers>
