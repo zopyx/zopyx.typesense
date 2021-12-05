@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master">
+
+    <metal:block fill-slot="main">
+
+        <h1 class="documentFirstHeading">Typesense Search</h1>
+
+        <form method="post" action="${context/absolute_url}/@@typesense-search">
+            Query:
+            <input type="text" size="40" name="query" value="${request/query|nothing}" />
+            <input type="submit" value="Search"/>
+        </form>
+
+    </metal:block>
+</html>
