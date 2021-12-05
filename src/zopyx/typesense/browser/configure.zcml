@@ -12,6 +12,16 @@
         layer="zopyx.typesense.interfaces.IBrowserLayer"
     />
 
+    <browser:page
+        name="typesense-recreate-collection"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        permission="cmf.ManagePortal"
+        layer="zopyx.typesense.interfaces.IBrowserLayer"
+        class=".views.View"
+        attribute="recreate_collection"
+    />
+    P
+
   <!-- Publish static files -->
   <plone:static
       name="zopyx.typesense"
