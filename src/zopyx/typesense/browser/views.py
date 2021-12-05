@@ -59,6 +59,11 @@ class View(BrowserView):
                 {"name": "language", "type": "string", "facet": True},
                 {"name": "portal_type", "type": "string", "facet": True},
                 {"name": "review_state", "type": "string", "facet": False},
+                {"name": "subject", "type": "string[]", "facet": False},
+                {"name": "created", "type": "string", "facet": False},
+                {"name": "modified", "type": "string", "facet": False},
+                {"name": "effective", "type": "string", "facet": False},
+                {"name": "expires", "type": "string", "facet": False},
             ],
             "attributesToSnippet": [
                 'title',
