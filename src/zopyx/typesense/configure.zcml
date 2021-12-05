@@ -17,6 +17,12 @@
 
   <include file="permissions.zcml" />
 
+  <subscriber
+    for="plone.dexterity.interfaces.IDexterityContent
+         zope.lifecycleevent.IObjectModifiedEvent"
+    handler=".indexer.index_content"
+    />
+
   <genericsetup:registerProfile
       name="default"
       title="zopyx.typesense"
