@@ -50,6 +50,7 @@ setup(
         # -*- Extra requirements: -*-
         'z3c.jbot',
         'typesense',
+        'furl',
     ],
     extras_require={
         'test': [
