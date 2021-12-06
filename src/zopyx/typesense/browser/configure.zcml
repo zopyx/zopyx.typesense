@@ -30,9 +30,8 @@
     />
 
   <!-- Publish static files -->
-  <plone:static
+  <browser:resourceDirectory
       name="zopyx.typesense"
-      type="plone"
       directory="static"
       />
 

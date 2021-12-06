@@ -14,6 +14,9 @@ class IBrowserLayer(IDefaultBrowserLayer):
 class ITypesenseSettings(Interface):
     """ Connector settings """
 
+    enabled = schema.Bool(title=_('Typesense integration enabled'),
+                                    default=True)
+
     collection = schema.TextLine(title=_('Name of Typesense collection'),
                                     default='typesense',
                                     required=True)

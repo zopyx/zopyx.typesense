@@ -4,6 +4,7 @@ import typesense
 import plone.api
 
 import furl
+from zope.interface.interfaces import ComponentLookupError
 
 from zopyx.typesense.interfaces import ITypesenseSettings
 
@@ -11,10 +12,13 @@ class View(BrowserView):
 
 
     def get_typesense_client(self):
-        api_key = plone.api.portal.get_registry_record("api_key", ITypesenseSettings)
-        node1_url = plone.api.portal.get_registry_record("node1_url", ITypesenseSettings)
-        node2_url = plone.api.portal.get_registry_record("node2_url", ITypesenseSettings)
-        node3_url = plone.api.portal.get_registry_record("node3_url", ITypesenseSettings)
+        try:
+            api_key = plone.api.portal.get_registry_record("api_key", ITypesenseSettings)
+            node1_url = plone.api.portal.get_registry_record("node1_url", ITypesenseSettings)
+            node2_url = plone.api.portal.get_registry_record("node2_url", ITypesenseSettings)
+            node3_url = plone.api.portal.get_registry_record("node3_url", ITypesenseSettings)
+        except (KeyError, ComponentLookupError):
+            return None
 
         nodes = list()
         for url in (node1_url, node2_url, node3_url):
@@ -38,8 +42,11 @@ class View(BrowserView):
 
     def recreate_collection(self):
 
-        collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
         client = self.get_typesense_client()
+        if not client:
+            return
+
+        collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
 
         try:
             client.collections[collection].delete()

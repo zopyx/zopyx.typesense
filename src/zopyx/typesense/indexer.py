@@ -12,6 +12,12 @@ from .browser.views import View
 def index_content(context, event):
 
     client = View(event.object, event.object.REQUEST).get_typesense_client()
+    if not client:
+        return
+
+    enabled = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
+    if not enabled:
+        return
 
     try:
         review_state = plone.api.content.get_state(context)

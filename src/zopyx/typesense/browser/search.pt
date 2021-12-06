@@ -14,5 +14,45 @@
             <input type="submit" value="Search"/>
         </form>
 
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7/themes/algolia-min.css">
+        <link rel="stylesheet" href="./src/index.css">
+        <link rel="stylesheet" href="./src/app.css">
+
+
+
+  <div class="container">
+    <div class="search-panel">
+      <div class="search-panel__filters">
+        <b>Document Type</b>
+        <div id="brand-list"></div>
+        <br/>
+        <b>Language</b>
+        <div id="language-list"></div>
+        <br/>
+        <b>Onkopedia Area</b>
+        <div id="area-list"></div>
+        <br/>
+        <b>Topic</b>
+        <div id="topic-str-list"></div>
+      </div>
+
+      <div class="search-panel__results">
+        <div id="searchbox"></div>
+        <div id="hits"></div>
+      </div>
+    </div>
+
+    <div id="pagination"></div>
+  </div>
+
+
+
+        <script src="https://cdn.jsdelivr.net/algoliasearch/3.32.0/algoliasearchLite.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.14.2"></script>
+        <script src="${portal_url}/++resource++zopyx.typesense/typesense.min.js"></script>
+        <script src="${portal_url}/++resource++zopyx.typesense/app.js"></script>
+
+
     </metal:block>
 </html>
