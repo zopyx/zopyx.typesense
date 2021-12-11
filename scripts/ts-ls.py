@@ -1,3 +1,4 @@
+import pprint
 import typesense
 
 collection = 'typesense'
@@ -12,5 +13,5 @@ client = typesense.Client({
     'connection_timeout_seconds': 2
 })
 
-coll = client.collections[collection]
-import pdb; pdb.set_trace()
+result = client.collections.retrieve()
+pprint.pprint(result)
