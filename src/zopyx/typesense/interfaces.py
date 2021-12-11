@@ -21,10 +21,13 @@ class ITypesenseSettings(Interface):
                                     default='typesense',
                                     required=True)
 
-    api_key = schema.TextLine(title=_('Typesense API key'),
+    api_key = schema.TextLine(title=_('Typesense Admin API key'),
                                     default='',
                                     required=False)
 
+    search_api_key = schema.TextLine(title=_('Typesense search API key'),
+                                    default='',
+                                    required=False)
     node1_url = schema.TextLine(title=_('URL of Typesense node 1'),
                                          description=_('URL node 1'),
                                          default="http://localhost:8108",
