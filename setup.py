@@ -52,6 +52,7 @@ setup(
         'typesense',
         'furl',
         'zopyx.plone.persistentlogger',
+        'zopyx.ipsumplone',
     ],
     extras_require={
         'test': [
