@@ -6,38 +6,47 @@ from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
 from zope.component import queryMultiAdapter
 from zopyx.typesense.interfaces import ITypesenseSettings
+from zopyx.typesense import LOG
 
 from .browser.views import View
 
-def index_content(context, event):
+
+def update_content(context, event):
 
     client = View(event.object, event.object.REQUEST).get_typesense_client()
     if not client:
         return
 
-    enabled = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
+    enabled = plone.api.portal.get_registry_record("enabled", ITypesenseSettings)
     if not enabled:
+        LOG.info("Typesense indexing disabled")
         return
 
+    obj = event.object
+
     try:
-        review_state = plone.api.content.get_state(context)
+        review_state = plone.api.content.get_state(obj)
     except:
         review_state = ''
 
+    site_id = plone.api.portal.get().getId()
+
     d = dict()
-    d['id'] = context.getId()
-    d['title'] = context.Title()
-    d['description'] = context.Description()
-    d['language'] = context.Language()
-    d['portal_type'] = context.portal_type
+    d['id'] = f"{site_id}-{obj.UID()}"
+    d['id_original'] = obj.getId()
+    d['title'] = obj.Title()
+    d['description'] = obj.Description()
+    d['language'] = obj.Language()
+    d['portal_type'] = obj.portal_type
     d['text'] = "xxxxx"
     d['review_state'] = review_state
-    d['path'] = '/'.join(context.getPhysicalPath())
-    d['created'] = context.created().ISO8601()
-    d['modified'] = context.modified().ISO8601()
-    d['effective'] = context.effective().ISO8601()
-    d['expires'] = context.expires().ISO8601()
-    d['subject'] = context.Subject()
+    d['path'] = '/'.join(obj.getPhysicalPath())
+    d['created'] = obj.created().ISO8601()
+    d['modified'] = obj.modified().ISO8601()
+    d['effective'] = obj.effective().ISO8601()
+    d['expires'] = obj.expires().ISO8601()
+    d['subject'] = obj.Subject()
+    d['uid'] = obj.UID()
     pprint.pprint(d)
 
     collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
