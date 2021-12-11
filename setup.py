@@ -51,6 +51,7 @@ setup(
         'z3c.jbot',
         'typesense',
         'furl',
+        'zopyx.plone.persistentlogger',
     ],
     extras_require={
         'test': [

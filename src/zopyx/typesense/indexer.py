@@ -10,6 +10,24 @@ from zopyx.typesense import LOG
 
 from .browser.views import View
 
+def remove_content(context, event):
+
+    client = View(event.object, event.object.REQUEST).get_typesense_client()
+    if not client:
+        return
+
+    enabled = plone.api.portal.get_registry_record("enabled", ITypesenseSettings)
+    if not enabled:
+        LOG.info("Typesense indexing disabled")
+        return
+
+    obj = event.object
+    site_id = plone.api.portal.get().getId()
+
+    id = f"{site_id}-{obj.UID()}"
+    collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
+    response = client.collections[collection].documents[id].delete()
+    LOG.info(f"Deleted {id}")
 
 def update_content(context, event):
 
@@ -47,9 +65,9 @@ def update_content(context, event):
     d['expires'] = obj.expires().ISO8601()
     d['subject'] = obj.Subject()
     d['uid'] = obj.UID()
-    pprint.pprint(d)
+#    pprint.pprint(d)
 
     collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
 
     response = client.collections[collection].documents.upsert(d)
-    print(response)
+    LOG.info(f"Upsert {d['id']}")

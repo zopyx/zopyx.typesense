@@ -25,6 +25,12 @@
 
   <subscriber
     for="plone.dexterity.interfaces.IDexterityContent
+         zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+    handler=".indexer.remove_content"
+    />
+
+  <subscriber
+    for="plone.dexterity.interfaces.IDexterityContent
          zope.lifecycleevent.interfaces.IObjectAddedEvent"
     handler=".indexer.update_content"
     />
