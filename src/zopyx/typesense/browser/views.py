@@ -153,6 +153,13 @@ class View(BrowserView):
             'collection', ITypesenseSettings
         )
 
+        all_collections = [
+            collection['name'] for collection in client.collections.retrieve()
+        ]
+
+        if collection not in all_collections:
+            self.recreate_collection()
+
         info = client.collections[collection].retrieve()
         return pprint.pformat(info, indent=4)
 

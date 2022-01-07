@@ -14,6 +14,9 @@
             <form method="post" action="${portal_url}/@@typesense-reindex-all">
                 <input type="submit" value="Reindex all" i18n:attributes="value">
             </form>
+            <form method="post" action="${portal_url}/@@typesense-export-documents">
+                <input type="submit" value="Export indexed content (JSONlines)" i18n:attributes="value">
+            </form>
         </div >
 
     </metal:block>
