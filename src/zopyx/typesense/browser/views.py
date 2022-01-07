@@ -67,7 +67,7 @@ class View(BrowserView):
 
 
         create_response = client.collections.create({
-            "name": "typesense",
+            "name": collection,
             "fields": [
                 {"name": "path", "type": "string"},
                 {"name": "id", "type": "string"},
