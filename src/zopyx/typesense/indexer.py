@@ -37,23 +37,21 @@ def remove_content(context, event):
         LOG.info("Typesense indexing disabled")
         return
 
-    obj = event.object
     site_id = plone.api.portal.get().getId()
+    id = f"{site_id}-{context.UID()}"
 
-    id = f"{site_id}-{obj.UID()}"
     collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
-    document_path = '/'.join(event.object.getPhysicalPath())
+    document_path = '/'.join(context.getPhysicalPath())
     ts_unindex(client, collection, document_id=id, document_path=document_path)
 
     duration = (time.time() - ts) * 1000
-
-    LOG.info(f"Unindexing {id, obj.absolute_url(1)}, {duration} ms")
+    LOG.info(f"Unindexing {id, context.absolute_url(1)}, {duration} ms")
 
 def update_content(context, event):
 
     ts = time.time()
 
-    client = View(event.object, event.object.REQUEST).get_typesense_client()
+    client = View(context, context.REQUEST).get_typesense_client()
     if not client:
         return
 
@@ -62,14 +60,14 @@ def update_content(context, event):
         LOG.info("Typesense indexing disabled")
         return
 
-    obj = event.object
-
     try:
-        review_state = plone.api.content.get_state(obj)
+        review_state = plone.api.content.get_state(context)
     except:
         review_state = ''
 
     site_id = plone.api.portal.get().getId()
+
+    obj = context
 
     d = dict()
     d['id'] = f"{site_id}-{obj.UID()}"
@@ -110,7 +108,6 @@ def update_content(context, event):
     d['text'] = indexable_text
 
     collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
-
     ts_index(client, collection, d, document_id=d["id"], document_path=d["path"])
 
     duration = (time.time() - ts) * 1000

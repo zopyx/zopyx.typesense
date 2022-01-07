@@ -157,7 +157,7 @@ class View(BrowserView):
             notify(event)
 
         duration = time.time() - ts
-        LOG.info(f"All content reindexed, duration {duration:.2f} seconds")
+        LOG.info(f"All content reindexed ({i} items), duration {duration:.2f} seconds")
 
         portal = plone.api.portal.get()
         plone.api.portal.show_message(_("All content reindexed"), request=self.request)
