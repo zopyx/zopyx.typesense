@@ -54,6 +54,7 @@ setup(
         'zopyx.plone.persistentlogger',
         'zopyx.ipsumplone',
         'html2text',
+        'huey',
     ],
     extras_require={
         'test': [
