@@ -3,6 +3,7 @@ import furl
 import plone.api
 import typesense
 import html2text
+import time
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
 from zope.component import queryMultiAdapter
@@ -15,6 +16,10 @@ from plone.dexterity.utils import iterSchemata
 from zope.schema import getFields
 
 from .browser.views import View
+
+
+h2t = html2text.HTML2Text()
+
 
 def remove_content(context, event):
 
@@ -36,6 +41,8 @@ def remove_content(context, event):
     LOG.info(f"Deleted {id}")
 
 def update_content(context, event):
+
+    ts = time.time()
 
     client = View(event.object, event.object.REQUEST).get_typesense_client()
     if not client:
@@ -71,18 +78,14 @@ def update_content(context, event):
     d['subject'] = obj.Subject()
     d['uid'] = obj.UID()
     d['document_type_order'] = 0
-#    pprint.pprint(d)
 
-    # text content
+    # indexable text content
     indexable_text = []
 
     fields = {}
     schemes = iterSchemata(context)
     for schema in schemes:
         fields.update(getFields(schema))
-
-    h2t = html2text.HTML2Text()
-
 
     for name, field in fields.items():
         if isinstance(field, RichText):
@@ -112,4 +115,6 @@ def update_content(context, event):
         # retry upsert
         response = client.collections[collection].documents.upsert(d)
 
-    LOG.info(f"Upsert {d['id']}")
+    duration = (time.time() - ts) * 1000
+
+    LOG.info(f"Upsert {d['id'], d['path']}, {duration} ms")

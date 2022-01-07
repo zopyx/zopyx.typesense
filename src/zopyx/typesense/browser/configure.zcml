@@ -20,6 +20,22 @@
         permission="zope2.View"
         layer="zopyx.typesense.interfaces.IBrowserLayer"
     />
+    <browser:page
+        name="typesense-admin"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        class=".views.View"
+        template="admin.pt"
+        permission="zope2.View"
+        layer="zopyx.typesense.interfaces.IBrowserLayer"
+    />
+    <browser:page
+        name="typesense-reindex-all"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        class=".views.View"
+        attribute="reindex_all"
+        permission="cmf.ManagePortal"
+        layer="zopyx.typesense.interfaces.IBrowserLayer"
+    />
 
     <browser:page
         name="typesense-recreate-collection"
@@ -28,6 +44,15 @@
         layer="zopyx.typesense.interfaces.IBrowserLayer"
         class=".views.View"
         attribute="recreate_collection"
+    />
+
+    <browser:page
+        name="typesense-export-documents"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        permission="cmf.ManagePortal"
+        layer="zopyx.typesense.interfaces.IBrowserLayer"
+        class=".views.View"
+        attribute="export_documents"
     />
     
     <browser:page

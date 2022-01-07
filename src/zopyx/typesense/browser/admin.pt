@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master">
+
+    <metal:block fill-slot="main">
+
+        <h1 class="documentFirstHeading">Typesense administration</h1>
+
+        <pre class="bg-light"><code tal:content="view/collection_information"/></pre>
+
+        <div id="actions">
+            <form method="post" action="${portal_url}/@@typesense-reindex-all">
+                <input type="submit" value="Reindex all" i18n:attributes="value">
+            </form>
+        </div >
+
+    </metal:block>
+</html>
