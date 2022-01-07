@@ -18,7 +18,17 @@ from zope.schema import getFields
 from .browser.views import View
 
 
+from huey import SqliteHuey
+
+huey = SqliteHuey(filename='/tmp/demo.db')
+
 h2t = html2text.HTML2Text()
+
+@huey.task()
+def ts_index(ts_client, collection, data):
+    print(data)
+    response = ts_client.collections[collection].documents.upsert(d)
+    print(response)
 
 
 def remove_content(context, event):
@@ -37,8 +47,11 @@ def remove_content(context, event):
 
     id = f"{site_id}-{obj.UID()}"
     collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
-    response = client.collections[collection].documents[id].delete()
-    LOG.info(f"Deleted {id}")
+    try:
+        response = client.collections[collection].documents[id].delete()
+        LOG.info(f"Deleted {id}")
+    except typesense.exceptions.ObjectNotFound:
+        LOG.warning(f"Object not found for removal: {id}")
 
 def update_content(context, event):
 
@@ -103,7 +116,8 @@ def update_content(context, event):
     collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
 
     try:
-        response = client.collections[collection].documents.upsert(d)
+#        response = client.collections[collection].documents.upsert(d)
+        ts_index(client, collection, d)
     except typesense.exceptions.ObjectNotFound:
         # collection not existing?
         all_collections = [collection['name'] for collection in client.collections.retrieve()]
@@ -113,7 +127,8 @@ def update_content(context, event):
             LOG.info(f"Created Typesense collection {collection}")
 
         # retry upsert
-        response = client.collections[collection].documents.upsert(d)
+    #response = client.collections[collection].documents.upsert(d)
+    ts_index(client, collection, d)
 
     duration = (time.time() - ts) * 1000
 
