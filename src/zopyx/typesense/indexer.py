@@ -17,21 +17,16 @@ from zope.schema import getFields
 
 from .browser.views import View
 
+from .huey_tasks import ts_index
+from .huey_tasks import ts_unindex
 
-from huey import SqliteHuey
-
-huey = SqliteHuey(filename='/tmp/demo.db')
-
+#
 h2t = html2text.HTML2Text()
-
-@huey.task()
-def ts_index(ts_client, collection, data):
-    print(data)
-    response = ts_client.collections[collection].documents.upsert(d)
-    print(response)
-
+#
 
 def remove_content(context, event):
+
+    ts = time.time()
 
     client = View(event.object, event.object.REQUEST).get_typesense_client()
     if not client:
@@ -47,11 +42,12 @@ def remove_content(context, event):
 
     id = f"{site_id}-{obj.UID()}"
     collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
-    try:
-        response = client.collections[collection].documents[id].delete()
-        LOG.info(f"Deleted {id}")
-    except typesense.exceptions.ObjectNotFound:
-        LOG.warning(f"Object not found for removal: {id}")
+    document_path = '/'.join(event.object.getPhysicalPath())
+    ts_unindex(client, collection, document_id=id, document_path=document_path)
+
+    duration = (time.time() - ts) * 1000
+
+    LOG.info(f"Unindexing {id, obj.absolute_url(1)}, {duration} ms")
 
 def update_content(context, event):
 
@@ -115,21 +111,8 @@ def update_content(context, event):
 
     collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
 
-    try:
-#        response = client.collections[collection].documents.upsert(d)
-        ts_index(client, collection, d)
-    except typesense.exceptions.ObjectNotFound:
-        # collection not existing?
-        all_collections = [collection['name'] for collection in client.collections.retrieve()]
-        if not collection in all_collections:
-
-            View(event.object, event.object.REQUEST).recreate_collection()
-            LOG.info(f"Created Typesense collection {collection}")
-
-        # retry upsert
-    #response = client.collections[collection].documents.upsert(d)
-    ts_index(client, collection, d)
+    ts_index(client, collection, d, document_id=d["id"], document_path=d["path"])
 
     duration = (time.time() - ts) * 1000
 
-    LOG.info(f"Upsert {d['id'], d['path']}, {duration} ms")
+    LOG.info(f"Indexing {d['id'], d['path']}, {duration} ms")
