@@ -2,11 +2,17 @@ import pprint
 import furl
 import plone.api
 import typesense
+import html2text
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.services import Service
 from zope.component import queryMultiAdapter
 from zopyx.typesense.interfaces import ITypesenseSettings
+from plone.app.textfield import RichText
+import zope.schema
 from zopyx.typesense import LOG
+
+from plone.dexterity.utils import iterSchemata
+from zope.schema import getFields
 
 from .browser.views import View
 
@@ -56,7 +62,6 @@ def update_content(context, event):
     d['description'] = obj.Description()
     d['language'] = obj.Language()
     d['portal_type'] = obj.portal_type
-    d['text'] = "xxxxx"
     d['review_state'] = review_state
     d['path'] = '/'.join(obj.getPhysicalPath())
     d['created'] = obj.created().ISO8601()
@@ -67,6 +72,30 @@ def update_content(context, event):
     d['uid'] = obj.UID()
     d['document_type_order'] = 0
 #    pprint.pprint(d)
+
+    # text content
+    indexable_text = []
+
+    fields = {}
+    schemes = iterSchemata(context)
+    for schema in schemes:
+        fields.update(getFields(schema))
+
+    h2t = html2text.HTML2Text()
+
+
+    for name, field in fields.items():
+        if isinstance(field, RichText):
+            text = getattr(obj, name)
+            if text and text.output:
+                indexable_text.append(h2t.handle(text.output))
+        elif isinstance(field, (zope.schema.Text, zope.schema.TextLine)):
+            text = getattr(obj, name)
+            indexable_text.append(text)
+
+    indexable_text = [text for text in indexable_text if text]
+    indexable_text = " ".join(indexable_text)
+    d['text'] = indexable_text
 
     collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
 
