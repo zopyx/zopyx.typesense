@@ -24,6 +24,7 @@ from .huey_tasks import ts_unindex
 h2t = html2text.HTML2Text()
 #
 
+
 def remove_content(context, event):
 
     ts = time.time()
@@ -32,20 +33,25 @@ def remove_content(context, event):
     if not client:
         return
 
-    enabled = plone.api.portal.get_registry_record("enabled", ITypesenseSettings)
+    enabled = plone.api.portal.get_registry_record(
+        'enabled', ITypesenseSettings
+    )
     if not enabled:
-        LOG.info("Typesense indexing disabled")
+        LOG.info('Typesense indexing disabled')
         return
 
     site_id = plone.api.portal.get().getId()
-    id = f"{site_id}-{context.UID()}"
+    id = f'{site_id}-{context.UID()}'
 
-    collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
+    collection = plone.api.portal.get_registry_record(
+        'collection', ITypesenseSettings
+    )
     document_path = '/'.join(context.getPhysicalPath())
     ts_unindex(client, collection, document_id=id, document_path=document_path)
 
     duration = (time.time() - ts) * 1000
-    LOG.info(f"Unindexing {id, context.absolute_url(1)}, {duration} ms")
+    LOG.info(f'Unindexing {id, context.absolute_url(1)}, {duration} ms')
+
 
 def update_content(context, event):
 
@@ -55,9 +61,11 @@ def update_content(context, event):
     if not client:
         return
 
-    enabled = plone.api.portal.get_registry_record("enabled", ITypesenseSettings)
+    enabled = plone.api.portal.get_registry_record(
+        'enabled', ITypesenseSettings
+    )
     if not enabled:
-        LOG.info("Typesense indexing disabled")
+        LOG.info('Typesense indexing disabled')
         return
 
     try:
@@ -70,7 +78,7 @@ def update_content(context, event):
     obj = context
 
     d = dict()
-    d['id'] = f"{site_id}-{obj.UID()}"
+    d['id'] = f'{site_id}-{obj.UID()}'
     d['id_original'] = obj.getId()
     d['title'] = obj.Title()
     d['description'] = obj.Description()
@@ -104,11 +112,15 @@ def update_content(context, event):
             indexable_text.append(text)
 
     indexable_text = [text for text in indexable_text if text]
-    indexable_text = " ".join(indexable_text)
+    indexable_text = ' '.join(indexable_text)
     d['text'] = indexable_text
 
-    collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
-    ts_index(client, collection, d, document_id=d["id"], document_path=d["path"])
+    collection = plone.api.portal.get_registry_record(
+        'collection', ITypesenseSettings
+    )
+    ts_index(
+        client, collection, d, document_id=d['id'], document_path=d['path']
+    )
 
     duration = (time.time() - ts) * 1000
 

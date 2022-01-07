@@ -28,7 +28,7 @@ class TypesenseSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
 
     @property
     def settings(self):
-        """ Returns setting as dict """
+        """Returns setting as dict"""
         registry = getUtility(IRegistry)
         settings = registry.forInterface(ITypesenseSettings)
         result = dict()
@@ -37,5 +37,5 @@ class TypesenseSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         return result
 
     def settings_json(self):
-        """ Returns setting as JSON """
+        """Returns setting as JSON"""
         return json.dumps(self.settings)

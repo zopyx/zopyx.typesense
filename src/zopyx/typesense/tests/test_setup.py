@@ -2,7 +2,9 @@
 """Setup tests for this package."""
 from plone import api
 from plone.app.testing import setRoles, TEST_USER_ID
-from zopyx.typesense.testing import ZOPYX_TYPESENSE_INTEGRATION_TESTING  # noqa: E501
+from zopyx.typesense.testing import (
+    ZOPYX_TYPESENSE_INTEGRATION_TESTING,
+)  # noqa: E501
 
 import unittest
 
@@ -28,17 +30,14 @@ class TestSetup(unittest.TestCase):
 
     def test_product_installed(self):
         """Test if zopyx.typesense is installed."""
-        self.assertTrue(self.installer.isProductInstalled(
-            'zopyx.typesense'))
+        self.assertTrue(self.installer.isProductInstalled('zopyx.typesense'))
 
     def test_browserlayer(self):
         """Test that IZopyxTypesenseLayer is registered."""
-        from zopyx.typesense.interfaces import (
-            IZopyxTypesenseLayer)
+        from zopyx.typesense.interfaces import IZopyxTypesenseLayer
         from plone.browserlayer import utils
-        self.assertIn(
-            IZopyxTypesenseLayer,
-            utils.registered_layers())
+
+        self.assertIn(IZopyxTypesenseLayer, utils.registered_layers())
 
 
 class TestUninstall(unittest.TestCase):
@@ -58,14 +57,11 @@ class TestUninstall(unittest.TestCase):
 
     def test_product_uninstalled(self):
         """Test if zopyx.typesense is cleanly uninstalled."""
-        self.assertFalse(self.installer.isProductInstalled(
-            'zopyx.typesense'))
+        self.assertFalse(self.installer.isProductInstalled('zopyx.typesense'))
 
     def test_browserlayer_removed(self):
         """Test that IZopyxTypesenseLayer is removed."""
-        from zopyx.typesense.interfaces import \
-            IZopyxTypesenseLayer
+        from zopyx.typesense.interfaces import IZopyxTypesenseLayer
         from plone.browserlayer import utils
-        self.assertNotIn(
-            IZopyxTypesenseLayer,
-            utils.registered_layers())
+
+        self.assertNotIn(IZopyxTypesenseLayer, utils.registered_layers())
