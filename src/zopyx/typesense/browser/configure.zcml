@@ -13,6 +13,15 @@
     />
 
     <browser:page
+        name="typesense-indexed-content"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        class=".views.View"
+        template="indexed_content.pt"
+        permission="zope2.View"
+        layer="zopyx.typesense.interfaces.IBrowserLayer"
+    />
+
+    <browser:page
         name="typesense-recreate-collection"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         permission="cmf.ManagePortal"

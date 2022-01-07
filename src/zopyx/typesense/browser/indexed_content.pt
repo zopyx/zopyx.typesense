@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master">
+
+    <metal:block fill-slot="main">
+
+        <h1 class="documentFirstHeading">Indexed content</h1>
+
+        <tal:def define="document view/indexed_content">
+
+            <div tal:condition="not: document">
+                <span i18n:translate="">No content indexed</span>
+            </div>
+
+            <table class="table" tal:condition="document">
+                <thead>
+                    <tr>
+                        <th i18n:translate="">Key</th>
+                        <th i18n:translate="">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr tal:repeat="key document">
+                        <td>${key}</td>
+                        <td>${document/?key}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </tal:def>
+
+    </metal:block>
+</html>

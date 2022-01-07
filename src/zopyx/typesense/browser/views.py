@@ -1,5 +1,6 @@
 from Products.Five.browser import BrowserView
 
+import json
 import typesense
 import plone.api
 
@@ -93,3 +94,19 @@ class View(BrowserView):
         LOG.info(f"Created Typesense collection {collection}")
 
         self.request.response.setStatus(201)
+
+    def indexed_content(self):
+        """ Return indexed content for current context object """
+
+        site_id = plone.api.portal.get().getId()
+        obj_id = f"{site_id}-{self.context.UID()}"
+
+        client = self.get_typesense_client()
+        collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
+
+        try:
+            document = client.collections[collection].documents[obj_id].retrieve()
+        except typesense.exceptions.ObjectNotFound:
+            document = {}
+
+        return document
