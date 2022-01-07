@@ -65,9 +65,22 @@ def update_content(context, event):
     d['expires'] = obj.expires().ISO8601()
     d['subject'] = obj.Subject()
     d['uid'] = obj.UID()
+    d['document_type_order'] = 0
 #    pprint.pprint(d)
 
     collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
 
-    response = client.collections[collection].documents.upsert(d)
+    try:
+        response = client.collections[collection].documents.upsert(d)
+    except typesense.exceptions.ObjectNotFound:
+        # collection not existing?
+        all_collections = [collection['name'] for collection in client.collections.retrieve()]
+        if not collection in all_collections:
+
+            View(event.object, event.object.REQUEST).recreate_collection()
+            LOG.info(f"Created Typesense collection {collection}")
+
+        # retry upsert
+        response = client.collections[collection].documents.upsert(d)
+
     LOG.info(f"Upsert {d['id']}")

@@ -7,6 +7,7 @@ import furl
 from zope.interface.interfaces import ComponentLookupError
 
 from zopyx.typesense.interfaces import ITypesenseSettings
+from zopyx.typesense import LOG
 
 class View(BrowserView):
 
@@ -48,11 +49,15 @@ class View(BrowserView):
 
         collection = plone.api.portal.get_registry_record("collection", ITypesenseSettings)
 
-        try:
-            client.collections[collection].delete()
-            print(f"Deleted Typesense collection {collection}")
-        except Exception as e:
-            print(f"Could not delete Typesense collection {collection}")
+        all_collections = [collection["name"] for collection in client.collections.retrieve()]
+
+        if collection in all_collections:
+            try:
+                client.collections[collection].delete()
+                LOG.info(f"Deleted Typesense collection {collection}")
+            except Exception as e:
+                LOG.exception(f"Could not delete Typesense collection {collection}")
+                raise
 
 
         create_response = client.collections.create({
@@ -71,7 +76,9 @@ class View(BrowserView):
                 {"name": "modified", "type": "string", "facet": False},
                 {"name": "effective", "type": "string", "facet": False},
                 {"name": "expires", "type": "string", "facet": False},
+                {"name": "document_type_order", "type": "int32"},
             ],
+            "default_sorting_field": "document_type_order",
             "attributesToSnippet": [
                 'title',
                 'description',
@@ -83,7 +90,6 @@ class View(BrowserView):
                'text:20',
                 ]
         })
-        print(f"Created Typesense collection {collection}")
-        print(create_response)
+        LOG.info(f"Created Typesense collection {collection}")
 
         self.request.response.setStatus(201)
