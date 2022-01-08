@@ -10,6 +10,7 @@ from zopyx.typesense import _, LOG
 from zopyx.typesense.interfaces import ITypesenseSettings
 
 import furl
+from datetime import datetime
 import json
 import pprint
 import time
@@ -203,7 +204,9 @@ class API:
         """Get collection statistics"""
 
         client = self.get_typesense_client()
-        return client.collections[self.collection].retrieve()
+        result = client.collections[self.collection].retrieve()
+        result["created_at_str"] = datetime.fromtimestamp(result["created_at"]).isoformat()
+        return result
 
     def get_typesense_client(
         self,

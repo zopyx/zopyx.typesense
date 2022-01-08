@@ -8,7 +8,33 @@
 
         <h1 class="documentFirstHeading">Typesense administration</h1>
 
-        <pre class="bg-light"><code tal:content="view/collection_information"/></pre>
+        <table class="table bg-light" tal:define="info view/collection_information">
+            <thead>
+                <tr>
+                    <th i18n:translate="">Key</th>
+                    <th i18n:translate="">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td i18n:translate="">Collection</td>
+                    <td i18n:translate="">${info/name}</td>
+                </tr>
+                <tr>
+                    <td i18n:translate="">Created</td>
+                    <td i18n:translate="">${info/created_at_str}</td>
+                </tr>
+                <tr>
+                    <td i18n:translate=""># documents</td>
+                    <td i18n:translate="">${info/num_documents}</td>
+                </tr>
+                <tr>
+                    <td i18n:translate=""># memory shared</td>
+                    <td i18n:translate="">${info/num_memory_shards}</td>
+                </tr>
+            </tbody>
+        </table>
+
 
         <div id="actions">
             <form method="post" action="${portal_url}/@@typesense-reindex-all">

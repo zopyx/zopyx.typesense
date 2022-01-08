@@ -24,7 +24,7 @@ def remove_content(context, event):
     ts_api = API()
     ts_api.unindex_document(context)
     duration = (time.time() - ts) * 1000
-    LOG.info(f'Unindexing {id, context.absolute_url(1)}, {duration} ms')
+    LOG.info(f'Unindexing {context.getId(), context.absolute_url(1)}, {duration} ms')
 
 
 def update_content(context, event):
@@ -33,4 +33,4 @@ def update_content(context, event):
     ts_api = API()
     ts_api.index_document(context)
     duration = (time.time() - ts) * 1000
-    LOG.info(f"Indexing {d['id'], d['path']}, {duration} ms")
+    LOG.info(f"Indexing {context.getId(), context.absolute_url(1)}, {duration} ms")

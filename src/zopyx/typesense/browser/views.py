@@ -37,7 +37,7 @@ class View(BrowserView):
         """Return indexed content for current context object"""
 
         ts_api = API()
-        document = ts_api.indexed_content(obj)
+        document = ts_api.indexed_content(self.context)
         return document
 
     def export_documents(self):
@@ -57,8 +57,7 @@ class View(BrowserView):
         """Retrieve Collection information"""
 
         ts_api = API()
-        stats = ts_api.collection_stats()
-        return pprint.pformat(stats, indent=4)
+        return ts_api.collection_stats()
 
     def reindex_all(self):
         """Reindex all"""
