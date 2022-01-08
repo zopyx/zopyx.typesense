@@ -13,8 +13,8 @@ import json
 class TypesenseSettingsEditForm(controlpanel.RegistryEditForm):
 
     schema = ITypesenseSettings
-    label = _(u'Typesense settings')
-    description = _(u'')
+    label = _(u"Typesense settings")
+    description = _(u"")
 
     def updateFields(self):
         super(TypesenseSettingsEditForm, self).updateFields()

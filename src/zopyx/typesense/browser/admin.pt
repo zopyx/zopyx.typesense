@@ -4,11 +4,15 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="context/main_template/macros/master">
 
-    <metal:block fill-slot="main">
+<metal:block fill-slot="main" tal:define="info view/collection_information">
 
         <h1 class="documentFirstHeading">Typesense administration</h1>
 
-        <table class="table bg-light" tal:define="info view/collection_information">
+        <div class="alert alert-primary" role="alert" tal:condition="not: info" i18n:translate="">
+            No collection information available. Collection possibly does not exist.
+        </div>
+
+        <table class="table bg-light" tal:condition="info">
             <thead>
                 <tr>
                     <th i18n:translate="">Key</th>
@@ -36,17 +40,21 @@
         </table>
 
 
-        <div id="actions">
+        <div class="btn-group" role="group" id="actions" arial-label="Actions">
             <form method="post" action="${portal_url}/@@typesense-reindex-all">
-                <input type="submit" value="Reindex all" i18n:attributes="value">
+                <button class="btn btn-primary" type="submit" i18n:translate="">Reindex all</button>
             </form>
             <form method="post" action="${portal_url}/@@typesense-export-documents">
-                <input type="submit" value="Export indexed content (JSONlines)" i18n:attributes="value">
+                <button class="btn btn-primary" type="submit" i18n:translate="">Export indexed content (JSONlines)</button>
             </form>
             <form method="post" action="${portal_url}/@@typesense-recreate-collection">
-                <input type="submit" value="Recreate Typesense collection" i18n:attributes="value">
+                <button class="btn btn-primary" type="submit" i18n:translate="">Recreate Typesense collection</button>
             </form>
         </div >
+
+        <style>
+            .btn-group button { margin-right: 2em}
+        </style>
 
     </metal:block>
 </html>

@@ -14,38 +14,36 @@ class IBrowserLayer(IDefaultBrowserLayer):
 class ITypesenseSettings(Interface):
     """Connector settings"""
 
-    enabled = schema.Bool(
-        title=_('Typesense integration enabled'), default=True
-    )
+    enabled = schema.Bool(title=_("Typesense integration enabled"), default=True)
 
     collection = schema.TextLine(
-        title=_('Name of Typesense collection'),
-        default='typesense',
+        title=_("Name of Typesense collection"),
+        default="typesense",
         required=True,
     )
 
     api_key = schema.TextLine(
-        title=_('Typesense Admin API key'), default='', required=False
+        title=_("Typesense Admin API key"), default="", required=True
     )
 
     search_api_key = schema.TextLine(
-        title=_('Typesense search API key'), default='', required=False
+        title=_("Typesense search API key"), default="", required=True
     )
     node1_url = schema.TextLine(
-        title=_('URL of Typesense node 1'),
-        description=_('URL node 1'),
-        default='http://localhost:8108',
+        title=_("URL of Typesense node 1"),
+        description=_("URL node 1"),
+        default="http://localhost:8108",
         required=True,
     )
 
     node2_url = schema.TextLine(
-        title=_('URL of Typesense node 2'),
-        description=_('URL node 2'),
+        title=_("URL of Typesense node 2"),
+        description=_("URL node 2"),
         required=False,
     )
 
     node3_url = schema.TextLine(
-        title=_('URL of Typesense node 3'),
-        description=_('URL node 3'),
+        title=_("URL of Typesense node 3"),
+        description=_("URL node 3"),
         required=False,
     )

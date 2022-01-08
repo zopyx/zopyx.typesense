@@ -22,16 +22,14 @@ class View(BrowserView):
         ts_api.drop_collection()
         ts_api.create_collection()
 
-        LOG.info(f'Created Typesense collection {ts_api.collection}')
+        LOG.info(f"Created Typesense collection {ts_api.collection}")
 
         portal = plone.api.portal.get()
         plone.api.portal.show_message(
-            _('Typesense collection dropped and recreated'),
+            _("Typesense collection dropped and recreated"),
             request=self.request,
         )
-        self.request.response.redirect(
-            portal.absolute_url() + '/@@typesense-admin'
-        )
+        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
 
     def indexed_content(self):
         """Return indexed content for current context object"""
@@ -46,10 +44,10 @@ class View(BrowserView):
         ts_api = API()
         result = ts_api.export_documents()
 
-        self.request.response.setHeader('content-type', 'application/json')
+        self.request.response.setHeader("content-type", "application/json")
         self.request.response.setHeader(
-            'content-disposition',
-            f'attachment; filename={ts_api.collection}.jsonl',
+            "content-disposition",
+            f"attachment; filename={ts_api.collection}.jsonl",
         )
         return result
 
@@ -68,27 +66,25 @@ class View(BrowserView):
         ts_api.drop_collection()
         ts_api.create_collection()
 
-        catalog = plone.api.portal.get_tool('portal_catalog')
+        catalog = plone.api.portal.get_tool("portal_catalog")
         brains = catalog()
         num_brains = len(list(brains))
         for i, brain in enumerate(brains):
             if i % 1000 == 0:
-                LOG.info(f'{i + 1}/{num_brains} objects indexed')
+                LOG.info(f"{i + 1}/{num_brains} objects indexed")
             obj = brain.getObject()
-            #            obj.reindexObject()
             ts_api.index_document(obj)
-        #            event = ObjectModifiedEvent(obj)
-        #            notify(event)
 
         duration = time.time() - ts
         LOG.info(
-            f'All content reindexed ({num_brains} items), duration {duration:.2f} seconds'
+            f"All content reindexed ({num_brains} items), duration {duration:.2f} seconds"
         )
 
         portal = plone.api.portal.get()
         plone.api.portal.show_message(
-            _('All content reindexed'), request=self.request
+            _(
+                "All content submitted for reindexing. Results may/will show up delayed depending on the amount of documents!"
+            ),
+            request=self.request,
         )
-        self.request.response.redirect(
-            portal.absolute_url() + '/@@typesense-admin'
-        )
+        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")

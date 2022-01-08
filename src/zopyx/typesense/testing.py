@@ -29,7 +29,7 @@ class ZopyxTypesenseLayer(PloneSandboxLayer):
         self.loadZCML(package=zopyx.typesense)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'zopyx.typesense:default')
+        applyProfile(portal, "zopyx.typesense:default")
 
 
 ZOPYX_TYPESENSE_FIXTURE = ZopyxTypesenseLayer()
@@ -37,13 +37,13 @@ ZOPYX_TYPESENSE_FIXTURE = ZopyxTypesenseLayer()
 
 ZOPYX_TYPESENSE_INTEGRATION_TESTING = IntegrationTesting(
     bases=(ZOPYX_TYPESENSE_FIXTURE,),
-    name='ZopyxTypesenseLayer:IntegrationTesting',
+    name="ZopyxTypesenseLayer:IntegrationTesting",
 )
 
 
 ZOPYX_TYPESENSE_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(ZOPYX_TYPESENSE_FIXTURE,),
-    name='ZopyxTypesenseLayer:FunctionalTesting',
+    name="ZopyxTypesenseLayer:FunctionalTesting",
 )
 
 
@@ -53,5 +53,5 @@ ZOPYX_TYPESENSE_ACCEPTANCE_TESTING = FunctionalTesting(
         REMOTE_LIBRARY_BUNDLE_FIXTURE,
         z2.ZSERVER_FIXTURE,
     ),
-    name='ZopyxTypesenseLayer:AcceptanceTesting',
+    name="ZopyxTypesenseLayer:AcceptanceTesting",
 )

@@ -1,4 +1,5 @@
 from .huey_tasks import ts_index, ts_unindex
+from datetime import datetime
 from plone import api
 from plone.app.textfield import RichText
 from plone.dexterity.utils import iterSchemata
@@ -10,44 +11,44 @@ from zopyx.typesense import _, LOG
 from zopyx.typesense.interfaces import ITypesenseSettings
 
 import furl
-from datetime import datetime
+import html2text
 import json
 import pprint
 import time
 import typesense
-import html2text
 import zope.schema
+
 
 h2t = html2text.HTML2Text()
 
 COLLECTION_SCHEMA = {
-    'name': None,
-    'fields': [
-        {'name': 'path', 'type': 'string'},
-        {'name': 'id', 'type': 'string'},
-        {'name': 'title', 'type': 'string'},
-        {'name': 'description', 'type': 'string'},
-        {'name': 'text', 'type': 'string'},
-        {'name': 'language', 'type': 'string', 'facet': True},
-        {'name': 'portal_type', 'type': 'string', 'facet': True},
-        {'name': 'review_state', 'type': 'string', 'facet': False},
-        {'name': 'subject', 'type': 'string[]', 'facet': False},
-        {'name': 'created', 'type': 'string', 'facet': False},
-        {'name': 'modified', 'type': 'string', 'facet': False},
-        {'name': 'effective', 'type': 'string', 'facet': False},
-        {'name': 'expires', 'type': 'string', 'facet': False},
-        {'name': 'document_type_order', 'type': 'int32'},
+    "name": None,
+    "fields": [
+        {"name": "path", "type": "string"},
+        {"name": "id", "type": "string"},
+        {"name": "title", "type": "string"},
+        {"name": "description", "type": "string"},
+        {"name": "text", "type": "string"},
+        {"name": "language", "type": "string", "facet": True},
+        {"name": "portal_type", "type": "string", "facet": True},
+        {"name": "review_state", "type": "string", "facet": False},
+        {"name": "subject", "type": "string[]", "facet": False},
+        {"name": "created", "type": "string", "facet": False},
+        {"name": "modified", "type": "string", "facet": False},
+        {"name": "effective", "type": "string", "facet": False},
+        {"name": "expires", "type": "string", "facet": False},
+        {"name": "document_type_order", "type": "int32"},
     ],
-    'default_sorting_field': 'document_type_order',
-    'attributesToSnippet': [
-        'title',
-        'description',
-        'text:20',
+    "default_sorting_field": "document_type_order",
+    "attributesToSnippet": [
+        "title",
+        "description",
+        "text:20",
     ],
-    'attributesToHighlight': [
-        'title',
-        'description',
-        'text:20',
+    "attributesToHighlight": [
+        "title",
+        "description",
+        "text:20",
     ],
 }
 
@@ -56,9 +57,7 @@ class API:
     @property
     def collection(self):
         """Return collection name from registry"""
-        collection = api.portal.get_registry_record(
-            'collection', ITypesenseSettings
-        )
+        collection = api.portal.get_registry_record("collection", ITypesenseSettings)
         return collection
 
     def index_document(self, obj):
@@ -88,26 +87,26 @@ class API:
         try:
             review_state = api.content.get_state(obj)
         except:
-            review_state = ''
+            review_state = ""
 
         document_id = self.document_id(obj)
 
         d = dict()
-        d['id'] = document_id
-        d['id_original'] = obj.getId()
-        d['title'] = obj.Title()
-        d['description'] = obj.Description()
-        d['language'] = obj.Language()
-        d['portal_type'] = obj.portal_type
-        d['review_state'] = review_state
-        d['path'] = '/'.join(obj.getPhysicalPath())
-        d['created'] = obj.created().ISO8601()
-        d['modified'] = obj.modified().ISO8601()
-        d['effective'] = obj.effective().ISO8601()
-        d['expires'] = obj.expires().ISO8601()
-        d['subject'] = obj.Subject()
-        d['uid'] = obj.UID()
-        d['document_type_order'] = 0
+        d["id"] = document_id
+        d["id_original"] = obj.getId()
+        d["title"] = obj.Title()
+        d["description"] = obj.Description()
+        d["language"] = obj.Language()
+        d["portal_type"] = obj.portal_type
+        d["review_state"] = review_state
+        d["path"] = "/".join(obj.getPhysicalPath())
+        d["created"] = obj.created().ISO8601()
+        d["modified"] = obj.modified().ISO8601()
+        d["effective"] = obj.effective().ISO8601()
+        d["expires"] = obj.expires().ISO8601()
+        d["subject"] = obj.Subject()
+        d["uid"] = obj.UID()
+        d["document_type_order"] = 0
 
         # indexable text content
         indexable_text = []
@@ -127,8 +126,8 @@ class API:
                 indexable_text.append(text)
 
         indexable_text = [text for text in indexable_text if text]
-        indexable_text = ' '.join(indexable_text)
-        d['text'] = indexable_text
+        indexable_text = " ".join(indexable_text)
+        d["text"] = indexable_text
 
         return d
 
@@ -140,9 +139,7 @@ class API:
 
         try:
             document = (
-                client.collections[self.collection]
-                .documents[document_id]
-                .retrieve()
+                client.collections[self.collection].documents[document_id].retrieve()
             )
         except typesense.exceptions.ObjectNotFound:
             document = {}
@@ -153,20 +150,20 @@ class API:
         """Return the content id for the given `obj`"""
 
         site_id = api.portal.get().getId()
-        obj_id = f'{site_id}-{obj.UID()}'
+        obj_id = f"{site_id}-{obj.UID()}"
         return obj_id
 
     def document_path(self, obj):
         """Return the content path for the given `obj`"""
 
-        return '/'.join(obj.getPhysicalPath())
+        return "/".join(obj.getPhysicalPath())
 
     def exists_collection(self, collection):
         """Check if collection exists"""
 
         client = self.get_typesense_client()
         all_collections = [
-            collection['name'] for collection in client.collections.retrieve()
+            collection["name"] for collection in client.collections.retrieve()
         ]
         return collection in all_collections
 
@@ -177,10 +174,10 @@ class API:
         collection = self.collection
 
         if self.exists_collection(collection):
-            raise RuntimeError(f'Collection `{collection}` already exists')
+            raise RuntimeError(f"Collection `{collection}` already exists")
 
         collection_schema = COLLECTION_SCHEMA
-        collection_schema['name'] = collection
+        collection_schema["name"] = collection
 
         create_response = client.collections.create(collection_schema)
 
@@ -193,19 +190,22 @@ class API:
             client = self.get_typesense_client()
             try:
                 client.collections[collection].delete()
-                LOG.info(f'Deleted Typesense collection {collection}')
+                LOG.info(f"Deleted Typesense collection {collection}")
             except Exception as e:
-                LOG.exception(
-                    f'Could not delete Typesense collection {collection}'
-                )
+                LOG.exception(f"Could not delete Typesense collection {collection}")
                 raise
 
     def collection_stats(self):
         """Get collection statistics"""
 
         client = self.get_typesense_client()
-        result = client.collections[self.collection].retrieve()
-        result["created_at_str"] = datetime.fromtimestamp(result["created_at"]).isoformat()
+        try:
+            result = client.collections[self.collection].retrieve()
+        except typesense.exceptions.ObjectNotFound:
+            return {}
+        result["created_at_str"] = datetime.fromtimestamp(
+            result["created_at"]
+        ).isoformat()
         return result
 
     def get_typesense_client(
@@ -213,30 +213,27 @@ class API:
     ):
         """Typesense client with full admin access"""
 
-        api_key = api.portal.get_registry_record('api_key', ITypesenseSettings)
+        api_key = api.portal.get_registry_record("api_key", ITypesenseSettings)
         return self.get_client(api_key)
 
     def get_typesense_search_client(self):
         """Typesense client with search access"""
 
         search_api_key = api.portal.get_registry_record(
-            'search_api_key', ITypesenseSettings
+            "search_api_key", ITypesenseSettings
         )
         return self.get_client(search_api_key)
 
     def get_client(self, api_key):
         """Get Typesense client for given API key"""
 
+        if not api_key:
+            raise ValueError(_("No Typesense API key(s) configured"))
+
         try:
-            node1_url = api.portal.get_registry_record(
-                'node1_url', ITypesenseSettings
-            )
-            node2_url = api.portal.get_registry_record(
-                'node2_url', ITypesenseSettings
-            )
-            node3_url = api.portal.get_registry_record(
-                'node3_url', ITypesenseSettings
-            )
+            node1_url = api.portal.get_registry_record("node1_url", ITypesenseSettings)
+            node2_url = api.portal.get_registry_record("node2_url", ITypesenseSettings)
+            node3_url = api.portal.get_registry_record("node3_url", ITypesenseSettings)
         except (KeyError, ComponentLookupError):
             return None
 
@@ -250,9 +247,9 @@ class API:
 
         client = typesense.Client(
             {
-                'api_key': api_key,
-                'nodes': nodes,
-                'connection_timeout_seconds': 10,
+                "api_key": api_key,
+                "nodes": nodes,
+                "connection_timeout_seconds": 10,
             }
         )
         return client
