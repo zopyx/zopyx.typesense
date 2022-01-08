@@ -15,6 +15,18 @@
         visible="True"
         i18n:attributes="title">
             <permission>Manage portal</permission>
+        </configlet>
+
+    <configlet
+        title="Typesense Administration"
+        action_id="zopyx.typesense.admin"
+        appId="zopyx.typesense"
+        category="Products"
+        condition_expr=""
+        url_expr="string:${portal_url}/@@typesense-admin"
+        visible="True"
+        i18n:attributes="title">
+            <permission>Manage portal</permission>
     </configlet>
     
 </object>

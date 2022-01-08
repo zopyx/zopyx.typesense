@@ -3,18 +3,14 @@ from datetime import datetime
 from plone import api
 from plone.app.textfield import RichText
 from plone.dexterity.utils import iterSchemata
-from zope.event import notify
 from zope.interface.interfaces import ComponentLookupError
-from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema import getFields
 from zopyx.typesense import _, LOG
 from zopyx.typesense.interfaces import ITypesenseSettings
 
+import json
 import furl
 import html2text
-import json
-import pprint
-import time
 import typesense
 import zope.schema
 
@@ -156,7 +152,10 @@ class API:
     def document_path(self, obj):
         """Return the content path for the given `obj`"""
 
-        return "/".join(obj.getPhysicalPath())
+        site_path = '/'.join(api.portal.get().getPhysicalPath())
+        obj_path = '/'.join(obj.getPhysicalPath())
+        rel_path = obj_path.replace(site_path, '')
+        return rel_path
 
     def exists_collection(self, collection):
         """Check if collection exists"""
@@ -179,7 +178,8 @@ class API:
         collection_schema = COLLECTION_SCHEMA
         collection_schema["name"] = collection
 
-        create_response = client.collections.create(collection_schema)
+        client.collections.create(collection_schema)
+        LOG.info(f"Created Typesense collection {collection}")
 
     def drop_collection(self):
         """Drop collection"""
@@ -254,7 +254,13 @@ class API:
         )
         return client
 
-    def export_documents(self):
+    def export_documents(self, format="jsonl"):
         """Export all documents of collection as JSONlines"""
         client = self.get_typesense_client()
-        return client.collections[self.collection].documents.export()
+        result = client.collections[self.collection].documents.export()
+        if format == "jsonl":
+            return result
+        # JSON
+        result = [json.loads(jline) for jline in result.splitlines()]
+        return json.dumps(result)
+

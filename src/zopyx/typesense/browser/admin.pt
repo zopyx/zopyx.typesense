@@ -44,8 +44,11 @@
             <form method="post" action="${portal_url}/@@typesense-reindex-all">
                 <button class="btn btn-primary" type="submit" i18n:translate="">Reindex all</button>
             </form>
-            <form method="post" action="${portal_url}/@@typesense-export-documents">
+            <form method="post" action="${portal_url}/@@typesense-export-documents?format=jsonl">
                 <button class="btn btn-primary" type="submit" i18n:translate="">Export indexed content (JSONlines)</button>
+            </form>
+            <form method="post" action="${portal_url}/@@typesense-export-documents?format=json">
+                <button class="btn btn-primary" type="submit" i18n:translate="">Export indexed content (JSON)</button>
             </form>
             <form method="post" action="${portal_url}/@@typesense-recreate-collection">
                 <button class="btn btn-primary" type="submit" i18n:translate="">Recreate Typesense collection</button>

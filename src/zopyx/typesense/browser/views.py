@@ -1,17 +1,9 @@
 from Products.Five.browser import BrowserView
-from zope.event import notify
-from zope.interface.interfaces import ComponentLookupError
-from zope.lifecycleevent import ObjectModifiedEvent
 from zopyx.typesense import _, LOG
 from zopyx.typesense.api import API
-from zopyx.typesense.interfaces import ITypesenseSettings
 
-import furl
-import json
 import plone.api
-import pprint
 import time
-import typesense
 
 
 class View(BrowserView):
@@ -38,16 +30,16 @@ class View(BrowserView):
         document = ts_api.indexed_content(self.context)
         return document
 
-    def export_documents(self):
+    def export_documents(self, format="jsonl"):
         """Export all documents from current collection as JSONLines"""
 
         ts_api = API()
-        result = ts_api.export_documents()
+        result = ts_api.export_documents(format)
 
-        self.request.response.setHeader("content-type", "application/json")
+        self.request.response.setHeader("content-type", f"application/{format}")
         self.request.response.setHeader(
             "content-disposition",
-            f"attachment; filename={ts_api.collection}.jsonl",
+            f"attachment; filename={ts_api.collection}.{format}",
         )
         return result
 
@@ -61,7 +53,6 @@ class View(BrowserView):
         """Reindex all"""
 
         ts = time.time()
-
         ts_api = API()
         ts_api.drop_collection()
         ts_api.create_collection()
@@ -77,7 +68,7 @@ class View(BrowserView):
 
         duration = time.time() - ts
         LOG.info(
-            f"All content reindexed ({num_brains} items), duration {duration:.2f} seconds"
+            f"All content submitted for reindexing ({num_brains} items), duration {duration:.2f} seconds"
         )
 
         portal = plone.api.portal.get()
