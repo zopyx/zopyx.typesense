@@ -17,6 +17,9 @@
             <form method="post" action="${portal_url}/@@typesense-export-documents">
                 <input type="submit" value="Export indexed content (JSONlines)" i18n:attributes="value">
             </form>
+            <form method="post" action="${portal_url}/@@typesense-recreate-collection">
+                <input type="submit" value="Drop Typesense collection" i18n:attributes="value">
+            </form>
         </div >
 
     </metal:block>

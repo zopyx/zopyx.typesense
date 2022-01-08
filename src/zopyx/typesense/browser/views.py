@@ -109,7 +109,13 @@ class View(BrowserView):
         )
         LOG.info(f'Created Typesense collection {collection}')
 
-        self.request.response.setStatus(201)
+        portal = plone.api.portal.get()
+        plone.api.portal.show_message(
+            _('Typesense collection dropped and recreated'), request=self.request
+        )
+        self.request.response.redirect(
+            portal.absolute_url() + '/@@typesense-admin'
+        )
 
     def indexed_content(self):
         """Return indexed content for current context object"""
