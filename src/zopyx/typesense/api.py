@@ -287,7 +287,7 @@ class API:
         else:
             # JSON
             result = [json.loads(jline) for jline in result.splitlines()]
-            return json.dumps(result)
+            return json.dumps(result, indent=2)
 
     def search(self, query, per_page=25, page=1):
 
