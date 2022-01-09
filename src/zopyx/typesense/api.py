@@ -5,12 +5,16 @@ from plone.app.textfield import RichText
 from plone.dexterity.utils import iterSchemata
 from zope.interface.interfaces import ComponentLookupError
 from zope.schema import getFields
+from zope.component import getAdapter
+from zope.component import ComponentLookupError
 from zopyx.typesense import _, LOG
 from zopyx.typesense.interfaces import ITypesenseSettings
+from zopyx.typesense.interfaces import ITypesenseIndexDataProvider
 
 import json
 import furl
 import html2text
+from datetime import datetime
 import typesense
 import zope.schema
 
@@ -34,6 +38,7 @@ COLLECTION_SCHEMA = {
         {"name": "effective", "type": "string", "facet": False},
         {"name": "expires", "type": "string", "facet": False},
         {"name": "document_type_order", "type": "int32"},
+        {"name": "_indexed", "type": "string"},
     ],
     "default_sorting_field": "document_type_order",
     "attributesToSnippet": [
@@ -95,7 +100,7 @@ class API:
         d["language"] = obj.Language()
         d["portal_type"] = obj.portal_type
         d["review_state"] = review_state
-        d["path"] = "/".join(obj.getPhysicalPath())
+        d["path"] = self.document_path(obj)
         d["created"] = obj.created().ISO8601()
         d["modified"] = obj.modified().ISO8601()
         d["effective"] = obj.effective().ISO8601()
@@ -103,9 +108,12 @@ class API:
         d["subject"] = obj.Subject()
         d["uid"] = obj.UID()
         d["document_type_order"] = 0
+        d["_indexed"] = datetime.utcnow().isoformat()
 
         # indexable text content
         indexable_text = []
+
+        print(obj.absolute_url())
 
         fields = {}
         schemes = iterSchemata(obj)
@@ -115,8 +123,11 @@ class API:
         for name, field in fields.items():
             if isinstance(field, RichText):
                 text = getattr(obj, name)
-                if text and text.output:
-                    indexable_text.append(h2t.handle(text.output))
+                if isinstance(text, str):
+                    indexable_text.append(text)
+                else:
+                    if text and text.output:
+                        indexable_text.append(h2t.handle(text.output))
             elif isinstance(field, (zope.schema.Text, zope.schema.TextLine)):
                 text = getattr(obj, name)
                 indexable_text.append(text)
@@ -124,6 +135,18 @@ class API:
         indexable_text = [text for text in indexable_text if text]
         indexable_text = " ".join(indexable_text)
         d["text"] = indexable_text
+
+        # Check if there is an adapter for the given content type interface
+        # implementing ITypesenseIndexDataProvider for modifying the index data
+        # dict.
+
+        try:
+            adapter = getAdapter(obj, ITypesenseIndexDataProvider)
+        except ComponentLookupError:
+            adapter = None
+
+        if adapter:
+            d = adapter.get_indexable_content(d)
 
         return d
 
@@ -155,6 +178,7 @@ class API:
         site_path = '/'.join(api.portal.get().getPhysicalPath())
         obj_path = '/'.join(obj.getPhysicalPath())
         rel_path = obj_path.replace(site_path, '')
+        rel_path = rel_path.lstrip("/")
         return rel_path
 
     def exists_collection(self, collection):
@@ -260,7 +284,25 @@ class API:
         result = client.collections[self.collection].documents.export()
         if format == "jsonl":
             return result
-        # JSON
-        result = [json.loads(jline) for jline in result.splitlines()]
-        return json.dumps(result)
+        else:
+            # JSON
+            result = [json.loads(jline) for jline in result.splitlines()]
+            return json.dumps(result)
+
+    def search(self, query, per_page=25, page=1):
+
+        client = self.get_typesense_client()
+        search_params = {
+            'q': query,
+            'query_by': 'text',
+            'per_page': per_page,
+            'page': page,
+#            'sort_by': 'id2:desc',
+#            'facet_by': ['language,area,document_type,societies,specifications_str,specifications2_str,topic_str']
+        }
+
+        LOG.info(search_params)
+        result = client.collections[self.collection].documents.search(search_params)
+        result["pages"] = int(result["found"] / result["request_params"]["per_page"]) + 1
+        return result
 
