@@ -1,7 +1,9 @@
 from Products.Five.browser import BrowserView
+
 from zopyx.typesense import _, LOG
 from zopyx.typesense.api import API
 
+import os
 import plone.api
 import time
 
@@ -49,7 +51,7 @@ class View(BrowserView):
         ts_api = API()
         return ts_api.collection_stats()
 
-    def reindex_all(self):
+    def reindex_all(self, batch_size=100):
         """Reindex all"""
 
         ts = time.time()
@@ -61,7 +63,7 @@ class View(BrowserView):
         brains = catalog()
         num_brains = len(list(brains))
         for i, brain in enumerate(brains):
-            if i % 1000 == 0:
+            if i % batch_size == 0:
                 LOG.info(f"{i + 1}/{num_brains} objects indexed")
             obj = brain.getObject()
             ts_api.index_document(obj)
@@ -79,3 +81,33 @@ class View(BrowserView):
             request=self.request,
         )
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
+
+    def search_result(self):
+        """ Search UI for admin view """
+        ts_api = API()
+        result = ts_api.search(query=self.request.form.get('query'), page=self.request.form.get("page", 1))
+        return result
+
+
+    def import_demo_content(self):
+
+        from plone.app.textfield import RichText
+
+        portal = plone.api.portal.get()
+
+        if 'data' in portal.objectIds():
+            plone.api.content.delete(portal.data)
+
+        data_folder = plone.api.content.create(container=portal, type="Folder", id="data", title="data")
+
+        fn = os.path.dirname(__file__) + "/deu_wikipedia_2021_1M-sentences.txt"
+        with open(fn) as fp:
+            num = 0
+            for line in fp:
+                num += 1
+                if num < 250:
+                    doc = plone.api.content.create(type="Document", container=data_folder, id=str(num), title=line)
+
+
+        return "imported"
+

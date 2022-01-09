@@ -53,10 +53,73 @@
             <form method="post" action="${portal_url}/@@typesense-recreate-collection">
                 <button class="btn btn-primary" type="submit" i18n:translate="">Recreate Typesense collection</button>
             </form>
+            <form method="post" action="${portal_url}/@@import-demo-content">
+                <button class="btn btn-primary" type="submit" i18n:translate="">Import demo content</button>
+            </form>
         </div >
+
+        <fieldset>
+            <legend i18n:translate="">Demo search</legend>
+
+            <form method="get" action="${portal_url}/@@typesense-admin">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="query" placeholder="Your query goes here" width="60" value="${request/query | nothing}"/>
+                </div>
+                <div class="form-group" id="search-submit">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </fieldset>
+
+        <div tal:condition="request/query | nothing" id="search-results">
+            <tal:def tal:define="result view/search_result">
+    
+                <div class="alert alert-light" role="alert" tal:condition="result/found">
+                    <span i18n:translate="">Documents found</span>: <span>${result/found}</span>
+                </div>
+
+                <div class="alert alert-light" role="alert" tal:condition="not: result/found">
+                    <span i18n:translate="">Nothing found</span>
+                </div>
+
+                <table class="table" tal:condition="result/found">
+                    <thead>
+                        <tr>
+                        </tr>
+                            <th i18n:translate="">Path</th>
+                            <th i18n:translate="">Title</th>
+                            <th i18n:translate="">Type</th>
+                    </thead>
+                    <tbody>
+                        <tr tal:repeat="r result/hits">
+                            <td>
+                                <a href="${portal_url}/${r/document/path}/@@typesense-indexed-content">
+                                    ${r/document/path}
+                                </a>
+                            </td>
+                            <td>${r/document/title}</td>
+                            <td>${r/document/portal_type}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <nav aria-label="Page navigation example" tal:condition="result/found">
+                    <ul class="pagination">
+                        <li class="page-item" tal:repeat="page python: range(1, result['pages'] + 1)">
+                            <a class="page-link" href="${portal_url}/@@typesense-admin?query=${request/query}&page:int=${page}">${page}</a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </tal:def>
+
+        </div>
 
         <style>
             .btn-group button { margin-right: 2em}
+            fieldset {margin-top: 2em}
+            #search-results {margin-top: 2em}
+            #search-submit {margin-top: 1em}
         </style>
 
     </metal:block>
