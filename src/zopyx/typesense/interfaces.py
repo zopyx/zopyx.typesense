@@ -7,6 +7,9 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zopyx.typesense import _
 
 
+from .config import COLLECTION_SCHEMA_JSON
+
+
 class IBrowserLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
 
@@ -48,6 +51,9 @@ class ITypesenseSettings(Interface):
         required=False,
     )
 
+    collection_schema = schema.Text(
+        title=_("Collection schema"), default=COLLECTION_SCHEMA_JSON, required=True
+    )
 
 class ITypesenseIndexDataProvider(Interface):
     """ Adapter for custom indexing """

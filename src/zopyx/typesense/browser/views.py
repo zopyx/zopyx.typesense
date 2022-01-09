@@ -98,16 +98,21 @@ class View(BrowserView):
         portal = plone.api.portal.get()
 
         if 'news' in portal.objectIds():
-            plone.api.content.delete(portal.data)
+            plone.api.content.delete(portal.news)
 
         data_folder = plone.api.content.create(container=portal, type="Folder", id="news", title="news")
 
-        fn = os.path.dirname(__file__) + "de-news.json"
+        fn = os.path.dirname(__file__) + "/de-news.json"
         news = json.load(open(fn))
         for n in news:
             text = RichTextValue(n['text'], 'text/html', 'text/html')
-            doc = plone.api.content.create(type="News Item", container=data_folder, id=str(num), title=n['title'], text=text)
+            doc = plone.api.content.create(type="News Item", container=data_folder, title=n['title'], text=text)
 
-
-        return "imported"
+        plone.api.portal.show_message(
+            _(
+                "Sample content import into folder /news"
+            ),
+            request=self.request,
+        )
+        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
 

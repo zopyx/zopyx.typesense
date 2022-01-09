@@ -21,40 +21,9 @@ import zope.schema
 
 h2t = html2text.HTML2Text()
 
-COLLECTION_SCHEMA = {
-    "name": None,
-    "fields": [
-        {"name": "path", "type": "string"},
-        {"name": "id", "type": "string"},
-        {"name": "title", "type": "string"},
-        {"name": "description", "type": "string"},
-        {"name": "text", "type": "string"},
-        {"name": "language", "type": "string", "facet": True},
-        {"name": "portal_type", "type": "string", "facet": True},
-        {"name": "review_state", "type": "string", "facet": False},
-        {"name": "subject", "type": "string[]", "facet": False},
-        {"name": "created", "type": "string", "facet": False},
-        {"name": "modified", "type": "string", "facet": False},
-        {"name": "effective", "type": "string", "facet": False},
-        {"name": "expires", "type": "string", "facet": False},
-        {"name": "document_type_order", "type": "int32"},
-        {"name": "_indexed", "type": "string"},
-    ],
-    "default_sorting_field": "document_type_order",
-    "attributesToSnippet": [
-        "title",
-        "description",
-        "text:20",
-    ],
-    "attributesToHighlight": [
-        "title",
-        "description",
-        "text:20",
-    ],
-}
-
 
 class API:
+
     @property
     def collection(self):
         """Return collection name from registry"""
@@ -112,8 +81,6 @@ class API:
 
         # indexable text content
         indexable_text = []
-
-        print(obj.absolute_url())
 
         fields = {}
         schemes = iterSchemata(obj)
@@ -199,7 +166,8 @@ class API:
         if self.exists_collection(collection):
             raise RuntimeError(f"Collection `{collection}` already exists")
 
-        collection_schema = COLLECTION_SCHEMA
+        collection_schema = api.portal.get_registry_record("collection_schema", ITypesenseSettings)
+        collection_schema = json.loads(collection_schema)
         collection_schema["name"] = collection
 
         client.collections.create(collection_schema)
