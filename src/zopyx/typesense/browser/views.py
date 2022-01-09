@@ -3,6 +3,7 @@ from Products.Five.browser import BrowserView
 from zopyx.typesense import _, LOG
 from zopyx.typesense.api import API
 
+import gzip
 import os
 import plone.api
 import time
@@ -100,8 +101,8 @@ class View(BrowserView):
 
         data_folder = plone.api.content.create(container=portal, type="Folder", id="data", title="data")
 
-        fn = os.path.dirname(__file__) + "/deu_wikipedia_2021_1M-sentences.txt"
-        with open(fn) as fp:
+        fn = os.path.dirname(__file__) + "/deu_wikipedia_2021_1M-sentences.txt.gz"
+        with gzip.open(fn) as fp:
             num = 0
             for line in fp:
                 num += 1

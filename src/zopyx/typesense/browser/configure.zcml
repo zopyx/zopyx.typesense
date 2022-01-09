@@ -54,6 +54,15 @@
         class=".views.View"
         attribute="export_documents"
     />
+
+    <browser:page
+        name="import-demo-content"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        permission="cmf.ManagePortal"
+        layer="zopyx.typesense.interfaces.IBrowserLayer"
+        class=".views.View"
+        attribute="import_demo_content"
+    />
     
     <browser:page
         name="typesense-search"
