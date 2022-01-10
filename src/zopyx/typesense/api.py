@@ -285,3 +285,18 @@ class API:
         snapshot_path = f"{self.collection}-{datetime.utcnow().isoformat()}.snapshot"
         client.operations.perform("snapshot", {"snapshot_path": snapshot_path })
         return snapshot_path
+
+    def cluster_data(self):
+        """ Return metrics, stats etc. from Typesense """
+
+        client = self.get_typesense_client()
+
+        try:
+            # cluster
+            metrics = client.metrics.retrieve()
+            stats = client.stats.retrieve()
+            health = client.health.retrieve()
+            return dict(metrics=metrics, health=health, stats=stats)
+        except AttributeError:
+            # standalone
+           return None

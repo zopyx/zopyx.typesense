@@ -39,6 +39,12 @@
             </tbody>
         </table>
 
+        <tal:def define="cluster_data view/cluster_data">
+            <div class="alert alert-light" role="alert" tal:condition="not: cluster_data">
+                <span i18n:translate="">No Typesense cluster configured - no metrics available</span>
+            </div>
+            <pre tal:content="cluster_data" tal:condition="cluster_data">
+        </tal:def>
 
         <div class="btn-group" role="group" id="actions" arial-label="Actions">
             <form method="post" action="${portal_url}/@@typesense-reindex-all">
@@ -106,7 +112,7 @@
                                 <a href="${portal_url}/${r/document/path}/@@typesense-indexed-content">&#8505;</a>
                             </td>
                             <td>${r/document/title}</td>
-                            <td>${r/document/portal_type}</td>
+                            <td class="portal-type">${r/document/portal_type}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -128,6 +134,7 @@
             fieldset {margin-top: 2em}
             #search-results {margin-top: 2em}
             #search-submit {margin-top: 1em}
+            .portal-type {white-space: nowrap}
         </style>
 
     </metal:block>

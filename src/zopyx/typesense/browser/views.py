@@ -130,3 +130,9 @@ class View(BrowserView):
             request=self.request,
         )
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
+
+    def cluster_data(self):
+        """ Return metrics, stats from Typesense """
+
+        ts_api = API()
+        return ts_api.cluster_data()
