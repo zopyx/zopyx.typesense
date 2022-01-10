@@ -53,6 +53,9 @@
             <form method="post" action="${portal_url}/@@typesense-recreate-collection">
                 <button class="btn btn-primary" type="submit" i18n:translate="">Recreate Typesense collection</button>
             </form>
+            <form method="post" action="${portal_url}/@@typesense-snapshot">
+                <button class="btn btn-primary" type="submit" i18n:translate="">Snapshot/Backup</button>
+            </form>
             <form method="post" action="${portal_url}/@@import-demo-content">
                 <button class="btn btn-primary" type="submit" i18n:translate="">Import demo content</button>
             </form>
@@ -87,15 +90,20 @@
                         <tr>
                         </tr>
                             <th i18n:translate="">Path</th>
+                            <th i18n:translate="">Info</th>
                             <th i18n:translate="">Title</th>
                             <th i18n:translate="">Type</th>
                     </thead>
                     <tbody>
                         <tr tal:repeat="r result/hits">
                             <td>
-                                <a href="${portal_url}/${r/document/path}/@@typesense-indexed-content">
+
+                                <a href="${portal_url}/${r/document/path}">
                                     ${r/document/path}
                                 </a>
+                            </td>
+                            <td>
+                                <a href="${portal_url}/${r/document/path}/@@typesense-indexed-content">&#8505;</a>
                             </td>
                             <td>${r/document/title}</td>
                             <td>${r/document/portal_type}</td>

@@ -274,3 +274,14 @@ class API:
         result["pages"] = int(result["found"] / result["request_params"]["per_page"]) + 1
         return result
 
+    def snapshot(self):
+        """ Snapshot typesense database.
+            Cavecat: If Typesense is running with a Docker container,
+            the snapshot will be created inside the container unless you configure
+            a volume mapping.
+        """
+
+        client = self.get_typesense_client()
+        snapshot_path = f"{self.collection}-{datetime.utcnow().isoformat()}.snapshot"
+        client.operations.perform("snapshot", {"snapshot_path": snapshot_path })
+        return snapshot_path

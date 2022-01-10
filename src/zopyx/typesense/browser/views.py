@@ -116,3 +116,17 @@ class View(BrowserView):
         )
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
 
+    def snapshot(self):
+        """ Create a snapshot of the Typesense internal database """
+
+        ts_api = API()
+        snapshot_name = ts_api.snapshot()
+
+        portal = plone.api.portal.get()
+        plone.api.portal.show_message(
+            _(
+                f"Snapshot taken ({snapshot_name})"
+            ),
+            request=self.request,
+        )
+        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
