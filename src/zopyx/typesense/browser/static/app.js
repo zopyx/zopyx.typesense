@@ -1,42 +1,59 @@
-const { algoliasearch, instantsearch } = window;
+/* global instantsearch */
 
-const searchClient = algoliasearch('typesense', 'pnmaster');
+import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
+
+const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
+  server: {
+    apiKey: 'xxxx', // Be sure to use an API key that only allows searches, in production
+    nodes: [
+      {
+        host: 'localhost',
+        port: '8108',
+        protocol: 'http',
+      },
+    ],
+  },
+  // The following parameters are directly passed to Typesense's search API endpoint.
+  //  So you can pass any parameters supported by the search endpoint below.
+  //  queryBy is required.
+  //  filterBy is managed and overridden by InstantSearch.js. To set it, you want to use one of the filter widgets like refinementList or use the `configure` widget.
+  additionalSearchParameters: {
+    queryBy: 'title,authors',
+  },
+});
+const searchClient = typesenseInstantsearchAdapter.searchClient;
 
 const search = instantsearch({
-  indexName: 'typesense',
   searchClient,
+  indexName: 'typesense',
 });
 
 search.addWidgets([
   instantsearch.widgets.searchBox({
     container: '#searchbox',
   }),
+  instantsearch.widgets.configure({
+    hitsPerPage: 8,
+  }),
   instantsearch.widgets.hits({
     container: '#hits',
     templates: {
-      item: `
-<article>
-  <h1>{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</h1>
-  <p>{{#helpers.highlight}}{ "attribute": "name" }{{/helpers.highlight}}</p>
-  <p>{{#helpers.highlight}}{ "attribute": "description" }{{/helpers.highlight}}</p>
-</article>
-`,
+      item(item) {
+        return `
+        <div>
+          <img src="${item.image_url}" alt="${item.name}" height="100" />
+          <div class="hit-name">
+            ${item._highlightResult.title.value}
+          </div>
+          <div class="hit-authors">
+          ${item._highlightResult.authors.map(a => a.value).join(', ')}
+          </div>
+          <div class="hit-publication-year">${item.publication_year}</div>
+          <div class="hit-rating">${item.average_rating}/5 rating</div>
+        </div>
+      `;
+      },
     },
-  }),
-  instantsearch.widgets.configure({
-    facets: ['*'],
-    maxValuesPerFacet: 20,
-  }),
-  instantsearch.widgets.dynamicWidgets({
-    container: '#dynamic-widgets',
-    fallbackWidget({ container, attribute }) {
-      return instantsearch.widgets.refinementList({
-        container,
-        attribute,
-      });
-    },
-    widgets: [
-    ],
   }),
   instantsearch.widgets.pagination({
     container: '#pagination',
