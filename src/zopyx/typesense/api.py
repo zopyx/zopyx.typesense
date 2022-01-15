@@ -204,23 +204,44 @@ class API:
         self,
     ):
         """Typesense client with full admin access"""
-
-        api_key = api.portal.get_registry_record("api_key", ITypesenseSettings)
-        return self.get_client(api_key)
+        return self.get_client(self.api_key)
 
     def get_typesense_search_client(self):
         """Typesense client with search access"""
+        return self.get_client(self.search_api_key)
 
-        search_api_key = api.portal.get_registry_record(
+    @property
+    def search_api_key(self):
+        """ Return search API key """
+        return api.portal.get_registry_record(
             "search_api_key", ITypesenseSettings
         )
-        return self.get_client(search_api_key)
+
+    @property
+    def api_key(self):
+        """ Return admin API key """
+        return api.portal.get_registry_record(
+            "api_key", ITypesenseSettings
+        )
 
     def get_client(self, api_key):
         """Get Typesense client for given API key"""
 
         if not api_key:
             raise ValueError(_("No Typesense API key(s) configured"))
+
+        client = typesense.Client(
+            {
+                "api_key": api_key,
+                "nodes": self.nodes,
+                "connection_timeout_seconds": 10,
+            }
+        )
+        return client
+
+    @property
+    def nodes(self):
+        """ Return a list of Typesense nodes (used by the search UI) """
 
         try:
             node1_url = api.portal.get_registry_record("node1_url", ITypesenseSettings)
@@ -237,14 +258,7 @@ class API:
             f = furl.furl(url)
             nodes.append(dict(host=f.host, port=f.port, protocol=f.scheme))
 
-        client = typesense.Client(
-            {
-                "api_key": api_key,
-                "nodes": nodes,
-                "connection_timeout_seconds": 10,
-            }
-        )
-        return client
+        return nodes
 
     def export_documents(self, format="jsonl"):
         """Export all documents of collection as JSONlines"""

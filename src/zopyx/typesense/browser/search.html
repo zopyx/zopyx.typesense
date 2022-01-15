@@ -2,11 +2,6 @@
     <body>
         <h1 class="documentFirstHeading">Typesense Search</h1>
 
-        <form method="post" action="${context/absolute_url}/@@typesense-search">
-            Query:
-            <input type="text" size="40" name="query" value="${request/query|nothing}" />
-            <input type="submit" value="Search"/>
-        </form>
          
   <div class="container">
     <div class="search-panel">
@@ -25,6 +20,7 @@
 
   <script src="https://cdn.jsdelivr.net/algoliasearch/3.32.0/algoliasearchLite.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.5.0"></script>
+  <script  src="static/typesense-instantsearch-adapter.min.js"></script>
   <script  src="static/app.js"></script>
 
     </body>

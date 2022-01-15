@@ -136,3 +136,18 @@ class View(BrowserView):
 
         ts_api = API()
         return ts_api.cluster_data()
+
+
+    def search_settings(self):
+        """ Typesense settings returned as JSON for dynamic search UI """
+
+        ts_api = API()
+
+        settings = dict()
+        settings["collection"] = ts_api.collection
+        settings["api_key"] = ts_api.search_api_key
+        settings["nodes"]  = ts_api.nodes
+        settings["query_by"] = "text"
+
+        self.request.response.setHeader("content-type", "application/json")
+        return json.dumps(settings)

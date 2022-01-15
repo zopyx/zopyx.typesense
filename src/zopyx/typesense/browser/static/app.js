@@ -1,31 +1,37 @@
 /* global instantsearch */
 
-import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
+
+var remote_url = PORTAL_URL + "/@@typesense-search-settings";
+var ts_settings = null;
+
+function getSearchSettings() {
+    return $.getJSON({
+        type: "GET",
+        url: remote_url,
+        async: false
+    }).responseText;
+}
+
+ts_settings = JSON.parse(getSearchSettings());
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   server: {
-    apiKey: 'xxxx', // Be sure to use an API key that only allows searches, in production
-    nodes: [
-      {
-        host: 'localhost',
-        port: '8108',
-        protocol: 'http',
-      },
-    ],
+    apiKey: ts_settings["api_key"],
+    nodes: ts_settings["nodes"]
   },
   // The following parameters are directly passed to Typesense's search API endpoint.
   //  So you can pass any parameters supported by the search endpoint below.
   //  queryBy is required.
   //  filterBy is managed and overridden by InstantSearch.js. To set it, you want to use one of the filter widgets like refinementList or use the `configure` widget.
   additionalSearchParameters: {
-    queryBy: 'title,authors',
+    queryBy: ts_settings["query_by"]
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
 
 const search = instantsearch({
   searchClient,
-  indexName: 'typesense',
+  indexName: ts_settings["collection"]
 });
 
 search.addWidgets([
@@ -41,15 +47,9 @@ search.addWidgets([
       item(item) {
         return `
         <div>
-          <img src="${item.image_url}" alt="${item.name}" height="100" />
           <div class="hit-name">
             ${item._highlightResult.title.value}
           </div>
-          <div class="hit-authors">
-          ${item._highlightResult.authors.map(a => a.value).join(', ')}
-          </div>
-          <div class="hit-publication-year">${item.publication_year}</div>
-          <div class="hit-rating">${item.average_rating}/5 rating</div>
         </div>
       `;
       },

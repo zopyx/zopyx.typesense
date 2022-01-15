@@ -27,17 +27,20 @@
     </div>
 
     <div id="pagination"></div>
-  </div>
+</div>
 
-              <script>
+        <script type="text/javascript" >PORTAL_URL = "${portal_url}"</script>
+
+        <script>
             window.__define = window.define;
             window.__require = window.require;
             window.define = undefined;
             window.require = undefined;
-              </script>
-  <script src="https://cdn.jsdelivr.net/algoliasearch/3.32.0/algoliasearchLite.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.5.0"></script>
-  <script src="${portal_url}/++resource++zopyx.typesense/app.js"></script>
+        </script>
+        <script src="https://cdn.jsdelivr.net/algoliasearch/3.32.0/algoliasearchLite.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.5.0"></script>
+        <script src="${portal_url}/++resource++zopyx.typesense/typesense-instantsearch-adapter.min.js"></script>
+        <script src="${portal_url}/++resource++zopyx.typesense/app.js"></script>
         <script>
             window.define = window.__define;
             window.require = window.__require;

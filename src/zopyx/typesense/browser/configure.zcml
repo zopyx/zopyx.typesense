@@ -82,6 +82,15 @@
         template="search.pt"
     />
 
+    <browser:page
+        name="typesense-search-settings"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        permission="zope2.View"
+        layer="zopyx.typesense.interfaces.IBrowserLayer"
+        class=".views.View"
+        attribute="search_settings"
+    />
+
   <!-- Publish static files -->
   <browser:resourceDirectory
       name="zopyx.typesense"
