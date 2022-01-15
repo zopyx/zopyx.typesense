@@ -95,6 +95,34 @@ search.addWidgets([
     container: '#language',
     attribute: 'language',
   }),
+
+  instantsearch.widgets.stats({
+    container: '#stats',
+    templates: {
+      text: `
+      {{#hasNoResults}}No hits{{/hasNoResults}}
+      {{#hasOneResult}}1 hit{{/hasOneResult}}
+      {{#hasManyResults}}{{#helpers.formatNumber}}{{nbHits}}{{/helpers.formatNumber}} hits {{/hasManyResults}}
+      found in {{processingTimeMS}}ms
+    `,
+    },
+    cssClasses: {
+      text: 'small',
+    },
+  }),
+
+  instantsearch.widgets.hitsPerPage({
+    container: '#hits-per-page',
+    items: [
+      { label: '10 per page', value: 10, default: true },
+      { label: '20 per page', value: 20 },
+      { label: '50 per page', value: 50 },
+      { label: '100 per page', value: 100 },
+    ],
+    cssClasses: {
+      select: 'custom-select custom-select-sm',
+    },
+  }),
 ]);
 
 search.start();

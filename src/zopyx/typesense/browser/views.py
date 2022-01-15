@@ -106,7 +106,7 @@ class View(BrowserView):
         news = json.load(open(fn))
         for n in news:
             text = RichTextValue(n['text'], 'text/html', 'text/html')
-            doc = plone.api.content.create(type="News Item", container=data_folder, title=n['title'], text=text)
+            doc = plone.api.content.create(type="News Item", container=data_folder, title=n['title'], text=text, language="de")
 
         plone.api.portal.show_message(
             _(
