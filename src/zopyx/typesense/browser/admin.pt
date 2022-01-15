@@ -32,10 +32,6 @@
                     <td i18n:translate=""># documents</td>
                     <td i18n:translate="">${info/num_documents}</td>
                 </tr>
-                <tr>
-                    <td i18n:translate=""># memory shared</td>
-                    <td i18n:translate="">${info/num_memory_shards}</td>
-                </tr>
             </tbody>
         </table>
 
