@@ -17,9 +17,12 @@ import html2text
 from datetime import datetime
 import typesense
 import zope.schema
+import html_text
 
 
-h2t = html2text.HTML2Text()
+def html2text(html):
+    tree = html_text.parse_html(html)
+    return html_text.extract_text(tree)
 
 
 class API:
@@ -94,7 +97,7 @@ class API:
                     indexable_text.append(text)
                 else:
                     if text and text.output:
-                        indexable_text.append(h2t.handle(text.output))
+                        indexable_text.append(html2text(text.output))
             elif isinstance(field, (zope.schema.Text, zope.schema.TextLine)):
                 text = getattr(obj, name)
                 indexable_text.append(text)

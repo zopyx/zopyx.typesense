@@ -15,49 +15,49 @@ function getSearchSettings() {
 ts_settings = JSON.parse(getSearchSettings());
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
-  server: {
-    apiKey: ts_settings["api_key"],
-    nodes: ts_settings["nodes"]
-  },
-  // The following parameters are directly passed to Typesense's search API endpoint.
-  //  So you can pass any parameters supported by the search endpoint below.
-  //  queryBy is required.
-  //  filterBy is managed and overridden by InstantSearch.js. To set it, you want to use one of the filter widgets like refinementList or use the `configure` widget.
-  additionalSearchParameters: {
-    queryBy: ts_settings["query_by"]
-  },
+    server: {
+        apiKey: ts_settings["api_key"],
+        nodes: ts_settings["nodes"]
+    },
+    // The following parameters are directly passed to Typesense's search API endpoint.
+    //  So you can pass any parameters supported by the search endpoint below.
+    //  queryBy is required.
+    //  filterBy is managed and overridden by InstantSearch.js. To set it, you want to use one of the filter widgets like refinementList or use the `configure` widget.
+    additionalSearchParameters: {
+        queryBy: ts_settings["query_by"]
+    },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
 
 const search = instantsearch({
-  searchClient,
-  indexName: ts_settings["collection"]
+    searchClient,
+    indexName: ts_settings["collection"]
 });
 
 /*
  * Example:
  * https://github.com/typesense/showcase-ecommerce-store/blob/master/src/app.js
-*/
+ */
 
 search.addWidgets([
-  instantsearch.widgets.searchBox({
-    container: '#searchbox',
-    showSubmit: false,
-    showReset: false,
-    placeholder: 'Search for... ',
-    autofocus: false,
-    cssClasses: {
-      input: 'form-control form-control-sm border border-light text-dark',
-      loadingIcon: 'stroke-primary',
-    },
-  }),
-  instantsearch.widgets.configure({
-    hitsPerPage: 10,
-  }),
-  instantsearch.widgets.hits({
-    container: '#hits',
-    templates: {
-      item: `
+    instantsearch.widgets.searchBox({
+        container: '#searchbox',
+        showSubmit: false,
+        showReset: false,
+        placeholder: 'Search for... ',
+        autofocus: false,
+        cssClasses: {
+            input: 'form-control form-control-sm border border-light text-dark',
+            loadingIcon: 'stroke-primary',
+        },
+    }),
+    instantsearch.widgets.configure({
+        hitsPerPage: 10,
+    }),
+    instantsearch.widgets.hits({
+        container: '#hits',
+        templates: {
+            item: `
           <div class="hit">
             <div class="hit-title"> <a class="hit-link" href="{{path}}\">{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</a></div>
             <div class="hit-meta">
@@ -65,66 +65,76 @@ search.addWidgets([
                 <span class="hit-review_state">{{#helpers.highlight}}{ "attribute": "review_state" }{{/helpers.highlight}}</span> |
                 <span class="hit-created">{{#helpers.highlight}}{ "attribute": "created" }{{/helpers.highlight}}</span> |
                 <span class="hit-modified">{{#helpers.highlight}}{ "attribute": "modified" }{{/helpers.highlight}}</span>
+                <div class="hit-text">{{#helpers.highlight}}{ "attribute": "text" }{{/helpers.highlight}}</div>
+
             </div>
           </div>
 `,
-    },
-  }),
-  instantsearch.widgets.pagination({
-    container: '#pagination',
-    cssClasses: {
-      list: 'd-flex flex-row justify-content-end',
-      item: 'px-2 d-block',
-      link: 'text-decoration-none',
-      disabledItem: 'text-muted',
-      selectedItem: 'fw-bold text-primary',
-    },
+        },
+    }),
+    instantsearch.widgets.pagination({
+        container: '#pagination',
+        cssClasses: {
+            list: 'd-flex flex-row justify-content-end',
+            item: 'px-2 d-block',
+            link: 'text-decoration-none',
+            disabledItem: 'text-muted',
+            selectedItem: 'fw-bold text-primary',
+        },
 
-  }),
-  instantsearch.widgets.refinementList({
-    container: '#review-state',
-    attribute: 'review_state',
-  }),
-  instantsearch.widgets.refinementList({
-    container: '#portal-type',
-    attribute: 'portal_type',
-  }),
-  instantsearch.widgets.refinementList({
-    container: '#subject',
-    attribute: 'subject',
-  }),
-  instantsearch.widgets.refinementList({
-    container: '#language',
-    attribute: 'language',
-  }),
+    }),
+    instantsearch.widgets.refinementList({
+        container: '#review-state',
+        attribute: 'review_state',
+    }),
+    instantsearch.widgets.refinementList({
+        container: '#portal-type',
+        attribute: 'portal_type',
+    }),
+    instantsearch.widgets.refinementList({
+        container: '#subject',
+        attribute: 'subject',
+    }),
+    instantsearch.widgets.refinementList({
+        container: '#language',
+        attribute: 'language',
+    }),
 
-  instantsearch.widgets.stats({
-    container: '#stats',
-    templates: {
-      text: `
+    instantsearch.widgets.stats({
+        container: '#stats',
+        templates: {
+            text: `
       {{#hasNoResults}}No hits{{/hasNoResults}}
       {{#hasOneResult}}1 hit{{/hasOneResult}}
       {{#hasManyResults}}{{#helpers.formatNumber}}{{nbHits}}{{/helpers.formatNumber}} hits {{/hasManyResults}}
       found in {{processingTimeMS}}ms
     `,
-    },
-    cssClasses: {
-      text: 'small',
-    },
-  }),
+        },
+        cssClasses: {
+            text: 'small',
+        },
+    }),
 
-  instantsearch.widgets.hitsPerPage({
-    container: '#hits-per-page',
-    items: [
-      { label: '10 per page', value: 10, default: true },
-      { label: '20 per page', value: 20 },
-      { label: '50 per page', value: 50 },
-      { label: '100 per page', value: 100 },
-    ],
-    cssClasses: {
-      select: 'custom-select custom-select-sm',
-    },
-  }),
+    instantsearch.widgets.hitsPerPage({
+        container: '#hits-per-page',
+        items: [{
+            label: '10 per page',
+            value: 10,
+            default: true
+        }, {
+            label: '20 per page',
+            value: 20
+        }, {
+            label: '50 per page',
+            value: 50
+        }, {
+            label: '100 per page',
+            value: 100
+        }, ],
+        cssClasses: {
+            select: 'custom-select custom-select-sm',
+        },
+    }),
 ]);
 
 search.start();

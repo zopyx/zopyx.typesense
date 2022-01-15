@@ -53,7 +53,7 @@ setup(
         'furl',
         'zopyx.plone.persistentlogger',
         'zopyx.ipsumplone',
-        'html2text',
+        'html-text',
         'huey',
     ],
     extras_require={
