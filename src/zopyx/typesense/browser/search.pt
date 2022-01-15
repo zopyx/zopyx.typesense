@@ -7,28 +7,48 @@
     <metal:block fill-slot="main">
 
         <h1 class="documentFirstHeading">Typesense Search</h1>
+        <!--
+        <div class="container">
+            <div class="search-panel">
+                <div class="search-panel__filters">
+                    <div id="dynamic-widgets"></div>
+                </div>
 
-        <form method="post" action="${context/absolute_url}/@@typesense-search">
-            Query:
-            <input type="text" size="40" name="query" value="${request/query|nothing}" />
-            <input type="submit" value="Search"/>
-        </form>
-         
-  <div class="container">
-    <div class="search-panel">
-      <div class="search-panel__filters">
-        <div id="dynamic-widgets"></div>
-      </div>
+               <div class="search-panel__results">
+                   <div id="searchbox"></div>
+                   <div id="hits"></div>
+                </div>
+            </div>
 
-      <div class="search-panel__results">
-        <div id="searchbox"></div>
-        <div id="hits"></div>
-      </div>
-    </div>
+            <div id="pagination"></div>
+            </div>
+        -->
 
-    <div id="pagination"></div>
-</div>
+          <div class="container">
+            <div class="search-panel">
+              <div class="search-panel__filters">
+                <b>Portal Type</b>
+                <div id="portal-type"></div>
+                <br/>
+                <b>Review State</b>
+                <div id="review-state"></div>
+                <br/>
+                <b>Language</b>
+                <div id="language"></div>
+                <br/>
+                <b>Subject</b>
+                <div id="subject"></div>
+                <br/>
+              </div>
 
+              <div class="search-panel__results">
+                <div id="searchbox"></div>
+                <div id="hits"></div>
+              </div>
+            </div>
+
+            <div id="pagination"></div>
+          </div>
         <script type="text/javascript" >PORTAL_URL = "${portal_url}"</script>
 
         <script>
@@ -41,6 +61,7 @@
         <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.5.0"></script>
         <script src="${portal_url}/++resource++zopyx.typesense/typesense-instantsearch-adapter.min.js"></script>
         <script src="${portal_url}/++resource++zopyx.typesense/app.js"></script>
+        <link rel="stylesheet" type="text/css" href="${portal_url}/++resource++zopyx.typesense/search.css"/>
         <script>
             window.define = window.__define;
             window.require = window.__require;

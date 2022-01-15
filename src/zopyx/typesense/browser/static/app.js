@@ -34,29 +34,66 @@ const search = instantsearch({
   indexName: ts_settings["collection"]
 });
 
+/*
+ * Example:
+ * https://github.com/typesense/showcase-ecommerce-store/blob/master/src/app.js
+*/
+
 search.addWidgets([
   instantsearch.widgets.searchBox({
     container: '#searchbox',
+    showSubmit: false,
+    showReset: false,
+    placeholder: 'Search for... ',
+    autofocus: false,
+    cssClasses: {
+      input: 'form-control form-control-sm border border-light text-dark',
+      loadingIcon: 'stroke-primary',
+    },
   }),
   instantsearch.widgets.configure({
-    hitsPerPage: 8,
+    hitsPerPage: 10,
   }),
   instantsearch.widgets.hits({
     container: '#hits',
     templates: {
-      item(item) {
-        return `
-        <div>
-          <div class="hit-name">
-            ${item._highlightResult.title.value}
+      item: `
+          <div class="hit">
+            <div class="hit-title"> <a class="hit-link" href="{{url}}\">{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</a></div>
+            <div class="hit-meta">
+                <span class="hit-portal_type">{{#helpers.highlight}}{ "attribute": "portal_type" }{{/helpers.highlight}}</span> |
+                <span class="hit-review_state">{{#helpers.highlight}}{ "attribute": "review_state" }{{/helpers.highlight}}</span>
+            </div>
           </div>
-        </div>
-      `;
-      },
+`,
     },
   }),
   instantsearch.widgets.pagination({
     container: '#pagination',
+    cssClasses: {
+      list: 'd-flex flex-row justify-content-end',
+      item: 'px-2 d-block',
+      link: 'text-decoration-none',
+      disabledItem: 'text-muted',
+      selectedItem: 'fw-bold text-primary',
+    },
+
+  }),
+  instantsearch.widgets.refinementList({
+    container: '#review-state',
+    attribute: 'review_state',
+  }),
+  instantsearch.widgets.refinementList({
+    container: '#portal-type',
+    attribute: 'portal_type',
+  }),
+  instantsearch.widgets.refinementList({
+    container: '#subject',
+    attribute: 'subject',
+  }),
+  instantsearch.widgets.refinementList({
+    container: '#language',
+    attribute: 'language',
   }),
 ]);
 
