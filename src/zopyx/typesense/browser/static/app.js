@@ -59,10 +59,12 @@ search.addWidgets([
     templates: {
       item: `
           <div class="hit">
-            <div class="hit-title"> <a class="hit-link" href="{{url}}\">{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</a></div>
+            <div class="hit-title"> <a class="hit-link" href="{{path}}\">{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</a></div>
             <div class="hit-meta">
                 <span class="hit-portal_type">{{#helpers.highlight}}{ "attribute": "portal_type" }{{/helpers.highlight}}</span> |
-                <span class="hit-review_state">{{#helpers.highlight}}{ "attribute": "review_state" }{{/helpers.highlight}}</span>
+                <span class="hit-review_state">{{#helpers.highlight}}{ "attribute": "review_state" }{{/helpers.highlight}}</span> |
+                <span class="hit-created">{{#helpers.highlight}}{ "attribute": "created" }{{/helpers.highlight}}</span> |
+                <span class="hit-modified">{{#helpers.highlight}}{ "attribute": "modified" }{{/helpers.highlight}}</span>
             </div>
           </div>
 `,
