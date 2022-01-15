@@ -13,7 +13,6 @@ from zopyx.typesense.interfaces import ITypesenseIndexDataProvider
 
 import json
 import furl
-import html2text
 from datetime import datetime
 import typesense
 import zope.schema
