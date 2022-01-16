@@ -10,7 +10,7 @@ huey = SqliteHuey(filename="/tmp/demo.db")
 @huey.task()
 def ts_index(ts_client, collection, data, document_id, document_path):
 
-    LOG.info(f"Indexing {document_id} : {document_path}")
+    LOG.debug(f"Indexing {document_id} : {document_path}")
 
     try:
         ts_client.collections[collection].documents.upsert(data)
@@ -22,7 +22,7 @@ def ts_index(ts_client, collection, data, document_id, document_path):
 @huey.task()
 def ts_unindex(ts_client, collection, document_id, document_path):
 
-    LOG.info(f"Unindexing {document_id} : {document_path}")
+    LOG.debug(f"Unindexing {document_id} : {document_path}")
 
     try:
         ts_client.collections[collection].documents[document_id].delete()
