@@ -25,7 +25,6 @@ def html2text(html):
 
 
 class API:
-
     @property
     def collection(self):
         """Return collection name from registry"""
@@ -144,9 +143,9 @@ class API:
     def document_path(self, obj):
         """Return the content path for the given `obj`"""
 
-        site_path = '/'.join(api.portal.get().getPhysicalPath())
-        obj_path = '/'.join(obj.getPhysicalPath())
-        rel_path = obj_path.replace(site_path, '')
+        site_path = "/".join(api.portal.get().getPhysicalPath())
+        obj_path = "/".join(obj.getPhysicalPath())
+        rel_path = obj_path.replace(site_path, "")
         rel_path = rel_path.lstrip("/")
         return rel_path
 
@@ -168,7 +167,9 @@ class API:
         if self.exists_collection(collection):
             raise RuntimeError(f"Collection `{collection}` already exists")
 
-        collection_schema = api.portal.get_registry_record("collection_schema", ITypesenseSettings)
+        collection_schema = api.portal.get_registry_record(
+            "collection_schema", ITypesenseSettings
+        )
         collection_schema = json.loads(collection_schema)
         collection_schema["name"] = collection
 
@@ -195,8 +196,10 @@ class API:
         client = self.get_typesense_client()
         try:
             result = client.collections[self.collection].retrieve()
-        except typesense.exceptions.ObjectNotFound:
+        except Exception as e:
+            LOG.error("Unable to fetch Typesense stats", exc_info=True)
             return {}
+
         result["created_at_str"] = datetime.fromtimestamp(
             result["created_at"]
         ).isoformat()
@@ -214,17 +217,13 @@ class API:
 
     @property
     def search_api_key(self):
-        """ Return search API key """
-        return api.portal.get_registry_record(
-            "search_api_key", ITypesenseSettings
-        )
+        """Return search API key"""
+        return api.portal.get_registry_record("search_api_key", ITypesenseSettings)
 
     @property
     def api_key(self):
-        """ Return admin API key """
-        return api.portal.get_registry_record(
-            "api_key", ITypesenseSettings
-        )
+        """Return admin API key"""
+        return api.portal.get_registry_record("api_key", ITypesenseSettings)
 
     def get_client(self, api_key):
         """Get Typesense client for given API key"""
@@ -243,7 +242,7 @@ class API:
 
     @property
     def nodes(self):
-        """ Return a list of Typesense nodes (used by the search UI) """
+        """Return a list of Typesense nodes (used by the search UI)"""
 
         try:
             node1_url = api.portal.get_registry_record("node1_url", ITypesenseSettings)
@@ -277,33 +276,35 @@ class API:
 
         client = self.get_typesense_client()
         search_params = {
-            'q': query,
-            'query_by': 'text',
-            'per_page': per_page,
-            'page': page,
-#            'sort_by': 'id2:desc',
-#            'facet_by': ['language,area,document_type,societies,specifications_str,specifications2_str,topic_str']
+            "q": query,
+            "query_by": "text",
+            "per_page": per_page,
+            "page": page,
+            #            'sort_by': 'id2:desc',
+            #            'facet_by': ['language,area,document_type,societies,specifications_str,specifications2_str,topic_str']
         }
 
         LOG.info(search_params)
         result = client.collections[self.collection].documents.search(search_params)
-        result["pages"] = int(result["found"] / result["request_params"]["per_page"]) + 1
+        result["pages"] = (
+            int(result["found"] / result["request_params"]["per_page"]) + 1
+        )
         return result
 
     def snapshot(self):
-        """ Snapshot typesense database.
-            Cavecat: If Typesense is running with a Docker container,
-            the snapshot will be created inside the container unless you configure
-            a volume mapping.
+        """Snapshot typesense database.
+        Cavecat: If Typesense is running with a Docker container,
+        the snapshot will be created inside the container unless you configure
+        a volume mapping.
         """
 
         client = self.get_typesense_client()
         snapshot_path = f"{self.collection}-{datetime.utcnow().isoformat()}.snapshot"
-        client.operations.perform("snapshot", {"snapshot_path": snapshot_path })
+        client.operations.perform("snapshot", {"snapshot_path": snapshot_path})
         return snapshot_path
 
     def cluster_data(self):
-        """ Return metrics, stats etc. from Typesense """
+        """Return metrics, stats etc. from Typesense"""
 
         client = self.get_typesense_client()
 
@@ -315,4 +316,4 @@ class API:
             return dict(metrics=metrics, health=health, stats=stats)
         except AttributeError:
             # standalone
-           return None
+            return None

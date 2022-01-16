@@ -5,8 +5,9 @@ from zopyx.typesense.interfaces import ITypesenseSettings
 
 import time
 
+
 def can_index():
-    """ Check if the Typesense registry settings are available """
+    """Check if the Typesense registry settings are available"""
 
     try:
         api.portal.get_registry_record("collection", ITypesenseSettings)
@@ -19,6 +20,7 @@ def can_index():
         LOG.warning(f"Typesense indexing is disabled for Plone site {site_id}")
     return enabled
 
+
 def remove_content(context, event):
     """Async removal of content"""
 
@@ -29,7 +31,9 @@ def remove_content(context, event):
     ts_api = API()
     ts_api.unindex_document(context)
     duration = (time.time() - ts) * 1000
-    LOG.info(f"Unindexing {context.getId(), context.absolute_url(1)}, {duration:.3f} ms")
+    LOG.info(
+        f"Unindexing {context.getId(), context.absolute_url(1)}, {duration:.3f} ms"
+    )
 
 
 def update_content(context, event):

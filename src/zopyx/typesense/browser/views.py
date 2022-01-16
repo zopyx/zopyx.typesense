@@ -85,11 +85,12 @@ class View(BrowserView):
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
 
     def search_result(self):
-        """ Search UI for admin view """
+        """Search UI for admin view"""
         ts_api = API()
-        result = ts_api.search(query=self.request.form.get('query'), page=self.request.form.get("page", 1))
+        result = ts_api.search(
+            query=self.request.form.get("query"), page=self.request.form.get("page", 1)
+        )
         return result
-
 
     def import_demo_content(self):
 
@@ -97,56 +98,59 @@ class View(BrowserView):
 
         portal = plone.api.portal.get()
 
-        if 'news' in portal.objectIds():
+        if "news" in portal.objectIds():
             plone.api.content.delete(portal.news)
 
-        data_folder = plone.api.content.create(container=portal, type="Folder", id="news", title="news")
+        data_folder = plone.api.content.create(
+            container=portal, type="Folder", id="news", title="news"
+        )
 
         fn = os.path.dirname(__file__) + "/de-news.json"
         news = json.load(open(fn))
         for n in news:
-            text = RichTextValue(n['text'], 'text/html', 'text/html')
-            doc = plone.api.content.create(type="News Item", container=data_folder, title=n['title'], text=text, language="de")
+            text = RichTextValue(n["text"], "text/html", "text/html")
+            doc = plone.api.content.create(
+                type="News Item",
+                container=data_folder,
+                title=n["title"],
+                text=text,
+                language="de",
+            )
 
         plone.api.portal.show_message(
-            _(
-                "Sample content import into folder /news"
-            ),
+            _("Sample content import into folder /news"),
             request=self.request,
         )
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
 
     def snapshot(self):
-        """ Create a snapshot of the Typesense internal database """
+        """Create a snapshot of the Typesense internal database"""
 
         ts_api = API()
         snapshot_name = ts_api.snapshot()
 
         portal = plone.api.portal.get()
         plone.api.portal.show_message(
-            _(
-                f"Snapshot taken ({snapshot_name})"
-            ),
+            _(f"Snapshot taken ({snapshot_name})"),
             request=self.request,
         )
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
 
     def cluster_data(self):
-        """ Return metrics, stats from Typesense """
+        """Return metrics, stats from Typesense"""
 
         ts_api = API()
         return ts_api.cluster_data()
 
-
     def search_settings(self):
-        """ Typesense settings returned as JSON for dynamic search UI """
+        """Typesense settings returned as JSON for dynamic search UI"""
 
         ts_api = API()
 
         settings = dict()
         settings["collection"] = ts_api.collection
         settings["api_key"] = ts_api.search_api_key
-        settings["nodes"]  = ts_api.nodes
+        settings["nodes"] = ts_api.nodes
         settings["query_by"] = "title,text"
 
         self.request.response.setHeader("content-type", "application/json")

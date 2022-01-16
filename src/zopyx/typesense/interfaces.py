@@ -55,16 +55,15 @@ class ITypesenseSettings(Interface):
         title=_("Collection schema"), default=COLLECTION_SCHEMA_JSON, required=True
     )
 
+
 class ITypesenseIndexDataProvider(Interface):
-    """ Adapter for custom indexing """
+    """Adapter for custom indexing"""
 
     def get_indexable_content(indexable_content):
-        """ This method get the default data dict with
-            indexed_content (see api.py). The custom
-            indexer method can modify or provide additional
-            data to be indexed.
+        """This method get the default data dict with
+        indexed_content (see api.py). The custom
+        indexer method can modify or provide additional
+        data to be indexed.
 
-            Returns an updated dict of indexed_content
+        Returns an updated dict of indexed_content
         """
-
-

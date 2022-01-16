@@ -12,13 +12,13 @@ of api.indexable_content() for details.
 
 
 class DocumentIndexer:
-    """ Typesense indexer for IDocument """
+    """Typesense indexer for IDocument"""
 
     def __init__(self, context):
         self.context = context
 
     def get_indexable_content(self, indexable_content):
-        """ Return indexable content for IDocument """
+        """Return indexable content for IDocument"""
 
         # you can modify the dict with the data to be indexed according to your
         # own needs.
