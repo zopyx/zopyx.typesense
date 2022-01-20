@@ -3,7 +3,10 @@ P# zopyx.typesense
 ## What is zopyx.typesense
 
 `zopyx.typesense` in an add-on for Plone 6 that provides an integration with the
-search engine Typesense. The functionality is similar with `collective.solr`.
+search engine [Typesense](https://typesense.org/). The functionality is similar with `collective.solr`.
+
+![Typesense Features](typesense-feature.png)
+
 
 The reasons for using Typesense are
 
