@@ -23,9 +23,23 @@ The reasons for using Typesense are
 
 ## Installation
 
+Add `zopyx.typesense` to your buildout, re-run buildout and install it within Plone.
+
+For Typesense installation, please check the installation docs of Typesense (either for
+installation through Docker or through the standalone binary).
+  
 ## Configuration
 
+The `Typesense settings` with in the Plone controlpanel:
+
 ![Typesense settings](typesense-settings.png)
+
+- `Name of Typesense collection` - must be a unique name for the document pool of your Plone site
+- `API Key` - the administrative API key (as configured in Typesense) 
+- `Search API Key` - the search API key (as configured in Typesense) 
+- `URL of Typesense node X` - the URL(s) of the Typesense node or Typesense cluster
+- `Collection schema` - the schema of the Typesense collecton (see Typesense docs)
+
 ![Typesense administration](typesense-administration.png)
 
 ## Search UI
