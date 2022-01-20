@@ -7,7 +7,6 @@ search engine [Typesense](https://typesense.org/). The functionality is similar 
 
 ![Typesense Features](typesense-features.png)
 
-
 The reasons for using Typesense are
 
 - very easy to install (single binary or via Docker)
@@ -25,6 +24,25 @@ The reasons for using Typesense are
 ## Installation
 
 ## Configuration
+
+![Typesense settings](typesense-settings.png)
+![Typesense administration](typesense-administration.png)
+
+## Search UI
+
+![Typesense search](typesense-search.png)
+
+## Transactions and eventual consistency
+
+All indexing/unindexing operations happen asyncronously to Plone and outside
+Plone's transaction system.  So, content changes might be available in
+Typesense with a short delay. 
+
+## Cavecats
+
+`zopyx.typesense` does not integrate (by-design) with Plone's security and access model.
+The main purpose of `zopyx.typesense` is to act as a search engine for public sites.
+So it is recommended at this time to index only public content.
 
 ## Author
 
