@@ -30,7 +30,7 @@ installation through Docker or through the standalone binary).
   
 ## Configuration
 
-The `Typesense settings` with in the Plone controlpanel:
+The `Typesense settings` within the Plone controlpanel:
 
 ![Typesense settings](typesense-settings.png)
 
@@ -40,7 +40,11 @@ The `Typesense settings` with in the Plone controlpanel:
 - `URL of Typesense node X` - the URL(s) of the Typesense node or Typesense cluster
 - `Collection schema` - the schema of the Typesense collecton (see Typesense docs)
 
+The `Typesense administration` within the Plone controlpanel:
+
 ![Typesense administration](typesense-administration.png)
+
+
 
 ## Search UI
 
