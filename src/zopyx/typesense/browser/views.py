@@ -116,6 +116,7 @@ class View(BrowserView):
                 text=text,
                 language="de",
             )
+            plone.api.content.transition(doc, "publish")
 
         plone.api.portal.show_message(
             _("Sample content import into folder /news"),
