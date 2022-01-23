@@ -88,12 +88,16 @@ All indexing/unindexing operations happen asyncronously to Plone and outside
 Plone's transaction system.  So, content changes might be available in
 Typesense with a short delay. 
 
-## Cavecats
+## Cavecats and known issues
 
-`zopyx.typesense` does not integrate (by-design) with Plone's security and
+- `zopyx.typesense` does not integrate (by-design) with Plone's security and
 access model.  The main purpose of `zopyx.typesense` is to act as a search
 engine for public sites.  So it is recommended at this time to index only
 public content.
+
+- the auto-generated pagination does not seem to work under all circumstances.
+  It works if you are not authenticated, it does not work when you are logged into Plone.
+  Reason unknown for now 🤷🏻
 
 ## Author
 
