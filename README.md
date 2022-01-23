@@ -1,4 +1,4 @@
-P# zopyx.typesense
+# zopyx.typesense
 
 ## What is zopyx.typesense
 
