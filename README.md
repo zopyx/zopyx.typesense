@@ -21,6 +21,10 @@ The reasons for using Typesense are
 - on-premise or Typesense cloud (commercial offering)
 
 
+
+https://user-images.githubusercontent.com/594239/150671560-a27e3dcb-ff4b-4173-9a5e-cd96095ad3b8.mp4
+
+
 ## Installation
 
 Add `zopyx.typesense` to your buildout, re-run buildout and install it within Plone.
