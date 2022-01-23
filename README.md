@@ -20,10 +20,10 @@ The reasons for using Typesense are
 - open-source
 - on-premise or Typesense cloud (commercial offering)
 
+## Requirements
 
-
-https://user-images.githubusercontent.com/594239/150671560-a27e3dcb-ff4b-4173-9a5e-cd96095ad3b8.mp4
-
+- Plone 6 (tested)
+- Plone 5.2 (untested, support to work for Dexterity-only sites)
 
 ## Installation
 
@@ -53,6 +53,14 @@ The `Typesense administration` within the Plone controlpanel:
 ## Search UI
 
 ![Typesense search](typesense-search.png)
+
+The search UI is auto-generated from a minimal HTML template which defines the
+basic layout together with the widgets to be used [see
+here](src/zopyx/typesense/browser/search.pt).
+
+The integration of the template with the Typesense UI generator is impleted
+through some lines of Javascript code in
+[src/zopyx/typesense/browser/static/app.js](src/zopyx/typesense/browser/static/app.js).
 
 ## Transactions and eventual consistency
 
