@@ -2,8 +2,9 @@ P# zopyx.typesense
 
 ## What is zopyx.typesense
 
-`zopyx.typesense` in an add-on for Plone 6 that provides an integration with the
-search engine [Typesense](https://typesense.org/). The functionality is similar with `collective.solr`.
+`zopyx.typesense` in an add-on for Plone 6 that provides an integration with
+the search engine [Typesense](https://typesense.org/). The functionality is
+similar with `collective.solr`.
 
 ![Typesense Features](typesense-features.png)
 
@@ -35,8 +36,11 @@ https://user-images.githubusercontent.com/594239/150671828-f6a4c993-6afa-440b-af
 
 Add `zopyx.typesense` to your buildout, re-run buildout and install it within Plone.
 
-For Typesense installation, please check the installation docs of Typesense (either for
-installation through Docker or through the standalone binary).
+For Typesense installation, please check the installation docs of Typesense
+(either for installation through Docker or through the standalone binary).
+
+There is no public release at this time. You need to install `zopyx.typesense`
+using `mr.developer` as source checkout from Github.
   
 ## Configuration
 
@@ -44,11 +48,14 @@ The `Typesense settings` within the Plone controlpanel:
 
 ![Typesense settings](typesense-settings.png)
 
-- `Name of Typesense collection` - must be a unique name for the document pool of your Plone site
+- `Name of Typesense collection` - must be a unique name for the document pool
+  of your Plone site
 - `API Key` - the administrative API key (as configured in Typesense) 
 - `Search API Key` - the search API key (as configured in Typesense) 
-- `URL of Typesense node X` - the URL(s) of the Typesense node or Typesense cluster
-- `Collection schema` - the schema of the Typesense collecton (see Typesense docs)
+- `URL of Typesense node X` - the URL(s) of the Typesense node or Typesense
+  cluster
+- `Collection schema` - the schema of the Typesense collecton (see Typesense
+  docs)
 
 The `Typesense administration` within the Plone controlpanel:
 
@@ -76,9 +83,10 @@ Typesense with a short delay.
 
 ## Cavecats
 
-`zopyx.typesense` does not integrate (by-design) with Plone's security and access model.
-The main purpose of `zopyx.typesense` is to act as a search engine for public sites.
-So it is recommended at this time to index only public content.
+`zopyx.typesense` does not integrate (by-design) with Plone's security and
+access model.  The main purpose of `zopyx.typesense` is to act as a search
+engine for public sites.  So it is recommended at this time to index only
+public content.
 
 ## Author
 
