@@ -20,6 +20,12 @@ The reasons for using Typesense are
 - open-source
 - on-premise or Typesense cloud (commercial offering)
 
+
+
+https://user-images.githubusercontent.com/594239/150671828-f6a4c993-6afa-440b-af76-66de5ff94fe5.mp4
+
+
+
 ## Requirements
 
 - Plone 6 (tested)
