@@ -97,4 +97,4 @@ public content.
 
 ## Author
 
-Andreas Jung, info@zopyx.com, www.zopyx.com
+Andreas Jung | info@zopyx.com | www.zopyx.com
