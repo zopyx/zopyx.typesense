@@ -6,7 +6,7 @@ from setuptools import setup
 
 
 long_description = '\n\n'.join([
-    open('README.rst').read(),
+    open('README.md').read(),
     open('CONTRIBUTORS.rst').read(),
     open('CHANGES.rst').read(),
 ])
@@ -14,7 +14,7 @@ long_description = '\n\n'.join([
 
 setup(
     name='zopyx.typesense',
-    version='1.0a1',
+    version='0.1.0',
     description="Typesense integration with Plone 6",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -22,13 +22,15 @@ setup(
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
-        "Framework :: Plone :: 4.3",
+        "Framework :: Plone :: 5.2",
+        "Framework :: Plone :: 6.0",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
-    keywords='Python Plone CMS',
+    keywords='Python Plone CMS search fulltext indexing factedsearch',
     author='Andreas Jung',
     author_email='info@zopyx.com',
     url='https://github.com/collective/zopyx.typesense',
