@@ -18,10 +18,20 @@ The reasons for using Typesense are
 - very fast search
 - extensible and customizable
 - scalable (through a Typesense cluster)
+- federated search over multiple collections (aka Plone sites)
 - open-source
 - on-premise or Typesense cloud (commercial offering)
 
 Click [here](https://user-images.githubusercontent.com/594239/150671828-f6a4c993-6afa-440b-af76-66de5ff94fe5.mp4) for an intro video.
+
+### zopyx.typesense is not
+
+- a replacement of the ZCatalog/portal_catalog (document changes are pushed to
+  Typesense as an independent entity completely decoupled from Plone's
+  portal_catalog)
+- a drop-in replacement of the Plone search. zopyx.typesense comes with its own
+  configurable auto-generated search UI
+
 
 
 ## Requirements
