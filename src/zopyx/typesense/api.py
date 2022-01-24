@@ -71,8 +71,11 @@ class API:
         if not review_state in review_states_to_index:
             # don't index content without proper review state
             return 
-
         
+        # language
+        default_language = api.portal.get_default_language()
+        language = obj.Language() or default_language
+
         document_id = self.document_id(obj)
 
         d = dict()
@@ -80,7 +83,7 @@ class API:
         d["id_original"] = obj.getId()
         d["title"] = obj.Title()
         d["description"] = obj.Description()
-        d["language"] = obj.Language()
+        d["language"] = language
         d["portal_type"] = obj.portal_type
         d["review_state"] = review_state
         d["path"] = self.document_path(obj)
