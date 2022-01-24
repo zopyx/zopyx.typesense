@@ -34,10 +34,14 @@ class API:
     def index_document(self, obj):
         """Index document `obj`"""
 
+        data = self.indexable_content(obj)
+        if not data:
+            return 
+
         ts_index(
             ts_client=self.get_typesense_client(),
             collection=self.collection,
-            data=self.indexable_content(obj),
+            data=data,
             document_id=self.document_id(obj),
             document_path=self.document_path(obj),
         )
@@ -55,11 +59,20 @@ class API:
     def indexable_content(self, obj):
         """Return dict with indexable content for `obj`"""
 
+        # review states
+        review_states_to_index = api.portal.get_registry_record("review_states_to_index", ITypesenseSettings)
+        review_states_to_index = [s.strip() for s in review_states_to_index.split("\n") if s.strip()]
+
         try:
             review_state = api.content.get_state(obj)
         except:
             review_state = ""
 
+        if not review_state in review_states_to_index:
+            # don't index content without proper review state
+            return 
+
+        
         document_id = self.document_id(obj)
 
         d = dict()

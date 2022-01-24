@@ -8,6 +8,7 @@ from zopyx.typesense import _
 
 
 from .config import COLLECTION_SCHEMA_JSON
+from .config import DEFAULT_REVIEW_STATES_TO_INDEX
 
 
 class IBrowserLayer(IDefaultBrowserLayer):
@@ -32,6 +33,7 @@ class ITypesenseSettings(Interface):
     search_api_key = schema.TextLine(
         title=_("Typesense search API key"), default="please change me", required=True
     )
+
     node1_url = schema.TextLine(
         title=_("URL of Typesense node 1"),
         description=_("URL node 1"),
@@ -49,6 +51,10 @@ class ITypesenseSettings(Interface):
         title=_("URL of Typesense node 3"),
         description=_("URL node 3"),
         required=False,
+    )
+
+    review_states_to_index = schema.Text(
+        title=_("Review states to index "), default=DEFAULT_REVIEW_STATES_TO_INDEX, required=True
     )
 
     collection_schema = schema.Text(

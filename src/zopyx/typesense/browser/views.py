@@ -119,7 +119,7 @@ class View(BrowserView):
             plone.api.content.transition(doc, "publish")
 
         plone.api.portal.show_message(
-            _("Sample content import into folder /news"),
+            _("Sample content imported into folder /news"),
             request=self.request,
         )
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
