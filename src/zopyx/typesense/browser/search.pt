@@ -46,7 +46,7 @@
             window.require = undefined;
         </script>
         <script src="https://cdn.jsdelivr.net/algoliasearch/3.32.0/algoliasearchLite.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.5.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.37.3"></script>
         <script src="${portal_url}/++resource++zopyx.typesense/typesense-instantsearch-adapter.min.js"></script>
         <script src="${portal_url}/++resource++zopyx.typesense/app.js"></script>
         <link rel="stylesheet" type="text/css" href="${portal_url}/++resource++zopyx.typesense/search.css"/>
