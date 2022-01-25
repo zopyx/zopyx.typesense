@@ -1,0 +1,57 @@
+<html>
+    <body>
+
+        <h1 class="documentFirstHeading">Typesense Search</h1>
+
+        <div class="container">
+            <div class="search-panel">
+              <div class="search-panel__filters">
+                <b>Portal Type</b>
+                <div id="portal-type"></div>
+                <br/>
+                <b>Review State</b>
+                <div id="review-state"></div>
+                <br/>
+                <b>Language</b>
+                <div id="language"></div>
+                <br/>
+                <b>Subject</b>
+                <div id="subject"></div>
+                <br/>
+              </div>
+
+              <div class="search-panel__results">
+                <div id="searchbox"></div>
+                <div id="stats"></div>
+                <div id="hits-per-page"></div>
+                <div id="hits"></div>
+              </div>
+            </div>
+
+            <div id="ts-pagination"></div>
+        </div>
+
+        <script type="text/javascript" >PORTAL_URL = "http://dev2.zopyx.de:8081/Plone"</script>
+
+        <!-- unfuck require.js -->
+        <script>
+            window.__define = window.define;
+            window.__require = window.require;
+            window.define = undefined;
+            window.require = undefined;
+        </script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/algoliasearch/3.32.0/algoliasearchLite.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.37.3"></script>
+        <script src="http://dev2.zopyx.de:8081/Plone/++resource++zopyx.typesense/typesense-instantsearch-adapter.min.js"></script>
+        <script src="http://dev2.zopyx.de:8081/Plone/++resource++zopyx.typesense/app.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://dev2.zopyx.de:8081/Plone/++resource++zopyx.typesense/search.css"/>
+        <script>
+            window.define = window.__define;
+            window.require = window.__require;
+            window.__define = undefined;
+            window.__require = undefined;
+        </script>
+
+    </body>
+</html>
