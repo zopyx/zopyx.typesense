@@ -65,9 +65,8 @@ search.addWidgets([
                 <span class="hit-review_state">{{#helpers.highlight}}{ "attribute": "review_state" }{{/helpers.highlight}}</span> |
                 <span class="hit-created">{{#helpers.highlight}}{ "attribute": "created" }{{/helpers.highlight}}</span> |
                 <span class="hit-modified">{{#helpers.highlight}}{ "attribute": "modified" }{{/helpers.highlight}}</span>
-                <div class="hit-text">{{#helpers.highlight}}{ "attribute": "text" }{{/helpers.highlight}}</div>
-
             </div>
+            <div class="hit-text">{{#helpers.highlight}}{ "attribute": "text" }{{/helpers.highlight}}</div>
           </div>
 `,
         },
@@ -75,9 +74,11 @@ search.addWidgets([
     instantsearch.widgets.pagination({
         container: '#pagination',
         scrollTo: "header",
+        root: "nav",
         cssClasses: {
-            list: 'd-flex flex-row justify-content-end',
-            item: 'px-2 d-block',
+            root: "navigation",
+            list: 'pagination ',
+            item: 'page-item ',
             link: 'text-decoration-none',
             disabledItem: 'text-muted',
             selectedItem: 'fw-bold text-primary',
@@ -91,6 +92,7 @@ search.addWidgets([
     instantsearch.widgets.refinementList({
         container: '#portal-type',
         attribute: 'portal_type',
+        showMore: false
     }),
     instantsearch.widgets.refinementList({
         container: '#subject',

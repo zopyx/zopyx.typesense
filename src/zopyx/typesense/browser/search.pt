@@ -25,16 +25,20 @@
                 <br/>
               </div>
 
+
               <div class="search-panel__results">
                 <div id="searchbox"></div>
-                <div id="stats"></div>
-                <div id="hits-per-page"></div>
-                <div id="pagination"></div>
+                <div id="search-control">
+                    <div id="stats"></div>
+                    <div id="hits-per-page"></div>
+                    <div id="pagination"></div>
+                </div>
                 <div id="hits"></div>
               </div>
             </div>
 
         </div>
+
 
         <script type="text/javascript" >PORTAL_URL = "${portal_url}"</script>
 

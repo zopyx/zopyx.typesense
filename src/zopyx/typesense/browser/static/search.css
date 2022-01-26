@@ -1,6 +1,5 @@
 .ais-SearchBox {
-    padding-top: 2em;
-    padding-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 .ais-RefinementList-count:before {
@@ -12,7 +11,9 @@
 }
 
 .ais-SearchBox-input {
-    border: 1px solid #444;
+    border: 1px solid #888;
+    border-radius: 0.5em;
+    font-size: 1.25em;
 }
 
 .ais-RefinementList-label {
@@ -27,13 +28,18 @@
 .ais-RefinementList-item {
 }   
 
+.hit-meta {
+    font-size: 0.9em;
+    color: #aaa;
+}
 
 .hit {
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
 }
+
 .hit-text {
     margin-top: 0.25em;
-    font-size: 0.8em;
+    font-size: 0.9em;
     font-style: italic;
 }
 
@@ -43,15 +49,6 @@
 }
 
 
-/*
-.ais-Pagination-item,
-.ais-Pagination-link
-{
-    color: red;
-    display: inline-block;
-    width: 2em;
-}
-*/
 .header {
   display: flex;
   align-items: center;
@@ -108,9 +105,21 @@
   margin-bottom: 2rem;
 }
 
-#pagination {
-  margin: 2rem auto;
-  text-align: center;
+#search-control {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+
+.ais-Pagination-item {
+    margin-right: 0.25em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    border: 1px solid #ddd;
+    border-radius: 0.25em;
+    font-size: 0.9em;
 }
 
 .ais-Hits-item {
