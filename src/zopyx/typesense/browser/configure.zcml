@@ -81,13 +81,6 @@
         layer="zopyx.typesense.interfaces.IBrowserLayer"
         template="search.pt"
     />
-    <browser:page
-        name="typesense-search2"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        permission="zope2.View"
-        layer="zopyx.typesense.interfaces.IBrowserLayer"
-        template="search2.pt"
-    />
 
     <browser:page
         name="typesense-search-settings"

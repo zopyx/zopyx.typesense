@@ -74,6 +74,7 @@ search.addWidgets([
     }),
     instantsearch.widgets.pagination({
         container: '#pagination',
+        scrollTo: "header",
         cssClasses: {
             list: 'd-flex flex-row justify-content-end',
             item: 'px-2 d-block',
