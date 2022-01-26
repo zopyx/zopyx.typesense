@@ -28,7 +28,7 @@
               </div>
             </div>
 
-            <div id="ts-pagination"></div>
+            <div id="pagination"></div>
         </div>
 
         <script type="text/javascript" >PORTAL_URL = "http://dev2.zopyx.de:8081/Plone"</script>
