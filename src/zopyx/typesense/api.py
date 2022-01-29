@@ -3,6 +3,7 @@ from datetime import datetime
 from plone import api
 from plone.app.textfield import RichText
 from plone.dexterity.utils import iterSchemata
+from plone.app.contenttypes.indexers import SearchableText
 from zope.interface.interfaces import ComponentLookupError
 from zope.schema import getFields
 from zope.component import getAdapter
@@ -59,7 +60,6 @@ class API:
     def indexable_content(self, obj):
         """Return dict with indexable content for `obj`"""
 
-
         # review states
         review_states_to_index = api.portal.get_registry_record("review_states_to_index", ITypesenseSettings)
         review_states_to_index = [s.strip() for s in review_states_to_index.split("\n") if s.strip()]
@@ -98,29 +98,36 @@ class API:
         d["uid"] = obj.UID()
         d["document_type_order"] = 0
         d["_indexed"] = datetime.utcnow().isoformat()
+        
 
-        # indexable text content
-        indexable_text = []
+        use_searchabletext = api.portal.get_registry_record("use_searchabletext", ITypesenseSettings)
+        if use_searchabletext:
+            # use Plone's SearchableText implemenation
+            indexable_text = SearchableText(obj)
+        else:
+            # or our own indexable text content
+            indexable_text = []
 
-        fields = {}
-        schemes = iterSchemata(obj)
-        for schema in schemes:
-            fields.update(getFields(schema))
+            fields = {}
+            schemes = iterSchemata(obj)
+            for schema in schemes:
+                fields.update(getFields(schema))
 
-        for name, field in fields.items():
-            if isinstance(field, RichText):
-                text = getattr(obj, name)
-                if isinstance(text, str):
+            for name, field in fields.items():
+                if isinstance(field, RichText):
+                    text = getattr(obj, name)
+                    if isinstance(text, str):
+                        indexable_text.append(text)
+                    else:
+                        if text and text.output:
+                            indexable_text.append(html2text(text.output))
+                elif isinstance(field, (zope.schema.Text, zope.schema.TextLine)):
+                    text = getattr(obj, name)
                     indexable_text.append(text)
-                else:
-                    if text and text.output:
-                        indexable_text.append(html2text(text.output))
-            elif isinstance(field, (zope.schema.Text, zope.schema.TextLine)):
-                text = getattr(obj, name)
-                indexable_text.append(text)
 
-        indexable_text = [text for text in indexable_text if text]
-        indexable_text = " ".join(indexable_text)
+            indexable_text = [text for text in indexable_text if text]
+            indexable_text = " ".join(indexable_text)
+
         d["text"] = indexable_text
 
         # Check if there is an adapter for the given content type interface

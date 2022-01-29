@@ -67,6 +67,7 @@ class ITypesenseSettings(Interface):
         title=_("Collection schema"), default=COLLECTION_SCHEMA_JSON, required=True
     )
 
+    use_searchabletext = schema.Bool(title=_("Use SearchableText for indexing as default"), default=False)
 
 class ITypesenseIndexDataProvider(Interface):
     """Adapter for custom indexing"""
