@@ -58,6 +58,8 @@ setup(
         'html-text',
         'huey',
         'tika',
+        'typer',
+        'furl',
     ],
     extras_require={
         'test': [
