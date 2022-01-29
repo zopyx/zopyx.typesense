@@ -11,4 +11,10 @@
         factory=".document.DocumentIndexer"
         />
 
+    <adapter
+        for="plone.app.contenttypes.interfaces.IFile"
+        provides="zopyx.typesense.interfaces.ITypesenseIndexDataProvider"
+        factory=".file.FileIndexer"
+        />
+
 </configure>

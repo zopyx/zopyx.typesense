@@ -53,6 +53,12 @@ class ITypesenseSettings(Interface):
         required=False,
     )
 
+    tika_url = schema.TextLine(
+        title=_("URL of Tika server for indexing office formats"),
+        description=_("URL Tika server"),
+        required=False,
+    )
+
     review_states_to_index = schema.Text(
         title=_("Review states to index "), default=DEFAULT_REVIEW_STATES_TO_INDEX, required=True
     )

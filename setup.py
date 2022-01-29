@@ -57,6 +57,7 @@ setup(
         'zopyx.ipsumplone',
         'html-text',
         'huey',
+        'tika',
     ],
     extras_require={
         'test': [
