@@ -1,3 +1,4 @@
+import os
 import typer
 import furl
 import typesense
@@ -13,11 +14,14 @@ DEFAULT_SCHEMA = {
   ]
 }
 
+DEFAULT_URL = os.environ.get("TS_URL")
+DEFAULT_API_KEY= os.environ.get("TS_API_KEY")
+
 
 @app.command()
 def list(
-        url=typer.Option(...),
-        api_key=typer.Option(...)):
+        url=typer.Option(DEFAULT_URL),
+        api_key=typer.Option(DEFAULT_API_KEY)):
 
     f = furl.furl(url)
     nodes = [dict(host=f.host, port=f.port, protocol=f.scheme)]
@@ -29,8 +33,8 @@ def list(
 @app.command()
 def create(
         collection: str,
-        url=typer.Option(...),
-        api_key=typer.Option(...)):
+        url=typer.Option(DEFAULT_URL),
+        api_key=typer.Option(DEFAULT_API_KEY)):
 
     f = furl.furl(url)
     nodes = [dict(host=f.host, port=f.port, protocol=f.scheme)]
@@ -43,18 +47,14 @@ def create(
 @app.command()
 def drop(
         collection: str,
-        url=typer.Option(...),
-        api_key=typer.Option(...)):
+        url=typer.Option(DEFAULT_URL),
+        api_key=typer.Option(DEFAULT_API_KEY)):
 
     f = furl.furl(url)
     nodes = [dict(host=f.host, port=f.port, protocol=f.scheme)]
     client = typesense.Client(dict(api_key=api_key, nodes=nodes))
 
     client.collections[collection].delete()
-
-@app.command()
-def delete(username: str):
-    typer.echo(f"Deleting user: {username}")
 
 if __name__ == "__main__":
     app()
