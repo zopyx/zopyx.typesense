@@ -100,25 +100,30 @@ class View(BrowserView):
 
         portal = plone.api.portal.get()
 
+        LOG.info("Deleting folder: new")
         if "news" in portal.objectIds():
             plone.api.content.delete(portal.news)
 
+        LOG.info("Creating folder: new")
         data_folder = plone.api.content.create(
             container=portal, type="Folder", id="news", title="news"
         )
 
         fn = os.path.dirname(__file__) + "/de-news.json"
         news = json.load(open(fn))
-        for n in news:
-            text = RichTextValue(n["text"], "text/html", "text/html")
-            doc = plone.api.content.create(
-                type="News Item",
-                container=data_folder,
-                title=n["title"],
-                text=text,
-                language="de",
-            )
-            plone.api.content.transition(doc, "publish")
+
+        with progressbar.ProgressBar(max_value=len(news)) as pg:
+            for i, n in enumerate(news):
+                pg.update(i)
+                text = RichTextValue(n["text"], "text/html", "text/html")
+                doc = plone.api.content.create(
+                    type="News Item",
+                    container=data_folder,
+                    title=n["title"],
+                    text=text,
+                    language="de",
+                )
+                plone.api.content.transition(doc, "publish")
 
         plone.api.portal.show_message(
             _("Sample content imported into folder /news"),

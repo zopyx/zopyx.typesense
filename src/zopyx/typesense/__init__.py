@@ -42,7 +42,8 @@ consumer_options = {
     "scheduler_interval": 1,
     "worker_type": "thread",
     "workers": 4,
-    "logfile": "huey.log"
+    "logfile": "huey.log",
+    "verbose": False,
 }
 
 h = load_huey("zopyx.typesense.huey_tasks.huey")

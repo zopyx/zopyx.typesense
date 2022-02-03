@@ -27,5 +27,4 @@ def ts_unindex(ts_client, collection, document_id, document_path):
     try:
         ts_client.collections[collection].documents[document_id].delete()
     except typesense.exceptions.ObjectNotFound:
-        raise
-        LOG.error(f"Collection {collection} does not seem to exist")
+        pass
