@@ -8,6 +8,7 @@ import gzip
 import os
 import plone.api
 import time
+import progressbar
 
 
 class View(BrowserView):
@@ -53,7 +54,7 @@ class View(BrowserView):
         ts_api = API()
         return ts_api.collection_stats()
 
-    def reindex_all(self, batch_size=100):
+    def reindex_all(self):
         """Reindex all"""
 
         ts = time.time()
@@ -64,11 +65,12 @@ class View(BrowserView):
         catalog = plone.api.portal.get_tool("portal_catalog")
         brains = catalog()
         num_brains = len(list(brains))
-        for i, brain in enumerate(brains):
-            if i % batch_size == 0:
-                LOG.info(f"{i + 1}/{num_brains} objects indexed")
-            obj = brain.getObject()
-            ts_api.index_document(obj)
+
+        with progressbar.ProgressBar(max_value=num_brains) as pg:
+            for i, brain in enumerate(brains):
+                pg.update(i)
+                obj = brain.getObject()
+                ts_api.index_document(obj)
 
         duration = time.time() - ts
         LOG.info(
