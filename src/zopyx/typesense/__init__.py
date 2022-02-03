@@ -13,6 +13,23 @@ LOG = get_logger("zopyx.typesense")
 
 # Start huey consumer as thread
 
+import signal
+from huey.consumer import Consumer
+
+# monkey-patch huey
+def my_set_signal_handlers(self):
+    """ Ignore signal errors from Huey """
+    try:
+        signal.signal(signal.SIGTERM, self._handle_stop_signal)
+        signal.signal(signal.SIGINT, signal.default_int_handler)
+        if hasattr(signal, 'SIGHUP'):
+            signal.signal(signal.SIGHUP, self._handle_restart_signal)
+    except ValueError:
+        LOG.warning("Huey signal exception ignored")
+
+Consumer._set_signal_handlers = my_set_signal_handlers
+
+
 config = {
     "backoff": 1.15,
     "check_worker_health": True,
