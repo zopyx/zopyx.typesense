@@ -48,3 +48,12 @@ def update_content(context, event):
     ts_api.index_document(context)
     duration = (time.time() - ts) * 1000
     LOG.debug(f"Indexing {context.getId(), context.absolute_url(1)}, {duration:.3f} ms")
+
+def workflow_transition(context, event):
+    transition = event.transition.getId()
+    review_states_to_index = api.portal.get_registry_record("review_states_to_index", ITypesenseSettings)
+    if transition in review_states_to_index:
+        update_content(context, None)
+    else:
+        remove_content(context, None)
+

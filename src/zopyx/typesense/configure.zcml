@@ -36,6 +36,12 @@
     handler=".indexer.update_content"
     />
 
+  <subscriber
+    for="plone.dexterity.interfaces.IDexterityContent
+         Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+    handler=".indexer.workflow_transition"
+    />
+
   <genericsetup:registerProfile
       name="default"
       title="zopyx.typesense"
