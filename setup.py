@@ -60,6 +60,7 @@ setup(
         'tika',
         'typer',
         'furl',
+        'progressbar2',
     ],
     extras_require={
         'test': [
