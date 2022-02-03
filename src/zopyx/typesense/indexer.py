@@ -53,7 +53,10 @@ def workflow_transition(context, event):
     """ Index/unindex content upon workflow transition """
 
     review_state = api.content.get_state(context)
-    review_states_to_index = api.portal.get_registry_record("review_states_to_index", ITypesenseSettings)
+    try:
+        review_states_to_index = api.portal.get_registry_record("review_states_to_index", ITypesenseSettings)
+    except KeyError:
+        return 
     if not review_state or review_state in review_states_to_index:
         update_content(context, None)
     else:
