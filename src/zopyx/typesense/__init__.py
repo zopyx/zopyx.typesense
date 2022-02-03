@@ -30,7 +30,7 @@ def my_set_signal_handlers(self):
 Consumer._set_signal_handlers = my_set_signal_handlers
 
 
-config = {
+consumer_options = {
     "backoff": 1.15,
     "check_worker_health": True,
     "extra_locks": None,
@@ -42,10 +42,15 @@ config = {
     "scheduler_interval": 1,
     "worker_type": "thread",
     "workers": 4,
+    "logfile": "huey.log"
 }
 
 h = load_huey("zopyx.typesense.huey_tasks.huey")
-consumer = h.create_consumer(**config)
+
+config = ConsumerConfig(**consumer_options)
+config.validate()
+config.setup_logger()
+consumer = h.create_consumer(**config.values)
 
 th = threading.Thread(target=consumer.run)
 th.start()
