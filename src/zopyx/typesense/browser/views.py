@@ -156,3 +156,35 @@ class View(BrowserView):
 
         self.request.response.setHeader("content-type", "application/json")
         return json.dumps(settings)
+
+    def import_demo_content2(self):
+
+        from plone.app.textfield.value import RichTextValue
+
+        portal = plone.api.portal.get()
+
+        if "demo" in portal.objectIds():
+            plone.api.content.delete(portal.news)
+
+        data_folder = plone.api.content.create(
+            container=portal, type="Folder", id="demo", title="demo"
+        )
+
+        fn = os.path.dirname(__file__) + "/demo.json"
+        news = json.load(open(fn))
+        for n in news:
+            text = RichTextValue(n["text"], "text/html", "text/html")
+            doc = plone.api.content.create(
+                type="News Item",
+                container=data_folder,
+                title=n["title"],
+                text=text,
+                language="de",
+            )
+            plone.api.content.transition(doc, "publish")
+
+        plone.api.portal.show_message(
+            _("Sample content imported into folder /demo"),
+            request=self.request,
+        )
+        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
