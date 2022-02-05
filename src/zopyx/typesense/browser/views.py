@@ -150,6 +150,16 @@ class View(BrowserView):
         ts_api = API()
         return ts_api.cluster_data()
 
+    def current_path(self):
+        """ Return the current folder path relativ to the Plone site """
+
+        portal_path = plone.api.portal.get().absolute_url(1)
+        context_path = self.context.absolute_url(1)
+        context_path = context_path.replace(portal_path, "")
+        if not context_path.startswith("/"):
+            context_path = "/" + context_path
+        return context_path
+
     def search_settings(self):
         """Typesense settings returned as JSON for dynamic search UI"""
 

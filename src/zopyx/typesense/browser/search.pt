@@ -41,6 +41,7 @@
 
 
         <script type="text/javascript" >PORTAL_URL = "${portal_url}"</script>
+        <script type="text/javascript" >CURRENT_PATH = "${view/current_path}"</script>
 
         <!-- unfuck require.js -->
         <script>

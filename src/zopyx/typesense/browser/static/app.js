@@ -14,6 +14,8 @@ function getSearchSettings() {
 
 ts_settings = JSON.parse(getSearchSettings());
 
+var filterBy = `all_paths:=${CURRENT_PATH}`;
+
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     server: {
         apiKey: ts_settings["api_key"],
@@ -24,7 +26,8 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     //  queryBy is required.
     //  filterBy is managed and overridden by InstantSearch.js. To set it, you want to use one of the filter widgets like refinementList or use the `configure` widget.
     additionalSearchParameters: {
-        queryBy: ts_settings["query_by"]
+        queryBy: ts_settings["query_by"],
+        filterBy: filterBy
     },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
@@ -59,7 +62,7 @@ search.addWidgets([
         templates: {
             item: `
           <div class="hit">
-            <div class="hit-title"> <a class="hit-link" href="{{path}}\">{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</a></div>
+            <div class="hit-title"> <a class="hit-link" href="${PORTAL_URL}/{{path}}\">{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</a></div>
             <div class="hit-meta">
                 <span class="hit-portal_type">{{#helpers.highlight}}{ "attribute": "portal_type" }{{/helpers.highlight}}</span> |
                 <span class="hit-review_state">{{#helpers.highlight}}{ "attribute": "review_state" }{{/helpers.highlight}}</span> |
