@@ -125,3 +125,7 @@
 .ais-Hits-item {
     width: 100% !important;
 }
+
+.ais-Hits-list {
+    list-style-type: circle;
+}
