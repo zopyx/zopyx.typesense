@@ -15,9 +15,9 @@
     <browser:page
         name="typesense-indexed-content"
         for="plone.dexterity.interfaces.IDexterityContent"
+        permission="cmf.ModifyPortalContent"
         class=".views.View"
         template="indexed_content.pt"
-        permission="zope2.View"
         layer="zopyx.typesense.interfaces.IBrowserLayer"
     />
     <browser:page
