@@ -82,6 +82,25 @@ The integration of the template with the Typesense UI generator is impleted
 through some lines of Javascript code in
 [src/zopyx/typesense/browser/static/app.js](src/zopyx/typesense/browser/static/app.js).
 
+
+## Views
+
+- `@@typesense-search` renders the main (auto-generated) search form. This view can be applied on
+  any folder level. This view applied on a folder implies a filter by subpath (only indexed content
+  with the given folder will be searched).
+
+
+- `@@typesense-settings`  renders the Plone control panel of Typesense
+
+- `@@typesense-settings`  renders the Plone control panel of Typesense
+
+- `@@typesense-admin` renders the administration control panel for Typesense
+
+- `@@typesense-indexed-content` applied on any arbitrary content object will
+  display all data indexed for the given content object
+
+
+
 ## Transactions and eventual consistency
 
 All indexing/unindexing operations happen asyncronously to Plone and outside
