@@ -185,7 +185,8 @@ class API:
             items = "/".join(document_path_items[:i])
             if not items.startswith("/"):
                 items = "/" + items
-            all_paths.append(items)
+            if not items in all_paths:
+                all_paths.append(items)
         return all_paths
         
 
