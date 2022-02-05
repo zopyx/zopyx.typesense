@@ -14,7 +14,9 @@ function getSearchSettings() {
 
 ts_settings = JSON.parse(getSearchSettings());
 
-var filterBy = `all_paths:=${CURRENT_PATH}`;
+var filterBy = '';
+if (CURRENT_PATH.length > 1) // root = "/"
+    filterBy = `all_paths:=${CURRENT_PATH}`;
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     server: {

@@ -183,8 +183,9 @@ class API:
         all_paths = list()
         for i in range(len(document_path_items) + 1):
             items = "/".join(document_path_items[:i])
-            if items:
-                all_paths.append(items)
+            if not items.startswith("/"):
+                items = "/" + items
+            all_paths.append(items)
         return all_paths
         
 
