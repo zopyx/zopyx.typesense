@@ -22,6 +22,7 @@ COLLECTION_SCHEMA = {
         {"name": "expires", "type": "string", "facet": False},
         {"name": "document_type_order", "type": "int32"},
         {"name": "_indexed", "type": "string"},
+        {"name": "all_paths", "type": "string[]", "facet": False},
     ],
     "default_sorting_field": "document_type_order",
     "attributesToSnippet": [

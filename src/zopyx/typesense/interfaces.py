@@ -27,11 +27,11 @@ class ITypesenseSettings(Interface):
     )
 
     api_key = schema.TextLine(
-        title=_("Typesense Admin API key"), default="please change me", required=True
+        title=_("Typesense Admin API key"), default="", required=True
     )
 
     search_api_key = schema.TextLine(
-        title=_("Typesense search API key"), default="please change me", required=True
+        title=_("Typesense search API key"), default="", required=True
     )
 
     node1_url = schema.TextLine(

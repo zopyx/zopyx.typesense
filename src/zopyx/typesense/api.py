@@ -90,6 +90,7 @@ class API:
         d["portal_type"] = obj.portal_type
         d["review_state"] = review_state
         d["path"] = self.document_path(obj)
+        d["all_paths"] = self.document_path_items(obj)
         d["created"] = obj.created().ISO8601()
         d["modified"] = obj.modified().ISO8601()
         d["effective"] = obj.effective().ISO8601()
@@ -98,7 +99,6 @@ class API:
         d["uid"] = obj.UID()
         d["document_type_order"] = 0
         d["_indexed"] = datetime.utcnow().isoformat()
-        
 
         use_searchabletext = api.portal.get_registry_record("use_searchabletext", ITypesenseSettings)
         if use_searchabletext:
@@ -174,6 +174,19 @@ class API:
         rel_path = obj_path.replace(site_path, "")
         rel_path = rel_path.lstrip("/")
         return rel_path
+
+    def document_path_items(self, obj):
+        """ Return all possible prefix path components of the given object """
+
+        document_path = self.document_path(obj)
+        document_path_items = document_path.split("/")
+        all_paths = list()
+        for i in range(len(document_path_items) + 1):
+            items = "/".join(document_path_items[:i])
+            if items:
+                all_paths.append(items)
+        return all_paths
+        
 
     def exists_collection(self, collection):
         """Check if collection exists"""
