@@ -87,7 +87,6 @@ through some lines of Javascript code in
   any folder level. This view applied on a folder implies a filter by subpath (only indexed content
   with the given folder will be searched).
 
-
 - `@@typesense-settings`  renders the Plone control panel of Typesense
 
 - `@@typesense-settings`  renders the Plone control panel of Typesense
@@ -97,6 +96,25 @@ through some lines of Javascript code in
 - `@@typesense-indexed-content` applied on any arbitrary content object will
   display all data indexed for the given content object
 
+## Indexing integration
+
+`zopyx.typesense` integrates into Plone using the lifecycle event for content
+being added, updated, deleted (plus workflow changes). By default, `zopyx.typesense`
+indexes all metadata of all content objects (basically Dublin Core) plus the textual
+content of a content objects (title, description and the content of all `RichText` fields).
+Similar to Plone's `SearchableText` index, all textual content is being indexed within
+Typesense in the `text` field.
+
+It is possible to override the indexing behavior per-content-type using an
+indexing adapter implementing `ITypesenseIndexDataProvider`. See [here for an
+example](tree/master/src/zopyx/typesense/adapters).
+
+### Indexing binary content and office formats
+
+The indexer for the `File` content-type has optional support for indexing
+binary content or office formats using Apache [TIKA](https://tika.apache.org/).
+The server URL of the (optional) Tika server must be configured through the
+`Typesense` control panel.
 
 ## Transactions and eventual consistency
 
