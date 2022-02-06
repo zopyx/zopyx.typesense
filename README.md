@@ -107,7 +107,7 @@ Typesense in the `text` field.
 
 It is possible to override the indexing behavior per-content-type using an
 indexing adapter implementing `ITypesenseIndexDataProvider`. See [here for an
-example](tree/master/src/zopyx/typesense/adapters).
+example](https://github.com/zopyx/zopyx.typesense/blob/master/tree/master/src/zopyx/typesense/adaptersdapters).
 
 ### Indexing binary content and office formats
 
