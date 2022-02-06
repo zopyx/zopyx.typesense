@@ -25,6 +25,7 @@ COLLECTION_SCHEMA = {
         {"name": "all_paths", "type": "string[]", "facet": False},
     ],
     "default_sorting_field": "document_type_order",
+    "token_separators": ["-"],
     "attributesToSnippet": [
         "title",
         "description",
