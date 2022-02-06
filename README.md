@@ -32,8 +32,6 @@ Click [here](https://user-images.githubusercontent.com/594239/150671828-f6a4c993
 - a drop-in replacement of the Plone search. zopyx.typesense comes with its own
   configurable auto-generated search UI
 
-
-
 ## Requirements
 
 - Plone 6 (tested)
@@ -100,7 +98,6 @@ through some lines of Javascript code in
   display all data indexed for the given content object
 
 
-
 ## Transactions and eventual consistency
 
 All indexing/unindexing operations happen asyncronously to Plone and outside
@@ -110,13 +107,10 @@ Typesense with a short delay.
 ## Cavecats and known issues
 
 - `zopyx.typesense` does not integrate (by-design) with Plone's security and
-access model.  The main purpose of `zopyx.typesense` is to act as a search
-engine for public sites.  So it is recommended at this time to index only
-public content.
+  access model.  The main purpose of `zopyx.typesense` is to act as a search
+  engine for public sites.  So it is recommended at this time to index only
+  public content.
 
-- the auto-generated pagination does not seem to work under all circumstances.
-  It works if you are not authenticated, it does not work when you are logged into Plone.
-  Reason unknown for now 🤷🏻
 
 ## Author
 
