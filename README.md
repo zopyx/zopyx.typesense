@@ -149,8 +149,9 @@ Typesense with a short delay.
 
 ## Resources
 
-- [Typesense](https://typesense.org)
-
+- [Typesense website](https://typesense.org)
+- [Typesense API](https://typesense.org/docs/0.22.2/api)
+- [InstantSearch.js](https://www.algolia.com/doc/api-reference/widgets/js)
 
 ## Author
 
