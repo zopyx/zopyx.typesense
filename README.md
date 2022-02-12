@@ -127,6 +127,13 @@ your security requirements (usually, you don't want expose an internal service
 on public IP addresses, but localhost only). 
 
 
+## Bulk reindexing
+The Typesense admin control panel contains a button `Reindex all` which will 
+
+- create a new collection whose named is defined as <collection_name>-<current date>
+- submit all Dexterity content objects for reindexing
+- alias the new collection with the official name of the configured collection
+
 ## Transactions and eventual consistency
 
 All indexing/unindexing operations happen asyncronously to Plone and outside
