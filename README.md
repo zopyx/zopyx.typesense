@@ -114,7 +114,18 @@ example](https://github.com/zopyx/zopyx.typesense/blob/master/tree/master/src/zo
 The indexer for the `File` content-type has optional support for indexing
 binary content or office formats using Apache [TIKA](https://tika.apache.org/).
 The server URL of the (optional) Tika server must be configured through the
-`Typesense` control panel.
+`Typesense` control panel. The most simple approach for running Tika is by
+using Docker:
+
+```
+docker run -d -p 9998:9998 apache/tika
+```
+
+Configure Tika within the Typesense control panel as `http://localhost:9998`.
+Ensure that the configuration regarding host, IP address and port numbers fit
+your security requirements (usually, you don't want expose an internal service
+on public IP addresses, but localhost only). 
+
 
 ## Transactions and eventual consistency
 
