@@ -60,14 +60,19 @@ class ITypesenseSettings(Interface):
     )
 
     review_states_to_index = schema.Text(
-        title=_("Review states to index "), default=DEFAULT_REVIEW_STATES_TO_INDEX, required=True
+        title=_("Review states to index "),
+        default=DEFAULT_REVIEW_STATES_TO_INDEX,
+        required=True,
     )
 
     collection_schema = schema.Text(
         title=_("Collection schema"), default=COLLECTION_SCHEMA_JSON, required=True
     )
 
-    use_searchabletext = schema.Bool(title=_("Use SearchableText for indexing as default"), default=False)
+    use_searchabletext = schema.Bool(
+        title=_("Use SearchableText for indexing as default"), default=False
+    )
+
 
 class ITypesenseIndexDataProvider(Interface):
     """Adapter for custom indexing"""

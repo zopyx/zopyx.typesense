@@ -32,16 +32,18 @@ class API:
         collection = api.portal.get_registry_record("collection", ITypesenseSettings)
         return collection
 
-    def index_document(self, obj):
+    def index_document(self, obj, collection=None):
         """Index document `obj`"""
 
         data = self.indexable_content(obj)
         if not data:
-            return 
+            return
+
+        target_collection = collection if collection else self.collection
 
         ts_index(
             ts_client=self.get_typesense_client(),
-            collection=self.collection,
+            collection=target_collection,
             data=data,
             document_id=self.document_id(obj),
             document_path=self.document_path(obj),
@@ -61,8 +63,12 @@ class API:
         """Return dict with indexable content for `obj`"""
 
         # review states
-        review_states_to_index = api.portal.get_registry_record("review_states_to_index", ITypesenseSettings)
-        review_states_to_index = [s.strip() for s in review_states_to_index.split("\n") if s.strip()]
+        review_states_to_index = api.portal.get_registry_record(
+            "review_states_to_index", ITypesenseSettings
+        )
+        review_states_to_index = [
+            s.strip() for s in review_states_to_index.split("\n") if s.strip()
+        ]
 
         ignore_review_state = False
         try:
@@ -73,8 +79,8 @@ class API:
 
         if not ignore_review_state and not review_state in review_states_to_index:
             # don't index content without proper review state
-            return 
-        
+            return
+
         # language
         default_language = api.portal.get_default_language()
         language = obj.Language() or default_language
@@ -100,7 +106,9 @@ class API:
         d["document_type_order"] = 0
         d["_indexed"] = datetime.utcnow().isoformat()
 
-        use_searchabletext = api.portal.get_registry_record("use_searchabletext", ITypesenseSettings)
+        use_searchabletext = api.portal.get_registry_record(
+            "use_searchabletext", ITypesenseSettings
+        )
         if use_searchabletext:
             # use Plone's SearchableText implemenation
             indexable_text = SearchableText(obj)
@@ -176,7 +184,7 @@ class API:
         return rel_path
 
     def document_path_items(self, obj):
-        """ Return all possible prefix path components of the given object """
+        """Return all possible prefix path components of the given object"""
 
         document_path = self.document_path(obj)
         document_path_items = document_path.split("/")
@@ -188,7 +196,6 @@ class API:
             if not items in all_paths:
                 all_paths.append(items)
         return all_paths
-        
 
     def exists_collection(self, collection):
         """Check if collection exists"""
@@ -199,11 +206,13 @@ class API:
         ]
         return collection in all_collections
 
-    def create_collection(self):
+    def create_collection(self, temporary=False):
         """Create collection"""
 
         client = self.get_typesense_client()
         collection = self.collection
+        if temporary:
+            collection = collection + "-" + datetime.utcnow().isoformat()
 
         if self.exists_collection(collection):
             raise RuntimeError(f"Collection `{collection}` already exists")
@@ -216,11 +225,13 @@ class API:
 
         client.collections.create(collection_schema)
         LOG.info(f"Created Typesense collection {collection}")
+        return collection
 
-    def drop_collection(self):
+    def drop_collection(self, collection_name=None):
         """Drop collection"""
 
-        collection = self.collection
+        collection = collection_name if collection_name else self.collection
+
         if self.exists_collection(collection):
 
             client = self.get_typesense_client()
@@ -230,6 +241,28 @@ class API:
             except Exception as e:
                 LOG.exception(f"Could not delete Typesense collection {collection}")
                 raise
+
+    def alias_collection(self, collection, alias_collection):
+        """alias `alias_collection` to `collection`"""
+
+        client = self.get_typesense_client()
+        client.aliases.upsert(collection, dict(collection_name=alias_collection))
+        LOG.info(f"Creating alias '{collection}' for {alias_collection}")
+
+    def remove_obsolete_collections(self, collection_prefix):
+        """Remove obsolete collections with prefix `collection_prefix`"""
+
+        client = self.get_typesense_client()
+        all_collections = client.collections.retrieve()
+        names = [
+            d["name"]
+            for d in all_collections
+            if d["name"].startswith(collection_prefix + "-")
+        ]
+        names = sorted(names)
+        names_to_remove = names[:-1]
+        for name in names_to_remove:
+            self.drop_collection(name)
 
     def collection_stats(self):
         """Get collection statistics"""

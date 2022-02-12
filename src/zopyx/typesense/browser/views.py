@@ -59,8 +59,8 @@ class View(BrowserView):
 
         ts = time.time()
         ts_api = API()
-        ts_api.drop_collection()
-        ts_api.create_collection()
+        #        ts_api.drop_collection()
+        collection = ts_api.create_collection(temporary=True)
 
         catalog = plone.api.portal.get_tool("portal_catalog")
         brains = catalog()
@@ -70,7 +70,10 @@ class View(BrowserView):
             for i, brain in enumerate(brains):
                 pg.update(i)
                 obj = brain.getObject()
-                ts_api.index_document(obj)
+                ts_api.index_document(obj, collection)
+
+        ts_api.alias_collection(ts_api.collection, collection)
+        ts_api.remove_obsolete_collections(ts_api.collection)
 
         duration = time.time() - ts
         LOG.info(
@@ -151,7 +154,7 @@ class View(BrowserView):
         return ts_api.cluster_data()
 
     def current_path(self):
-        """ Return the current folder path relativ to the Plone site """
+        """Return the current folder path relativ to the Plone site"""
 
         portal_path = plone.api.portal.get().absolute_url(1)
         context_path = self.context.absolute_url(1)

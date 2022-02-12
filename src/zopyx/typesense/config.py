@@ -42,4 +42,4 @@ COLLECTION_SCHEMA = {
 COLLECTION_SCHEMA_JSON = json.dumps(COLLECTION_SCHEMA, indent=2)
 
 # CRLF separated list of review_states to be indexes
-DEFAULT_REVIEW_STATES_TO_INDEX= "published"
+DEFAULT_REVIEW_STATES_TO_INDEX = "published"
