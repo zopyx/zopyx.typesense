@@ -147,6 +147,10 @@ Typesense with a short delay.
   engine for public sites.  So it is recommended at this time to index only
   public content.
 
+## Resources
+
+- [Typesense](https://typesense.org)
+
 
 ## Author
 
