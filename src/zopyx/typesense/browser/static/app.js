@@ -51,6 +51,8 @@ search.addWidgets([
         showReset: false,
         placeholder: 'Search for... ',
         autofocus: false,
+        searchAsYouType: true,
+        showLoadingIndicator: true,
         cssClasses: {
             input: 'form-control form-control-sm border border-light text-dark',
             loadingIcon: 'stroke-primary',
