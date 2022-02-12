@@ -73,7 +73,10 @@ search.addWidgets([
                 <span class="hit-created">{{#helpers.highlight}}{ "attribute": "created" }{{/helpers.highlight}}</span> |
                 <span class="hit-modified">{{#helpers.highlight}}{ "attribute": "modified" }{{/helpers.highlight}}</span>
             </div>
+            <!--
             <div class="hit-text">{{#helpers.highlight}}{ "attribute": "text" }{{/helpers.highlight}}</div>
+            -->
+            <div class="hit-text">{{#helpers.snippet}}{ "attribute": "text" }{{/helpers.snippet}}</div>
           </div>
 `,
         },
