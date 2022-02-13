@@ -123,7 +123,7 @@ all textual content is being indexed within Typesense in the `text` field.
 
 It is possible to override the indexing behavior per-content-type using an
 indexing adapter implementing `ITypesenseIndexDataProvider`. See [here for an
-example](https://github.com/zopyx/zopyx.typesense/blob/master/tree/master/src/zopyx/typesense/adaptersdapters).
+example](https://github.com/zopyx/zopyx.typesense/blob/master/tree/master/src/zopyx/typesense/adapters).
 
 ### Indexing binary content and office formats
 
