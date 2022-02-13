@@ -22,7 +22,7 @@
     />
     <browser:page
         name="typesense-admin"
-        for="plone.dexterity.interfaces.IDexterityContent"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class=".views.View"
         template="admin.pt"
         permission="zope2.View"

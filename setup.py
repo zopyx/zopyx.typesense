@@ -14,7 +14,7 @@ long_description = '\n\n'.join([
 
 setup(
     name='zopyx.typesense',
-    version='1.0.0a1',
+    version='1.0.0a2',
     description="Typesense integration with Plone 6",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
