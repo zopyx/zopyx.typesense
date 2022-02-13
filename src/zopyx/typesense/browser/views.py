@@ -72,6 +72,7 @@ class View(BrowserView):
                 obj = brain.getObject()
                 ts_api.index_document(obj, collection)
 
+        ts_api.drop_collection(ts_api.collection)
         ts_api.alias_collection(ts_api.collection, collection)
         ts_api.remove_obsolete_collections(ts_api.collection)
 

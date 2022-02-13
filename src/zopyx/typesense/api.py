@@ -21,6 +21,9 @@ import html_text
 
 
 def html2text(html):
+
+    if isinstance(html, bytes):
+        html = html.decode("utf8")
     tree = html_text.parse_html(html)
     return html_text.extract_text(tree)
 
