@@ -7,16 +7,15 @@ from setuptools import setup
 
 long_description = '\n\n'.join([
     open('README.md').read(),
-    open('CONTRIBUTORS.rst').read(),
-    open('CHANGES.rst').read(),
 ])
 
 
 setup(
     name='zopyx.typesense',
-    version='1.0.0a4',
+    version='1.0.0a5',
     description="Typesense integration with Plone 6",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     # Get more from https://pypi.org/classifiers/
     classifiers=[
         "Environment :: Web Environment",
