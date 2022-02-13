@@ -30,7 +30,7 @@
     />
     <browser:page
         name="typesense-reindex-all"
-        for="plone.dexterity.interfaces.IDexterityContent"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class=".views.View"
         attribute="reindex_all"
         permission="cmf.ManagePortal"
