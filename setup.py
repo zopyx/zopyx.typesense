@@ -14,7 +14,7 @@ long_description = '\n\n'.join([
 
 setup(
     name='zopyx.typesense',
-    version='0.1.0',
+    version='1.0.0a1',
     description="Typesense integration with Plone 6",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -30,7 +30,7 @@ setup(
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
-    keywords='Python Plone CMS search fulltext indexing factedsearch',
+    keywords='Python Plone CMS search fulltext indexing factedsearch Typesense',
     author='Andreas Jung',
     author_email='info@zopyx.com',
     url='https://github.com/collective/zopyx.typesense',
@@ -46,7 +46,6 @@ setup(
     package_dir={'': 'src'},
     include_package_data=True,
     zip_safe=False,
-    python_requires="==2.7",
     install_requires=[
         'setuptools',
         # -*- Extra requirements: -*-
