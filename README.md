@@ -35,7 +35,7 @@ Click [here](https://user-images.githubusercontent.com/594239/150671828-f6a4c993
 ## Requirements
 
 - Plone 6 (tested)
-- Plone 5.2 (untested, support to work for Dexterity-only sites)
+- Plone 5.2 (untested, supposed to work for Dexterity-only sites, under Python 3)
 
 ## Installation
 
