@@ -4,6 +4,7 @@ The default Typesense collection schema
 
 import json
 
+
 COLLECTION_SCHEMA = {
     "name": None,
     "fields": [

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """Init and utils."""
-from zope.i18nmessageid import MessageFactory
-from zopyx.plone.persistentlogger.file_logger import get_logger
-import threading
 from huey.bin.huey_consumer import load_huey
 from huey.consumer_options import ConsumerConfig
+from zope.i18nmessageid import MessageFactory
+from zopyx.plone.persistentlogger.file_logger import get_logger
+
+import threading
 
 
 _ = MessageFactory("zopyx.typesense")
@@ -13,8 +14,10 @@ LOG = get_logger("zopyx.typesense")
 
 # Start huey consumer as thread
 
-import signal
 from huey.consumer import Consumer
+
+import signal
+
 
 # monkey-patch huey
 def my_set_signal_handlers(self):

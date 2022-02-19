@@ -1,8 +1,9 @@
-import os
-import typer
 import furl
-import typesense
+import os
 import pprint
+import typer
+import typesense
+
 
 app = typer.Typer()
 

@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
 
+from .config import COLLECTION_SCHEMA_JSON, DEFAULT_REVIEW_STATES_TO_INDEX
 from zope import schema
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zopyx.typesense import _
-
-
-from .config import COLLECTION_SCHEMA_JSON
-from .config import DEFAULT_REVIEW_STATES_TO_INDEX
 
 
 class IBrowserLayer(IDefaultBrowserLayer):

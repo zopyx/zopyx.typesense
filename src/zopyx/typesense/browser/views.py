@@ -1,14 +1,13 @@
 from Products.Five.browser import BrowserView
-
 from zopyx.typesense import _, LOG
 from zopyx.typesense.api import API
 
-import json
 import gzip
+import json
 import os
 import plone.api
-import time
 import progressbar
+import time
 
 
 class View(BrowserView):

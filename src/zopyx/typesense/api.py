@@ -1,24 +1,22 @@
 from .huey_tasks import ts_index, ts_unindex
 from datetime import datetime
 from plone import api
+from plone.app.contenttypes.indexers import SearchableText
 from plone.app.textfield import RichText
 from plone.dexterity.utils import iterSchemata
-from plone.app.contenttypes.indexers import SearchableText
+from zope.component import ComponentLookupError, getAdapter
 from zope.interface.interfaces import ComponentLookupError
 from zope.schema import getFields
-from zope.component import getAdapter
-from zope.component import ComponentLookupError
 from zopyx.typesense import _, LOG
-from zopyx.typesense.interfaces import ITypesenseSettings
-from zopyx.typesense.interfaces import ITypesenseIndexDataProvider
+from zopyx.typesense.interfaces import ITypesenseIndexDataProvider, ITypesenseSettings
 
-import json
 import furl
-from datetime import datetime
+import html_text
+import json
+import lxml.html
 import typesense
 import zope.schema
-import html_text
-import lxml.html
+
 
 def html2text(html):
 
@@ -37,11 +35,13 @@ def headlines_from_html(html):
 
     result = []
 
-    for node in root.xpath("//*[self::h2 or self::h3 or self::h4 or self::h5 or self::h6 or self::h7]"):
+    for node in root.xpath(
+        "//*[self::h2 or self::h3 or self::h4 or self::h5 or self::h6 or self::h7]"
+    ):
         if node.text:
             result.append(node.text)
 
-    result = " " .join(result)
+    result = " ".join(result)
     return result
 
 
