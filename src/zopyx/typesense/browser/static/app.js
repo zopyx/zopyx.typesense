@@ -36,7 +36,17 @@ const searchClient = typesenseInstantsearchAdapter.searchClient;
 
 const search = instantsearch({
     searchClient,
-    indexName: ts_settings["collection"]
+    indexName: ts_settings["collection"],
+    searchFunction(helper) {
+        if (helper.state.query === '') {
+            $('#search-control').hide();
+            $('#hits').hide();
+        } else {
+            $('#search-control').show();
+            $('#hits').show();
+            helper.search();
+        }
+    }
 });
 
 /*
