@@ -1,9 +1,15 @@
 /* global instantsearch */
 
-
+/* global vars first */
 var remote_url = PORTAL_URL + "/@@typesense-search-settings";
 var ts_settings = null;
+                                  
+/* Show initially all hits with all form control (true)
+ * or show only empty search field by default (false).
+ */
+var SHOW_ALL_HITS_INITIALLY = true;
 
+/* Retrieve search settings through JSON */
 function getSearchSettings() {
     return $.getJSON({
         type: "GET",
@@ -23,10 +29,11 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
         apiKey: ts_settings["api_key"],
         nodes: ts_settings["nodes"]
     },
-    // The following parameters are directly passed to Typesense's search API endpoint.
-    //  So you can pass any parameters supported by the search endpoint below.
-    //  queryBy is required.
-    //  filterBy is managed and overridden by InstantSearch.js. To set it, you want to use one of the filter widgets like refinementList or use the `configure` widget.
+    // The following parameters are directly passed to Typesense's search API
+    // endpoint.  So you can pass any parameters supported by the search
+    // endpoint below.  queryBy is required.  filterBy is managed and
+    // overridden by InstantSearch.js. To set it, you want to use one of the
+    // filter widgets like refinementList or use the `configure` widget.
     additionalSearchParameters: {
         queryBy: ts_settings["query_by"],
         filterBy: filterBy
@@ -38,13 +45,21 @@ const search = instantsearch({
     searchClient,
     indexName: ts_settings["collection"],
     searchFunction(helper) {
-        if (helper.state.query === '') {
-            $('#search-control').hide();
-            $('#hits').hide();
+        if (! SHOW_ALL_HITS_INITIALLY) {
+            if (helper.state.query === '') {
+                $('.refinement-label').hide();
+                $('.ais-RefinementList-list').hide();
+                $('#search-control').hide();
+                $('#hits').hide();
+            } else {
+                $('.refinement-label').show();
+                $('.ais-RefinementList-list').show();
+                $('#search-control').show();
+                $('#hits').show();
+                helper.search();
+            }
         } else {
-            $('#search-control').show();
-            $('#hits').show();
-            helper.search();
+                helper.search();
         }
     }
 });

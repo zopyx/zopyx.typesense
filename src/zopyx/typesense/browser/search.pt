@@ -11,16 +11,16 @@
         <div class="container">
             <div class="search-panel">
               <div class="search-panel__filters">
-                <b>Portal Type</b>
+                <div class="refinement-label" i18n:translate="">Portal Type</div>
                 <div id="portal-type"></div>
                 <br/>
-                <b>Review State</b>
+                <div class="refinement-label" i18n:translate="">Review state</div>
                 <div id="review-state"></div>
                 <br/>
-                <b>Language</b>
+                <div class="refinement-label" i18n:translate="">Language</div>
                 <div id="language"></div>
                 <br/>
-                <b>Subject</b>
+                <div class="refinement-label" i18n:translate="">Subject</div>
                 <div id="subject"></div>
                 <br/>
               </div>
