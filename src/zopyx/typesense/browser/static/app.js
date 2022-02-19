@@ -102,8 +102,8 @@ search.addWidgets([
             <!--
             <div class="hit-text">{{#helpers.highlight}}{ "attribute": "text" }{{/helpers.highlight}}</div>
             -->
-            <div class="hit-text">{{#helpers.snippet}}{ "attribute": "headlines" }{{/helpers.snippet}}</div>
-            <div class="hit-text">{{#helpers.snippet}}{ "attribute": "text" }{{/helpers.snippet}}</div>
+            <div class="hit-text" id="hits-headlines">{{#helpers.snippet}}{ "attribute": "headlines" }{{/helpers.snippet}}</div>
+            <div class="hit-text" id="hits-text">{{#helpers.snippet}}{ "attribute": "text" }{{/helpers.snippet}}</div>
           </div>
 `,
         },
