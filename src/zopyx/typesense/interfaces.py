@@ -27,11 +27,11 @@ class ITypesenseSettings(Interface):
     )
 
     api_key = schema.TextLine(
-        title=_("Typesense Admin API key"), default="", required=True
+        title=_("Typesense Admin API key"), default="", required=True,
     )
 
     search_api_key = schema.TextLine(
-        title=_("Typesense search API key"), default="", required=True
+        title=_("Typesense search API key"), default="", required=True,
     )
 
     node1_url = schema.TextLine(
@@ -66,11 +66,11 @@ class ITypesenseSettings(Interface):
     )
 
     collection_schema = schema.Text(
-        title=_("Collection schema"), default=COLLECTION_SCHEMA_JSON, required=True
+        title=_("Collection schema"), default=COLLECTION_SCHEMA_JSON, required=True,
     )
 
     use_searchabletext = schema.Bool(
-        title=_("Use SearchableText for indexing as default"), default=False
+        title=_("Use SearchableText for indexing as default"), default=False,
     )
 
 
