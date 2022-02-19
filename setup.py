@@ -12,7 +12,7 @@ long_description = '\n\n'.join([
 
 setup(
     name='zopyx.typesense',
-    version='1.0.0a5',
+    version='1.0.0a6',
     description="Typesense integration with Plone 6",
     long_description=long_description,
     long_description_content_type="text/markdown",
