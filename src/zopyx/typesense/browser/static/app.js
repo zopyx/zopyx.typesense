@@ -36,6 +36,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     // filter widgets like refinementList or use the `configure` widget.
     additionalSearchParameters: {
         queryBy: ts_settings["query_by"],
+        queryByWeights: ts_settings["query_by_weights"],
         filterBy: filterBy
     },
 });
@@ -101,6 +102,7 @@ search.addWidgets([
             <!--
             <div class="hit-text">{{#helpers.highlight}}{ "attribute": "text" }{{/helpers.highlight}}</div>
             -->
+            <div class="hit-text">{{#helpers.snippet}}{ "attribute": "headlines" }{{/helpers.snippet}}</div>
             <div class="hit-text">{{#helpers.snippet}}{ "attribute": "text" }{{/helpers.snippet}}</div>
           </div>
 `,
@@ -145,7 +147,7 @@ search.addWidgets([
       {{#hasNoResults}}No hits{{/hasNoResults}}
       {{#hasOneResult}}1 hit{{/hasOneResult}}
       {{#hasManyResults}}{{#helpers.formatNumber}}{{nbHits}}{{/helpers.formatNumber}} hits {{/hasManyResults}}
-      found in {{processingTimeMS}}ms
+      found in {{processingTimeMS}} ms
     `,
         },
         cssClasses: {

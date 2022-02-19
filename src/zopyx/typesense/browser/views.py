@@ -173,7 +173,8 @@ class View(BrowserView):
         settings["collection"] = ts_api.collection
         settings["api_key"] = ts_api.search_api_key
         settings["nodes"] = ts_api.nodes
-        settings["query_by"] = "title,text"
+        settings["query_by"] = "title,headlines,text"
+        settings["query_weights"] = "4,2,1"
 
         self.request.response.setHeader("content-type", "application/json")
         return json.dumps(settings)

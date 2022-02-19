@@ -11,6 +11,7 @@ COLLECTION_SCHEMA = {
         {"name": "id", "type": "string"},
         {"name": "title", "type": "string"},
         {"name": "description", "type": "string"},
+        {"name": "headlines", "type": "string"},
         {"name": "text", "type": "string"},
         {"name": "language", "type": "string", "facet": True},
         {"name": "portal_type", "type": "string", "facet": True},

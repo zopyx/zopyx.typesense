@@ -18,7 +18,7 @@ from datetime import datetime
 import typesense
 import zope.schema
 import html_text
-
+import lxml.html
 
 def html2text(html):
 
@@ -26,6 +26,23 @@ def html2text(html):
         html = html.decode("utf8")
     tree = html_text.parse_html(html)
     return html_text.extract_text(tree)
+
+
+def headlines_from_html(html):
+
+    if isinstance(html, bytes):
+        html = html.decode("utf8")
+
+    root = lxml.html.fromstring(html)
+
+    result = []
+
+    for node in root.xpath("//*[self::h2 or self::h3 or self::h4 or self::h5 or self::h6 or self::h7]"):
+        if node.text:
+            result.append(node.text)
+
+    result = " " .join(result)
+    return result
 
 
 class API:
@@ -118,6 +135,7 @@ class API:
         else:
             # or our own indexable text content
             indexable_text = []
+            indexable_headlines = []
 
             fields = {}
             schemes = iterSchemata(obj)
@@ -132,14 +150,18 @@ class API:
                     else:
                         if text and text.output:
                             indexable_text.append(html2text(text.output))
+                            indexable_headlines.append(headlines_from_html(text.output))
                 elif isinstance(field, (zope.schema.Text, zope.schema.TextLine)):
                     text = getattr(obj, name)
                     indexable_text.append(text)
 
             indexable_text = [text for text in indexable_text if text]
             indexable_text = " ".join(indexable_text)
+            indexable_headlines = [text for text in indexable_headlines if text]
+            indexable_headlines = " ".join(indexable_headlines)
 
         d["text"] = indexable_text
+        d["headlines"] = indexable_headlines
 
         # Check if there is an adapter for the given content type interface
         # implementing ITypesenseIndexDataProvider for modifying the index data
