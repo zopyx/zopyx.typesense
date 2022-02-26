@@ -37,6 +37,10 @@ Click [here](https://user-images.githubusercontent.com/594239/150671828-f6a4c993
 - Plone 6 (tested)
 - Plone 5.2 (untested, supposed to work for Dexterity-only sites, under Python 3)
 
+## Architecture
+
+![Architecture](docs/Typesense.png)
+
 ## Installation
 
 Add `zopyx.typesense` to your buildout, re-run buildout and install it within Plone.
