@@ -172,6 +172,19 @@ The Typesense admin control panel contains a button `Reindex all` which will
 - submit all Dexterity content objects for reindexing
 - alias the new collection with the official name of the configured collection
 
+## Custom search views
+
+The default Typesense search view `@@typesense-search` should work for most
+common usecases of a Plone site with the default content types. If you need
+something different, you have two options:
+
+- customize `search.pt` and `app.js` according to your own need (e.g. using
+  `z3c.jbot`)
+- create your search view(s) with your own search template and the related JS
+  configuration
+
+
+
 ## Transactions and eventual consistency
 
 All indexing/unindexing operations happen asyncronously to Plone and outside
@@ -194,3 +207,5 @@ Typesense with a short delay.
 ## Author
 
 Andreas Jung | info@zopyx.com | www.zopyx.com
+
+Paid service for `zopyx.typesense` is available on request.
