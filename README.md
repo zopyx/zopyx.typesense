@@ -29,7 +29,7 @@ Click [here](https://user-images.githubusercontent.com/594239/150671828-f6a4c993
 - a replacement of the ZCatalog/portal_catalog (document changes are pushed to
   Typesense as an independent entity completely decoupled from Plone's
   portal_catalog)
-- a drop-in replacement of the Plone search. zopyx.typesense comes with its own
+- a drop-in replacement of the Plone search. `zopyx.typesense` comes with its own
   configurable auto-generated search UI
 
 ## Requirements
