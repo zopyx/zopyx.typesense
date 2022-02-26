@@ -39,7 +39,25 @@ Click [here](https://user-images.githubusercontent.com/594239/150671828-f6a4c993
 
 ## Architecture
 
+Typesense runs as dedicated service either on-premise or somewhere in the cloud.
+
 ![Architecture](docs/Typesense.png)
+
+### Indexing
+`zopyx.typesense` pushes content changes (new documents, updated documents, deleted documents) through
+Plone lifecycle hooks into Typesense.
+
+
+### Searching
+The search interaction between browser and Typesense happens directly *without*
+Plone being in-between.  When you open the `@@typesense-search` view, the
+search configuration (as defined through the search template `search.pt` and an
+associated `app.js` file) is loaded from Plone for auto-generating the search
+UI (search input, faceted search) within the browser. The search query is
+directly send to Typesense and the results are directly shown within the
+browser as soon as they are available.  Plone is *not* involved in the search.
+No additional filtering (e.g. regarding access control) happens through Plone.
+
 
 ## Installation
 
