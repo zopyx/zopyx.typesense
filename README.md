@@ -6,7 +6,7 @@
 the search engine [Typesense](https://typesense.org/). The functionality is
 similar with `collective.solr`.
 
-![Typesense Features](typesense-features.png)
+![Typesense Features](https://github.com/zopyx/zopyx.typesense/raw/master/docs/typesense-features.png)
 
 The reasons for using Typesense are
 
@@ -41,7 +41,7 @@ Click [here](https://user-images.githubusercontent.com/594239/150671828-f6a4c993
 
 Typesense runs as dedicated service either on-premise or somewhere in the cloud.
 
-![Architecture](docs/Typesense.png)
+![Architecture](https://github.com/zopyx/zopyx.typesense/raw/master/docs/Typesense.png
 
 ### Indexing
 `zopyx.typesense` pushes content changes (new documents, updated documents, deleted documents) through
@@ -73,7 +73,7 @@ using `mr.developer` as source checkout from Github.
 
 The `Typesense settings` within the Plone controlpanel:
 
-![Typesense settings](typesense-settings.png)
+![Typesense settings](https://github.com/zopyx/zopyx.typesense/raw/master/docs/typesense-settings.png)
 
 - `Name of Typesense collection` - must be a unique name for the document pool
   of your Plone site
@@ -108,7 +108,7 @@ URL for Typesense node 1.
 
 ## Search UI
 
-![Typesense search](typesense-search.png)
+![Typesense search](https://github.com/zopyx/zopyx.typesense/raw/master/docs/typesense-search.png)
 
 The search UI is auto-generated from a minimal HTML template which defines the
 basic layout together with the widgets to be used [see
