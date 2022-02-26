@@ -86,7 +86,7 @@ The `Typesense settings` within the Plone controlpanel:
 
 The `Typesense administration` within the Plone controlpanel:
 
-![Typesense administration](typesense-administration.pnga
+![Typesense administration](https://github.com/zopyx/zopyx.typesense/raw/master/docs/typesense-administration.png)
 
 ## Example setup
 
