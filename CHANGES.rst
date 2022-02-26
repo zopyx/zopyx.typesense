@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0a7 (2022-02-26)
+------------------
+- updated docs
+  [zopyx]
+
 1.0a6 (2022-02-19)
 ------------------
 - hide/show search results/stats based on search input state
