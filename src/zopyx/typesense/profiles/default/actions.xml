@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n" name="portal_actions" meta_type="Plone Actions Tool">
+  <object name="object" meta_type="CMF Action Category">
+    <object name="persistent_log" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Logging</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">string:${object_url}/@@persistent-log</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr"/>
+      <property name="permissions">
+        <element value="Modify portal content"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+  </object>
+  <object name="site_actions" meta_type="CMF Action Category">
+    <object name="English" meta_type="CMF Action">
+      <property name="title">English</property>
+      <property name="description"/>
+      <property name="url_expr">string:https://www.onkopedia-guidelines.info</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'de'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="Deutsch" meta_type="CMF Action">
+      <property name="title">Deutsch</property>
+      <property name="description"/>
+      <property name="url_expr">string:https://www.onkopedia.com</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'en'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="DGHO" meta_type="CMF Action">
+      <property name="title">DGHO Website</property>
+      <property name="description"/>
+      <property name="url_expr">string:http://www.dgho.de</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'de'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+      <object name="DGHO website" meta_type="CMF Action">
+        <property name="title">DGHO website</property>
+        <property name="description"/>
+        <property name="url_expr">string:http://www.dgho.de</property>
+        <property name="link_target"/>
+        <property name="icon_expr"/>
+        <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'en'</property>
+        <property name="permissions">
+          <element value="View"/>
+        </property>
+        <property name="visible">True</property>
+      </object>
+      <object name="about-us" meta_type="CMF Action">
+        <property name="title">About us</property>
+        <property name="description"/>
+        <property name="url_expr">string:${globals_view/navigationRootUrl}/about-us</property>
+        <property name="link_target"/>
+        <property name="icon_expr"/>
+        <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'en'</property>
+        <property name="permissions">
+          <element value="View"/>
+        </property>
+        <property name="visible">True</property>
+      </object>
+    </object>
+    <object name="accessibility" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Accessibility</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">
+string:${globals_view/navigationRootUrl}/accessibility-info
+</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr"/>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">False</property>
+    </object>
+    <object name="contact-en" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Contact</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">string:${portal_url}/en/contact</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'en'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="kontakt-de" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Kontakt</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">string:${portal_url}/de/kontakt</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')()== 'de'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="plone_setup" meta_type="CMF Action" i18n:domain="plone">
+      <property name="visible">False</property>
+    </object>
+    <object name="preferences" meta_type="CMF Action" i18n:domain="plone">
+      <property name="visible">False</property>
+    </object>
+    <object name="imprint" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Imprint</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">string:${portal_url}/en/imprint</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'en'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="impressum" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Impressum</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">string:${portal_url}/de/impressum</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'de'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="Datenschutz" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Datenschutz</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">
+        string:${portal_url}/de/hinweise/datenschutz
+</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'de'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="authors" meta_type="CMF Action">
+      <property name="title">Authors</property>
+      <property name="description"/>
+      <property name="url_expr">string:${portal_url}/en/authors-listing</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'en'</property>
+      <property name="permissions"/>
+      <property name="visible">False</property>
+    </object>
+    <object name="privacy-statement" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Privacy statement</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">string:${portal_url}/de/hinweise/datenschutz</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'en'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="autoren" meta_type="CMF Action">
+      <property name="title">Autoren</property>
+      <property name="description"/>
+      <property name="url_expr">string:${portal_url}/de/authors-listing</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'de'</property>
+      <property name="permissions"/>
+      <property name="visible">True</property>
+    </object>
+    <object name="Information" meta_type="CMF Action">
+      <property name="title">Information</property>
+      <property name="description"/>
+      <property name="url_expr">string:$portal_url/en/information</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'en'</property>
+      <property name="permissions"/>
+      <property name="visible">True</property>
+    </object>
+    <object name="Hinweise" meta_type="CMF Action">
+      <property name="title">Hinweise</property>
+      <property name="description"/>
+      <property name="url_expr">string:$portal_url/de/hinweise</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'de'</property>
+      <property name="permissions"/>
+      <property name="visible">True</property>
+    </object>
+    <object name="join_de" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Registrieren</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">
+string:https://mitglieder.dgho.de/jsp_public/onkopedia/index.jsp
+</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python:member is None and context.restrictedTraverse('@@get-current-language')() == 'de'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="join" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Register</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">
+string:https://mitglieder.dgho.de/jsp_public/onkopedia/index.jsp?locS=en
+</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python:member is None and context.restrictedTraverse('@@get-current-language')() == 'en'</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="login" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Log in</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">
+string:${globals_view/navigationRootUrl}/login_form
+</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python:member is None</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="comments" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Comments</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">string:${portal_url}/en/all-comments</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'en'</property>
+      <property name="permissions">
+        <element value="Manage Site"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="kommentare" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Kommentare</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">string:$portal_url/de/all-comments</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python: context.restrictedTraverse('@@get-current-language')() == 'de'</property>
+      <property name="permissions">
+        <element value="Manage Site"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="logout" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Log out</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">string:$portal_url/logout</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">python:member is not None</property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="guidelines_administration" meta_type="CMF Action" i18n:domain="onkopedia.policy">
+      <property name="title" i18n:translate="">Guidelines Administration</property>
+      <property name="description" i18n:translate=""/>
+      <property name="url_expr">
+string:${portal_url}/de/editorial-board/@@guidelines-admin
+</property>
+      <property name="link_target"/>
+      <property name="icon_expr"/>
+      <property name="available_expr">portal/@@isManager</property>
+      <property name="permissions">
+        <element value="Manage portal"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+  </object>
+</object>
