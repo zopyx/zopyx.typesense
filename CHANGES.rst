@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.0a8 (unreleased)
+------------------
+- fixed normalization in document_path()
+  [zopyx]
+
+- changed column ordering for "demo search" in control panel
+  [zopyx]
+
 1.0a7 (2022-02-26)
 ------------------
 - updated docs
