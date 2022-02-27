@@ -93,23 +93,27 @@
                     <thead>
                         <tr>
                         </tr>
-                            <th i18n:translate="">Path</th>
-                            <th i18n:translate="">Info</th>
                             <th i18n:translate="">Title</th>
+                            <th i18n:translate="">Info</th>
+                            <th i18n:translate="">Path</th>
                             <th i18n:translate="">Type</th>
                     </thead>
                     <tbody>
                         <tr tal:repeat="r result/hits">
+                            <td>
+                                <a href="${portal_url}/${r/document/path}">
+                                    ${r/document/title}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="${portal_url}/${r/document/path}/@@typesense-indexed-content">&#8505;</a>
+                            </td>
                             <td>
 
                                 <a href="${portal_url}/${r/document/path}">
                                     ${r/document/path}
                                 </a>
                             </td>
-                            <td>
-                                <a href="${portal_url}/${r/document/path}/@@typesense-indexed-content">&#8505;</a>
-                            </td>
-                            <td>${r/document/title}</td>
                             <td class="portal-type">${r/document/portal_type}</td>
                         </tr>
                     </tbody>

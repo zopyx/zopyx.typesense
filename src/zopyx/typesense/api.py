@@ -202,10 +202,11 @@ class API:
     def document_path(self, obj):
         """Return the content path for the given `obj`"""
 
-        site_path = "/".join(api.portal.get().getPhysicalPath())
-        obj_path = "/".join(obj.getPhysicalPath())
-        rel_path = obj_path.replace(site_path, "")
+        site_path = api.portal.get().absolute_url(1)
+        obj_path = obj.absolute_url(1)
+        rel_path = obj_path.replace(site_path, "", 1)
         rel_path = rel_path.lstrip("/")
+
         return rel_path
 
     def document_path_items(self, obj):
