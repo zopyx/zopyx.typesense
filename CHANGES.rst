@@ -9,6 +9,10 @@ Changelog
 - changed column ordering for "demo search" in control panel
   [zopyx]
 
+- added integration with toolbar
+  [zopyx]
+
+
 1.0a7 (2022-02-26)
 ------------------
 - updated docs
