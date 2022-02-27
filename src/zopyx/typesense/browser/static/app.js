@@ -110,7 +110,6 @@ search.addWidgets([
     }),
     instantsearch.widgets.pagination({
         container: '#pagination',
-        scrollTo: "header",
         root: "nav",
         cssClasses: {
             root: "navigation",
