@@ -112,8 +112,9 @@ class View(BrowserView):
             container=portal, type="Folder", id="news", title="news"
         )
 
-        fn = os.path.dirname(__file__) + "/de-news.json"
-        news = json.load(open(fn))
+        f$an = os.path.dirname(__file__) + "/de-news.json"
+        with open(fn) as fp:
+            news = json.load(fp))
 
         with progressbar.ProgressBar(max_value=len(news)) as pg:
             for i, n in enumerate(news):
