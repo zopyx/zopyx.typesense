@@ -112,7 +112,7 @@ class View(BrowserView):
             container=portal, type="Folder", id="news", title="news"
         )
 
-        f$an = os.path.dirname(__file__) + "/de-news.json"
+        fn = os.path.dirname(__file__) + "/de-news.json"
         with open(fn) as fp:
             news = json.load(fp))
 
