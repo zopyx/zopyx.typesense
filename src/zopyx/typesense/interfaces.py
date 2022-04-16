@@ -17,7 +17,7 @@ class ITypesenseSettings(Interface):
 
     enabled = schema.Bool(
         title=_("Typesense integration enabled"),
-        default=True,
+        default=False,
     )
 
     collection = schema.TextLine(
