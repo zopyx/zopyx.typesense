@@ -9,7 +9,7 @@ domain = "zopyx.typesense"
 os.chdir(pkg_resources.resource_filename(domain, ""))
 os.chdir("../../../")
 target_path = "src/zopyx/typesense/"
-locale_path = target_path + "locales/"
+locale_path = f"{target_path}locales/"
 i18ndude = "./bin/i18ndude"
 
 # ignore node_modules files resulting in errors
@@ -23,19 +23,18 @@ def locale_folder_setup():
         folder = os.listdir(lang)
         if "LC_MESSAGES" in folder:
             continue
-        else:
-            lc_messages_path = lang + "/LC_MESSAGES/"
-            os.mkdir(lc_messages_path)
-            cmd = "msginit --locale={0} --input={1}.pot --output={2}/LC_MESSAGES/{3}.po".format(  # NOQA: E501
-                lang,
-                domain,
-                lang,
-                domain,
-            )
-            subprocess.call(
-                cmd,
-                shell=True,
-            )
+        lc_messages_path = f"{lang}/LC_MESSAGES/"
+        os.mkdir(lc_messages_path)
+        cmd = "msginit --locale={0} --input={1}.pot --output={2}/LC_MESSAGES/{3}.po".format(  # NOQA: E501
+            lang,
+            domain,
+            lang,
+            domain,
+        )
+        subprocess.call(
+            cmd,
+            shell=True,
+        )
 
     os.chdir("../../../../")
 

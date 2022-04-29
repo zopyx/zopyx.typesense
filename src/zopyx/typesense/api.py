@@ -33,13 +33,14 @@ def headlines_from_html(html):
 
     root = lxml.html.fromstring(html)
 
-    result = []
+    result = [
+        node.text
+        for node in root.xpath(
+            "//*[self::h2 or self::h3 or self::h4 or self::h5 or self::h6 or self::h7]"
+        )
+        if node.text
+    ]
 
-    for node in root.xpath(
-        "//*[self::h2 or self::h3 or self::h4 or self::h5 or self::h6 or self::h7]"
-    ):
-        if node.text:
-            result.append(node.text)
 
     result = " ".join(result)
     return result
@@ -49,8 +50,7 @@ class API:
     @property
     def collection(self):
         """Return collection name from registry"""
-        collection = api.portal.get_registry_record("collection", ITypesenseSettings)
-        return collection
+        return api.portal.get_registry_record("collection", ITypesenseSettings)
 
     def index_document(self, obj, collection=None):
         """Index document `obj`"""
@@ -59,7 +59,7 @@ class API:
         if not data:
             return
 
-        target_collection = collection if collection else self.collection
+        target_collection = collection or self.collection
 
         ts_index(
             ts_client=self.get_typesense_client(),
@@ -97,7 +97,7 @@ class API:
             review_state = ""
             ignore_review_state = True
 
-        if not ignore_review_state and not review_state in review_states_to_index:
+        if not ignore_review_state and review_state not in review_states_to_index:
             # don't index content without proper review state
             return
 
@@ -107,9 +107,7 @@ class API:
 
         document_id = self.document_id(obj)
 
-        d = dict()
-        d["id"] = document_id
-        d["id_original"] = obj.getId()
+        d = {"id": document_id, "id_original": obj.getId()}
         d["title"] = obj.Title()
         d["description"] = obj.Description()
         d["language"] = language
@@ -126,10 +124,9 @@ class API:
         d["document_type_order"] = 0
         d["_indexed"] = datetime.utcnow().isoformat()
 
-        use_searchabletext = api.portal.get_registry_record(
+        if use_searchabletext := api.portal.get_registry_record(
             "use_searchabletext", ITypesenseSettings
-        )
-        if use_searchabletext:
+        ):
             # use Plone's SearchableText implemenation
             indexable_text = SearchableText(obj)
         else:
@@ -140,17 +137,16 @@ class API:
             fields = {}
             schemes = iterSchemata(obj)
             for schema in schemes:
-                fields.update(getFields(schema))
+                fields |= getFields(schema)
 
             for name, field in fields.items():
                 if isinstance(field, RichText):
                     text = getattr(obj, name)
                     if isinstance(text, str):
                         indexable_text.append(text)
-                    else:
-                        if text and text.output:
-                            indexable_text.append(html2text(text.output))
-                            indexable_headlines.append(headlines_from_html(text.output))
+                    elif text and text.output:
+                        indexable_text.append(html2text(text.output))
+                        indexable_headlines.append(headlines_from_html(text.output))
                 elif isinstance(field, (zope.schema.Text, zope.schema.TextLine)):
                     text = getattr(obj, name)
                     indexable_text.append(text)
@@ -196,8 +192,7 @@ class API:
         """Return the content id for the given `obj`"""
 
         site_id = api.portal.get().getId()
-        obj_id = f"{site_id}-{obj.UID()}"
-        return obj_id
+        return f"{site_id}-{obj.UID()}"
 
     def document_path(self, obj):
         """Return the content path for the given `obj`"""
@@ -214,12 +209,12 @@ class API:
 
         document_path = self.document_path(obj)
         document_path_items = document_path.split("/")
-        all_paths = list()
+        all_paths = []
         for i in range(len(document_path_items) + 1):
             items = "/".join(document_path_items[:i])
             if not items.startswith("/"):
-                items = "/" + items
-            if not items in all_paths:
+                items = f"/{items}"
+            if items not in all_paths:
                 all_paths.append(items)
         return all_paths
 
@@ -238,7 +233,7 @@ class API:
         client = self.get_typesense_client()
         collection = self.collection
         if temporary:
-            collection = collection + "-" + datetime.utcnow().isoformat()
+            collection = f"{collection}-{datetime.utcnow().isoformat()}"
 
         if self.exists_collection(collection):
             raise RuntimeError(f"Collection `{collection}` already exists")
@@ -256,7 +251,7 @@ class API:
     def drop_collection(self, collection_name=None):
         """Drop collection"""
 
-        collection = collection_name if collection_name else self.collection
+        collection = collection_name or self.collection
 
         if self.exists_collection(collection):
 
@@ -283,8 +278,9 @@ class API:
         names = [
             d["name"]
             for d in all_collections
-            if d["name"].startswith(collection_prefix + "-")
+            if d["name"].startswith(f"{collection_prefix}-")
         ]
+
         names = sorted(names)
         names_to_remove = names[:-1]
         for name in names_to_remove:
@@ -331,14 +327,13 @@ class API:
         if not api_key:
             raise ValueError(_("No Typesense API key(s) configured"))
 
-        client = typesense.Client(
+        return typesense.Client(
             {
                 "api_key": api_key,
                 "nodes": self.nodes,
                 "connection_timeout_seconds": 10,
             }
         )
-        return client
 
     @property
     def nodes(self):
@@ -351,7 +346,7 @@ class API:
         except (KeyError, ComponentLookupError):
             return None
 
-        nodes = list()
+        nodes = []
         for url in (node1_url, node2_url, node3_url):
             if not url:
                 continue
@@ -367,10 +362,9 @@ class API:
         result = client.collections[self.collection].documents.export()
         if format == "jsonl":
             return result
-        else:
-            # JSON
-            result = [json.loads(jline) for jline in result.splitlines()]
-            return json.dumps(result, indent=2)
+        # JSON
+        result = [json.loads(jline) for jline in result.splitlines()]
+        return json.dumps(result, indent=2)
 
     def search(self, query, per_page=25, page=1):
 

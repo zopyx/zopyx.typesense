@@ -84,7 +84,7 @@ class ITypesenseSettings(Interface):
 class ITypesenseIndexDataProvider(Interface):
     """Adapter for custom indexing"""
 
-    def get_indexable_content(indexable_content):
+    def get_indexable_content(self):
         """This method get the default data dict with
         indexed_content (see api.py). The custom
         indexer method can modify or provide additional

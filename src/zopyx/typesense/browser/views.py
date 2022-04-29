@@ -25,14 +25,13 @@ class View(BrowserView):
             _("Typesense collection dropped and recreated"),
             request=self.request,
         )
-        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
+        self.request.response.redirect(f"{portal.absolute_url()}/@@typesense-admin")
 
     def indexed_content(self):
         """Return indexed content for current context object"""
 
         ts_api = API()
-        document = ts_api.indexed_content(self.context)
-        return document
+        return ts_api.indexed_content(self.context)
 
     def export_documents(self, format="jsonl"):
         """Export all documents from current collection as JSONLines"""
@@ -87,15 +86,15 @@ class View(BrowserView):
             ),
             request=self.request,
         )
-        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
+        self.request.response.redirect(f"{portal.absolute_url()}/@@typesense-admin")
 
     def search_result(self):
         """Search UI for admin view"""
         ts_api = API()
-        result = ts_api.search(
-            query=self.request.form.get("query"), page=self.request.form.get("page", 1)
+        return ts_api.search(
+            query=self.request.form.get("query"),
+            page=self.request.form.get("page", 1),
         )
-        return result
 
     def import_demo_content(self):
 
@@ -112,7 +111,7 @@ class View(BrowserView):
             container=portal, type="Folder", id="news", title="news"
         )
 
-        fn = os.path.dirname(__file__) + "/de-news.json"
+        fn = f"{os.path.dirname(__file__)}/de-news.json"
         with open(fn) as fp:
             news = json.load(fp)
 
@@ -133,7 +132,7 @@ class View(BrowserView):
             _("Sample content imported into folder /news"),
             request=self.request,
         )
-        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
+        self.request.response.redirect(f"{portal.absolute_url()}/@@typesense-admin")
 
     def snapshot(self):
         """Create a snapshot of the Typesense internal database"""
@@ -146,7 +145,7 @@ class View(BrowserView):
             _(f"Snapshot taken ({snapshot_name})"),
             request=self.request,
         )
-        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
+        self.request.response.redirect(f"{portal.absolute_url()}/@@typesense-admin")
 
     def cluster_data(self):
         """Return metrics, stats from Typesense"""
@@ -161,7 +160,7 @@ class View(BrowserView):
         context_path = self.context.absolute_url(1)
         context_path = context_path.replace(portal_path, "")
         if not context_path.startswith("/"):
-            context_path = "/" + context_path
+            context_path = f"/{context_path}"
         return context_path
 
     def search_settings(self):
@@ -169,12 +168,13 @@ class View(BrowserView):
 
         ts_api = API()
 
-        settings = dict()
-        settings["collection"] = ts_api.collection
-        settings["api_key"] = ts_api.search_api_key
-        settings["nodes"] = ts_api.nodes
-        settings["query_by"] = "title,headlines,text"
-        settings["query_weights"] = "4,2,1"
+        settings = {
+            "collection": ts_api.collection,
+            "api_key": ts_api.search_api_key,
+            "nodes": ts_api.nodes,
+            "query_by": "title,headlines,text",
+            "query_weights": "4,2,1",
+        }
 
         self.request.response.setHeader("content-type", "application/json")
         return json.dumps(settings)
@@ -192,7 +192,7 @@ class View(BrowserView):
             container=portal, type="Folder", id="demo", title="demo"
         )
 
-        fn = os.path.dirname(__file__) + "/demo.json"
+        fn = f"{os.path.dirname(__file__)}/demo.json"
         news = json.load(open(fn))
         for n in news:
             text = RichTextValue(n["text"], "text/html", "text/html")
@@ -209,4 +209,4 @@ class View(BrowserView):
             _("Sample content imported into folder /demo"),
             request=self.request,
         )
-        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
+        self.request.response.redirect(f"{portal.absolute_url()}/@@typesense-admin")
