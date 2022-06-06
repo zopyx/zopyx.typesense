@@ -78,6 +78,7 @@ class ITypesenseSettings(Interface):
     use_searchabletext = schema.Bool(
         title=_("Use SearchableText for indexing as default"),
         default=False,
+        required=False,
     )
 
 
