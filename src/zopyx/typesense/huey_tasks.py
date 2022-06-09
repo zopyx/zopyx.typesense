@@ -1,10 +1,12 @@
 from . import LOG
 from huey import SqliteHuey
+import tempfile
 
 import typesense
 
-
-huey = SqliteHuey(filename="/tmp/demo.db")
+ts_db_name = tempfile.NamedTemporaryFile(suffix=".db", delete=False).name
+LOG.info(f"Typesense SQLite DB: {ts_db_name}")
+huey = SqliteHuey(filename=ts_db_name)
 
 
 @huey.task()
