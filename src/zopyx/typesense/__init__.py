@@ -31,7 +31,7 @@ def my_set_signal_handlers(self):
         LOG.warning("Huey signal exception ignored")
 
 
-Consumer._set_signal_handlers = my_set_signal_handlers
+#Consumer._set_signal_handlers = my_set_signal_handlers
 
 
 consumer_options = {
