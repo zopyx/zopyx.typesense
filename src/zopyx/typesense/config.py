@@ -10,10 +10,10 @@ COLLECTION_SCHEMA = {
     "fields": [
         {"name": "path", "type": "string"},
         {"name": "id", "type": "string"},
-        {"name": "title", "type": "string"},
+        {"name": "title", "type": "string", "infix": True},
         {"name": "description", "type": "string"},
         {"name": "headlines", "type": "string"},
-        {"name": "text", "type": "string"},
+        {"name": "text", "type": "string", "infix": True},
         {"name": "language", "type": "string", "facet": True},
         {"name": "portal_type", "type": "string", "facet": True},
         {"name": "review_state", "type": "string", "facet": True},
