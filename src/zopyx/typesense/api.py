@@ -143,6 +143,8 @@ class API:
                 fields.update(getFields(schema))
 
             for name, field in fields.items():
+                if name in ["id", "title"]:
+                    continue
                 if isinstance(field, RichText):
                     text = getattr(obj, name)
                     if isinstance(text, str):
