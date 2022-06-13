@@ -168,9 +168,15 @@ on public IP addresses, but localhost only).
 ## Bulk reindexing
 The Typesense admin control panel contains a button `Reindex all` which will 
 
-- create a new collection whose named is defined as <collection_name>-<current date>
+- create a new collection whose name is defined as <collection_name>-<current date>
 - submit all Dexterity content objects for reindexing
 - alias the new collection with the official name of the configured collection
+
+This means that an existing Typesense collection remains online until the
+complete reindexing process has finished. The Typesense collection with the
+fresh index content replaces then the old collection in an atomic operation.
+There should be no impact on the availability of the search functionality
+during reindexing.
 
 ## Custom search views
 
