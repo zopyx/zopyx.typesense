@@ -53,7 +53,10 @@
                 <button class="btn btn-primary" type="submit" i18n:translate="">Export (JSON)</button>
             </form>
             <form method="post" action="${portal_url}/@@typesense-recreate-collection">
-                <button class="btn btn-primary" type="submit" i18n:translate="">Recreate Typesense collection</button>
+                <button class="btn btn-primary" type="submit" i18n:translate="">Recreate collection</button>
+            </form>
+            <form method="post" action="${portal_url}/@@typesense-update-collection-schema">
+                <button class="btn btn-primary" type="submit" i18n:translate="">Update collection schema</button>
             </form>
             <!--
             <form method="post" action="${portal_url}/@@typesense-snapshot">

@@ -11,6 +11,7 @@ import time
 
 
 class View(BrowserView):
+
     def recreate_collection(self):
 
         ts_api = API()
@@ -23,6 +24,19 @@ class View(BrowserView):
         portal = plone.api.portal.get()
         plone.api.portal.show_message(
             _("Typesense collection dropped and recreated"),
+            request=self.request,
+        )
+        self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
+
+    def update_collection_schema(self):
+
+        ts_api = API()
+
+        ts_api.update_collection_schema()
+
+        portal = plone.api.portal.get()
+        plone.api.portal.show_message(
+            _("Typesense collection schema updated"),
             request=self.request,
         )
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")

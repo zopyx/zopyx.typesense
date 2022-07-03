@@ -47,6 +47,15 @@
     />
 
     <browser:page
+        name="typesense-update-collection-schema"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        permission="cmf.ManagePortal"
+        layer="zopyx.typesense.interfaces.IBrowserLayer"
+        class=".views.View"
+        attribute="update_collection_schema"
+    />
+
+    <browser:page
         name="typesense-snapshot"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         permission="cmf.ManagePortal"
