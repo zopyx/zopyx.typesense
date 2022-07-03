@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0a9 (unreleased)
+------------------
+
+- fixed issue in JSON export with U+2028 as line-ending within content
+  [zopyx]
+
+
 1.0a8 (2022-07-03)
 ------------------
 

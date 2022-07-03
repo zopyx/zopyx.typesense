@@ -403,7 +403,7 @@ class API:
             return result
         else:
             # JSON
-            result = [json.loads(jline) for jline in result.splitlines()]
+            result = [json.loads(jline) for jline in result.split("\n")]
             return json.dumps(result, indent=2)
 
     def search(self, query, per_page=25, page=1):
