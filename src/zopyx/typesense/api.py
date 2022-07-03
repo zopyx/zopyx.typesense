@@ -236,7 +236,8 @@ class API:
 
     def update_collection_schema(self):
 
-        c = self.get_client(self.api_key).collections[self.collection]
+        client = self.get_client(self.api_key)
+        c = client.collections[self.collection]
         schema = c.retrieve()["fields"]
         schema_names = set([d["name"] for d in schema])
 
@@ -247,12 +248,23 @@ class API:
         collection_schema_names = [d["name"] for d in collection_schema if d["name"] not in ["id"]]
         collection_schema_names = set(collection_schema_names)
 
-        add_names = collection_schema_names - schema_names
+        added_names = collection_schema_names - schema_names
         removed_names = schema_names - collection_schema_names
 
-        print(add_names)
-        print(removed_names)
+        update_schema = { "fields":[]}
 
+        for name in removed_names:
+            update_schema["fields"].append(dict(name=name, drop=True))
+
+        for field_schema in collection_schema:
+            if field_schema["name"] in added_names:
+                update_schema["fields"].append(field_schema)
+
+        if update_schema["fields"]:
+            client.collections[self.collection].update(update_schema)
+            LOG.info(f"Schema of collection {self.collection} updated: {update_schema}") 
+        else:
+            LOG.info(f"No schema update information found for collection {self.collection}")
 
     def create_collection(self, temporary=False):
         """Create collection"""

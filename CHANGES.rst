@@ -3,6 +3,7 @@ Changelog
 
 1.0a8 (unreleased)
 ------------------
+
 - fixed normalization in document_path()
   [zopyx]
 
@@ -11,6 +12,13 @@ Changelog
 
 - added integration with toolbar
   [zopyx]
+
+- updated for Typesense 0.23.0
+  [zopyx]
+
+- support incremental schema change without collection recreation
+  [zopyx]
+
 
 
 1.0a7 (2022-02-26)
