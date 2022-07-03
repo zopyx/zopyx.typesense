@@ -50,6 +50,8 @@
         <script src="https://cdn.jsdelivr.net/algoliasearch/3.35.1/algoliasearchLite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.41.0"></script>
         -->
+
+        <script src="${portal_url}/++resource++zopyx.typesense/jquery-3.6.0.min.js"></script>
         <script src="${portal_url}/++resource++zopyx.typesense/algoliasearchLite.min.js"></script>
         <script src="${portal_url}/++resource++zopyx.typesense/instantsearch.js"></script>
         <script src="${portal_url}/++resource++zopyx.typesense/typesense-instantsearch-adapter.min.js"></script>
