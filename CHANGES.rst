@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0a8 (unreleased)
+1.0a8 (2022-07-03)
 ------------------
 
 - fixed normalization in document_path()
