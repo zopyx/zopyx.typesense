@@ -234,6 +234,26 @@ class API:
         ]
         return collection in all_collections
 
+    def update_collection_schema(self):
+
+        c = self.get_client(self.api_key).collections[self.collection]
+        schema = c.retrieve()["fields"]
+        schema_names = set([d["name"] for d in schema])
+
+        collection_schema = api.portal.get_registry_record(
+            "collection_schema", ITypesenseSettings
+        )
+        collection_schema = json.loads(collection_schema)["fields"]
+        collection_schema_names = [d["name"] for d in collection_schema if d["name"] not in ["id"]]
+        collection_schema_names = set(collection_schema_names)
+
+        add_names = collection_schema_names - schema_names
+        removed_names = schema_names - collection_schema_names
+
+        print(add_names)
+        print(removed_names)
+
+
     def create_collection(self, temporary=False):
         """Create collection"""
 
