@@ -99,6 +99,7 @@ class API:
 
         if not ignore_review_state and not review_state in review_states_to_index:
             # don't index content without proper review state
+            LOG.info(f"Skipping object {obj.absolute_url(1)} due to review_state {review_state}")        
             return
 
         # language
