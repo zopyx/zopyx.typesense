@@ -225,20 +225,28 @@ class View(BrowserView):
         )
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
 
-    def search_typesense(self, filter_by=[], query="", exclude_fields=[], query_by):
+    def search_typesense(self):
+
+        return self._search_typesense(
+                query=self.request.form.get("query"),
+                exclude_fields=["text"],
+                filter_by='portal_type:["Document"]',
+                query_by= ["title", "description", "text"],
+                )
+
+    def _search_typesense(self, query="", filter_by=[], exclude_fields=[], query_by=[]):
         """ Used by custom search UI """
 
-        q = self.request.get("query", "")
-
-        query = { 
-          'q': q,
-          'query_by': 'title,description,text',
-#          'filter_by': 'all_paths:[/technik/produkte] && portal_type:[Testbericht]',
-          'exclude_fields': "text",                 
-        }
+        d = dict()
+        d["q"] = query
+        if query_by:
+            d["query_by"] = ','.join(query_by)
+        if exclude_fields:
+            d["exclude_fields"] = ','.join(exclude_fields)
+        if filter_by:
+            d["filter_by"] = filter_by
 
         ts_api = API()
         client = ts_api.get_typesense_client()
-        result = client.collections[ts_api.collection].documents.search(query)
-        import pprint
-        return pprint.pformat(result)
+        result = client.collections[ts_api.collection].documents.search(d)
+        return result
