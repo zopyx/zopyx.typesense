@@ -225,7 +225,7 @@ class View(BrowserView):
         )
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
 
-    def search_typesense(self):
+    def search_typesense(self, filter_by=[], query="", exclude_fields=[], query_by):
         """ Used by custom search UI """
 
         q = self.request.get("query", "")
@@ -233,7 +233,8 @@ class View(BrowserView):
         query = { 
           'q': q,
           'query_by': 'title,description,text',
-          'filter_by': 'all_paths:[/technik/produkte] && portal_type:[Testbericht]',
+#          'filter_by': 'all_paths:[/technik/produkte] && portal_type:[Testbericht]',
+          'exclude_fields': "text",                 
         }
 
         ts_api = API()
