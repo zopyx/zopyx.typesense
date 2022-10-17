@@ -132,7 +132,7 @@ class API:
         if use_searchabletext:
             # use Plone's SearchableText implemenation
             indexable_text = SearchableText(obj)
-            indexable_headline = ""
+            indexable_headlines = ""
         else:
             # or our own indexable text content
             indexable_text = []
