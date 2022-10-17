@@ -224,3 +224,20 @@ class View(BrowserView):
             request=self.request,
         )
         self.request.response.redirect(portal.absolute_url() + "/@@typesense-admin")
+
+    def search_typesense(self):
+        """ Used by custom search UI """
+
+        q = self.request.get("query", "")
+
+        query = { 
+          'q': q,
+          'query_by': 'title,description,text',
+          'filter_by': 'all_paths:[/technik/produkte] && portal_type:[Testbericht]',
+        }
+
+        ts_api = API()
+        client = ts_api.get_typesense_client()
+        result = client.collections[ts_api.collection].documents.search(query)
+        import pprint
+        return pprint.pformat(result)

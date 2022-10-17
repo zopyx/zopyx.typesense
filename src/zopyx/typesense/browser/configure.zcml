@@ -101,6 +101,15 @@
     />
 
     <browser:page
+        name="search-typesense"
+        for="*"
+        permission="zope2.View"
+        layer="zopyx.typesense.interfaces.IBrowserLayer"
+        class=".views.View"
+        attribute="search_typesense"
+    />
+
+    <browser:page
         name="typesense-search-settings"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         permission="zope2.View"
