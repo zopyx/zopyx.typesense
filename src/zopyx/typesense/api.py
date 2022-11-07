@@ -14,6 +14,7 @@ import furl
 import html_text
 import json
 import lxml.html
+import lxml.etree
 import typesense
 import zope.schema
 
@@ -31,7 +32,10 @@ def headlines_from_html(html):
     if isinstance(html, bytes):
         html = html.decode("utf8")
 
-    root = lxml.html.fromstring(html)
+    try:
+        root = lxml.html.fromstring(html)
+    except lxml.etree.ParserError:
+        return ""
 
     result = []
 
@@ -99,7 +103,7 @@ class API:
 
         if not ignore_review_state and not review_state in review_states_to_index:
             # don't index content without proper review state
-            LOG.info(f"Skipping object {obj.absolute_url(1)} due to review_state {review_state}")        
+            LOG.debug(f"Skipping object {obj.absolute_url(1)} due to review_state {review_state}")        
             return
 
         # language
